@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@theme {
+  --font-display: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+
+  /* Thikana warm editorial palette */
+  --color-brand-terracotta: #D9532F;
+  --color-brand-terracotta-hover: #BF4321;
+  --color-brand-terracotta-light: #FDEEE9;
+  --color-brand-sand: #FAF9F6;
+  --color-brand-sand-subtle: #F3F1EC;
+  --color-brand-ink: #1C1917;
+  --color-brand-ink-muted: #78716C;
+  --color-brand-border: #E7E5E4;
+  --color-brand-success: #15803D;
+  --color-brand-amber: #D97706;
+}
+
+:root {
+  font-family: var(--font-body);
+  color-scheme: light;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D6D3D1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A8A29E;
+}

@@ -1,0 +1,412 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  BUDDY
+  OWNER
+  ADMIN
+}
+
+enum GenderType {
+  MEN
+  WOMEN
+  CO_LIVING
+}
+
+enum FoodType {
+  VEG
+  NON_VEG
+  BOTH
+  NONE
+}
+
+enum FurnishedStatus {
+  FULLY_FURNISHED
+  SEMI_FURNISHED
+  UNFURNISHED
+}
+
+enum SharingType {
+  SINGLE
+  DOUBLE
+  TRIPLE
+  FOUR_PLUS
+}
+
+enum VerificationTier {
+  NONE
+  PHONE
+  ID_VERIFIED
+}
+
+enum HelpRequestStatus {
+  REQUESTED
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  DECLINED
+  CANCELLED
+  EXPIRED
+}
+
+enum HelpChannel {
+  TEXT
+  PHONE
+  VIDEO
+  IN_PERSON
+}
+
+enum TenancyStatus {
+  DRAFT
+  MOVE_IN_SEALED
+  ACTIVE
+  MOVE_OUT
+  DISPUTE
+  RESOLVED
+}
+
+enum InspectionType {
+  MOVE_IN
+  MOVE_OUT
+}
+
+enum InspectionArea {
+  WALLS
+  CEILING
+  FLOOR
+  BATHROOM
+  BED_MATTRESS
+  WARDROBE
+  SWITCHES_LIGHTS
+  WINDOWS_DOORS
+  APPLIANCES
+}
+
+enum ItemCondition {
+  PRISTINE
+  GOOD
+  MINOR_DAMAGE
+  HEAVILY_DAMAGED
+}
+
+enum HuntStatus {
+  SAVED
+  VISIT_PLANNED
+  VISITED
+  OFFER_MADE
+  REJECTED
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  fullName      String
+  phone         String?
+  phoneVerified Boolean   @default(false)
+  roles         Role[]    @default([USER])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  pgListings    PGListing[]
+  reviews       Review[]
+  shortlists    Shortlist[]
+  buddyProfile  BuddyProfile?
+  seekerRequests HelpRequest[] @relation("SeekerRequests")
+  sentMessages  ChatMessage[]
+  tenancies     Tenancy[]
+  huntItems     HuntItem[]
+
+  @@index([email])
+}
+
+model Locality {
+  id        String      @id @default(uuid())
+  name      String      @unique
+  slug      String      @unique
+  latitude  Float
+  longitude Float
+  landmarks Landmark[]
+  pgListings PGListing[]
+
+  @@index([slug])
+}
+
+model Landmark {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  latitude   Float
+  longitude  Float
+  localityId String
+  locality   Locality @relation(fields: [localityId], references: [id], onDelete: Cascade)
+
+  @@index([localityId])
+}
+
+model PGListing {
+  id                String          @id @default(uuid())
+  title             String
+  slug              String          @unique
+  description       String
+  address           String
+  latitude          Float
+  longitude         Float
+  minRent           Decimal         @db.Decimal(10, 2)
+  depositAmount     Decimal         @db.Decimal(10, 2)
+  maintenanceFee    Decimal         @default(0) @db.Decimal(10, 2)
+  gender            GenderType      @default(CO_LIVING)
+  foodType          FoodType        @default(BOTH)
+  isFoodIncluded    Boolean         @default(true)
+  furnishedStatus   FurnishedStatus @default(FULLY_FURNISHED)
+  curfewTime        String          @default("None")
+  rulesNoticePeriod String          @default("30 Days")
+  contactPhone      String
+  isVerified        Boolean         @default(false)
+  isDeleted         Boolean         @default(false)
+  ownerId           String?
+  owner             User?           @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  localityId        String
+  locality          Locality        @relation(fields: [localityId], references: [id], onDelete: Restrict)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  rooms             RoomOption[]
+  amenities         PGAmenity[]
+  images            PGImage[]
+  reviews           Review[]
+  shortlists        Shortlist[]
+  huntItems         HuntItem[]
+
+  @@index([localityId, gender, minRent, isDeleted])
+  @@index([createdAt(sort: Desc), id(sort: Desc)])
+}
+
+model RoomOption {
+  id            String      @id @default(uuid())
+  pgId          String
+  pg            PGListing   @relation(fields: [pgId], references: [id], onDelete: Cascade)
+  sharingType   SharingType
+  rentPerMonth  Decimal     @db.Decimal(10, 2)
+  totalBeds     Int
+  availableBeds Int
+
+  @@index([pgId])
+}
+
+model Amenity {
+  id       String      @id @default(uuid())
+  name     String      @unique
+  iconKey  String
+  category String      @default("UTILITY") // COMFORT, UTILITY, SAFETY
+  pgs      PGAmenity[]
+}
+
+model PGAmenity {
+  id        String    @id @default(uuid())
+  pgId      String
+  pg        PGListing @relation(fields: [pgId], references: [id], onDelete: Cascade)
+  amenityId String
+  amenity   Amenity   @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@unique([pgId, amenityId])
+}
+
+model PGImage {
+  id           String    @id @default(uuid())
+  pgId         String
+  pg           PGListing @relation(fields: [pgId], references: [id], onDelete: Cascade)
+  url          String
+  altText      String    @default("PG Room Image")
+  isCover      Boolean   @default(false)
+  displayOrder Int       @default(0)
+
+  @@index([pgId])
+}
+
+model Review {
+  id        String    @id @default(uuid())
+  pgId      String
+  pg        PGListing @relation(fields: [pgId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int       // 1 to 5
+  comment   String
+  createdAt DateTime  @default(now())
+
+  @@index([pgId])
+  @@index([userId])
+}
+
+model Shortlist {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pgId      String
+  pg        PGListing @relation(fields: [pgId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+
+  @@unique([userId, pgId])
+}
+
+model BuddyProfile {
+  id                  String           @id @default(uuid())
+  userId              String           @unique
+  user                User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio                 String
+  languages           String[]
+  serviceLocalities   String[]
+  centerLat           Float
+  centerLng           Float
+  radiusKm            Float            @default(5.0)
+  hourlyFee           Decimal          @default(150) @db.Decimal(10, 2)
+  isDeclaredNotBroker Boolean          @default(true)
+  verificationTier    VerificationTier @default(NONE)
+  rating              Float            @default(5.0)
+  totalReviews        Int              @default(0)
+  avgResponseMinutes  Int              @default(15)
+  availableDays       String[]         @default(["SAT", "SUN"])
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  helpRequests        HelpRequest[]    @relation("BuddyRequests")
+  reviewsReceived     BuddyReview[]
+}
+
+model HelpRequest {
+  id                String            @id @default(uuid())
+  seekerId          String
+  seeker            User              @relation("SeekerRequests", fields: [seekerId], references: [id], onDelete: Cascade)
+  buddyId           String
+  buddy             BuddyProfile      @relation("BuddyRequests", fields: [buddyId], references: [id], onDelete: Cascade)
+  status            HelpRequestStatus @default(REQUESTED)
+  channel           HelpChannel       @default(TEXT)
+  targetLocalities  String[]
+  maxBudget         Decimal           @db.Decimal(10, 2)
+  note              String
+  agreedFee         Decimal           @default(150) @db.Decimal(10, 2)
+  seekerSharedPhone Boolean           @default(false)
+  buddySharedPhone  Boolean           @default(false)
+  expiresAt         DateTime
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  messages          ChatMessage[]
+  review            BuddyReview?
+
+  @@index([seekerId])
+  @@index([buddyId])
+}
+
+model ChatMessage {
+  id            String      @id @default(uuid())
+  helpRequestId String
+  helpRequest   HelpRequest @relation(fields: [helpRequestId], references: [id], onDelete: Cascade)
+  senderId      String
+  sender        User        @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  messageText   String
+  mediaUrls     String[]    @default([])
+  isFlaggedScam Boolean     @default(false)
+  readAt        DateTime?
+  createdAt     DateTime    @default(now())
+
+  @@index([helpRequestId])
+}
+
+model BuddyReview {
+  id             String       @id @default(uuid())
+  helpRequestId  String       @unique
+  helpRequest    HelpRequest  @relation(fields: [helpRequestId], references: [id], onDelete: Cascade)
+  buddyProfileId String
+  buddyProfile   BuddyProfile @relation(fields: [buddyProfileId], references: [id], onDelete: Cascade)
+  rating         Int          // 1 to 5
+  tags           String[]     @default([])
+  comment        String
+  createdAt      DateTime     @default(now())
+
+  @@index([buddyProfileId])
+}
+
+model Tenancy {
+  id             String        @id @default(uuid())
+  tenantId       String
+  tenant         User          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  pgTitle        String
+  ownerName      String?
+  ownerPhone     String?
+  roomNumber     String
+  rentAmount     Decimal       @db.Decimal(10, 2)
+  depositAmount  Decimal       @db.Decimal(10, 2)
+  status         TenancyStatus @default(DRAFT)
+  moveInDate     DateTime
+  moveOutDate    DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  inspections    Inspection[]
+
+  @@index([tenantId])
+}
+
+model Inspection {
+  id           String          @id @default(uuid())
+  tenancyId    String
+  tenancy      Tenancy         @relation(fields: [tenancyId], references: [id], onDelete: Cascade)
+  type         InspectionType  @default(MOVE_IN)
+  rootHash     String?         // SHA-256 seal
+  isSealed     Boolean         @default(false)
+  sealedAt     DateTime?
+  pdfUrl       String?
+  createdAt    DateTime        @default(now())
+
+  items        InspectionItem[]
+
+  @@index([tenancyId])
+}
+
+model InspectionItem {
+  id                String         @id @default(uuid())
+  inspectionId      String
+  inspection        Inspection     @relation(fields: [inspectionId], references: [id], onDelete: Cascade)
+  area              InspectionArea
+  name              String
+  condition         ItemCondition  @default(GOOD)
+  notes             String         @default("")
+  mediaUrls         String[]       @default([])
+  fileSha256        String         @default("")
+  previousBlockHash String         @default("0000000000000000000000000000000000000000000000000000000000000000")
+  currentBlockHash  String         @default("")
+  timestamp         DateTime       @default(now())
+
+  @@index([inspectionId])
+}
+
+model HuntItem {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pgListingId     String?
+  pgListing       PGListing?  @relation(fields: [pgListingId], references: [id], onDelete: SetNull)
+  name            String
+  address         String
+  latitude        Float
+  longitude       Float
+  rent            Decimal     @db.Decimal(10, 2)
+  phone           String?
+  sourceUrl       String?
+  checklistData   Json        @default("{}")
+  calculatedScore Float?
+  status          HuntStatus  @default(SAVED)
+  visitOrder      Int?
+  updatedAt       DateTime    @updatedAt
+  createdAt       DateTime    @default(now())
+
+  @@index([userId])
+}

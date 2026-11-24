@@ -1,0 +1,22 @@
+{
+  "name": "thikana-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Thikana - Hyderabad Commute-First PG Finder, Visit Copilot, Buddy Network & Deposit Shield",
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "dev:api": "pnpm --filter @thikana/api dev",
+    "dev:web": "pnpm --filter @thikana/web dev",
+    "build": "pnpm --filter \"./packages/*\" build && pnpm --filter \"./apps/*\" build",
+    "test": "pnpm --recursive test",
+    "lint": "pnpm --recursive lint",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@12.21.0"
+}
