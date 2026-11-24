@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useCommuteStore } from "../../store/commuteStore";
@@ -14,6 +14,7 @@ interface CommuteMapProps {
 }
 
 export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
+  const [showTip, setShowTip] = useState(true);
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const destinationMarker = useRef<maplibregl.Marker | null>(null);
@@ -208,19 +209,20 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
 
       // Update marker appearance
       const el = marker.getElement();
+      el.style.zIndex = isActive ? "50" : "10";
       const rentK = `₹${(pg.minRent / 1000).toFixed(1).replace(".0", "")}k`;
       const commuteTime = `${pg.estimatedCommuteMinutes}m`;
       const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
 
       el.innerHTML = `
-        <div class="px-2 py-1 rounded-full text-xs font-semibold shadow-md flex items-center gap-1 border transition-all ${
+        <div class="px-2.5 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5 border transition-all ${
           isActive
-            ? "bg-[#D9532F] text-white border-white scale-110 ring-2 ring-[#D9532F]/40 z-30"
-            : "bg-white text-[#1C1917] border-[#E7E5E4] hover:border-[#D9532F] z-10"
+            ? "bg-[#D9532F] text-white border-white scale-110 ring-2 ring-[#D9532F]/50 shadow-lg"
+            : "bg-white text-[#1C1917] border-[#E7E5E4] hover:border-[#D9532F]"
         }">
-          <span class="text-[10px]">${modeEmoji} ${commuteTime}</span>
+          <span class="text-[11px] font-medium">${modeEmoji} ${commuteTime}</span>
           <span class="opacity-40">|</span>
-          <span>${rentK}</span>
+          <span class="font-display font-black">${rentK}</span>
         </div>
       `;
     });
@@ -230,11 +232,21 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
     <div className="relative w-full h-full min-h-[400px]">
       <div ref={mapContainer} className="w-full h-full absolute inset-0" />
 
-      {/* Floating Instructions Pill */}
-      <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-sm border border-[#E7E5E4] text-xs font-medium text-[#78716C] flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-[#D9532F]"></span>
-        <span>Click anywhere to move commute destination</span>
-      </div>
+      {/* Floating Dismissible Instructions Pill */}
+      {showTip && (
+        <div className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md pl-3.5 pr-2.5 py-1.5 rounded-full shadow-md border border-[#E7E5E4] text-xs font-medium text-[#78716C] flex items-center gap-2 animate-in fade-in">
+          <span className="w-2 h-2 rounded-full bg-[#D9532F] animate-pulse"></span>
+          <span>Click anywhere on the map to set your office/destination</span>
+          <button
+            type="button"
+            onClick={() => setShowTip(false)}
+            className="w-5 h-5 rounded-full hover:bg-stone-100 text-stone-400 hover:text-stone-700 font-bold flex items-center justify-center text-xs ml-1 transition-colors"
+            title="Dismiss instruction"
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 };

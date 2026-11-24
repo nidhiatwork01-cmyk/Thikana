@@ -6,7 +6,6 @@ import {
   Users,
   ShieldCheck,
   Clock,
-  ChevronRight,
   Info,
   SlidersHorizontal,
   Heart,
@@ -23,6 +22,7 @@ import { PGDetailModal } from "./components/listings/PGDetailModal";
 import { CompareBar } from "./components/compare/CompareBar";
 import { HuntCopilotView } from "./components/hunt/HuntCopilotView";
 import { LocalBuddiesView } from "./components/buddies/LocalBuddiesView";
+import { DepositShieldView } from "./components/shield/DepositShieldView";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<"commute" | "hunt" | "buddies" | "shield">(
@@ -97,7 +97,7 @@ export default function App() {
   ].filter(Boolean).length;
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#FAF9F6] flex flex-col font-sans select-none">
+    <div className="h-screen w-screen overflow-hidden bg-[#FAF9F6] flex flex-col font-sans">
       {/* ------------------------------------------------------------- */}
       {/* App Header Bar                                                */}
       {/* ------------------------------------------------------------- */}
@@ -119,8 +119,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Tab Navigation */}
-        <nav className="flex items-center gap-1 sm:gap-2">
+        {/* Tab Navigation (Desktop & Tablet) */}
+        <nav className="hidden sm:flex items-center gap-1 sm:gap-1.5">
           <button
             type="button"
             onClick={() => setActiveTab("commute")}
@@ -137,10 +137,10 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveTab("hunt")}
-            className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === "hunt"
                 ? "bg-[#D9532F] text-white shadow-xs"
-                : "text-[#78716C] hover:bg-[#F3F1EC]"
+                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
@@ -150,10 +150,10 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveTab("buddies")}
-            className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === "buddies"
                 ? "bg-[#D9532F] text-white shadow-xs"
-                : "text-[#78716C] hover:bg-[#F3F1EC]"
+                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
             }`}
           >
             <Users className="w-3.5 h-3.5" />
@@ -163,10 +163,10 @@ export default function App() {
           <button
             type="button"
             onClick={() => setActiveTab("shield")}
-            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === "shield"
                 ? "bg-[#D9532F] text-white shadow-xs"
-                : "text-[#78716C] hover:bg-[#F3F1EC]"
+                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -321,29 +321,58 @@ export default function App() {
         ) : activeTab === "buddies" ? (
           <LocalBuddiesView />
         ) : (
-          /* Preview placeholder for subsequent modules (Deposit Shield) */
-          <div className="h-full flex items-center justify-center p-6 bg-[#FAF9F6]">
-            <div className="max-w-md w-full bg-white p-6 rounded-2xl border border-[#E7E5E4] text-center space-y-3 shadow-sm">
-              <div className="w-12 h-12 rounded-full bg-[#FDEEE9] text-[#D9532F] flex items-center justify-center mx-auto text-xl font-bold">
-                🛡️
-              </div>
-              <h2 className="text-lg font-bold text-[#1C1917] capitalize">
-                Deposit Shield
-              </h2>
-              <p className="text-xs text-[#78716C]">
-                Tamper-proof move-in condition audit, cryptographic photo hash-chaining & automated legal dispute pack for recovering security deposits. Coming in Phase 12.
-              </p>
-              <button
-                type="button"
-                onClick={() => setActiveTab("commute")}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#D9532F] text-white rounded-full text-xs font-bold shadow-xs hover:bg-[#BF4321] transition-colors"
-              >
-                Back to Commute Map <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
+          <DepositShieldView />
         )}
       </main>
+
+      {/* ------------------------------------------------------------- */}
+      {/* Mobile Bottom Navigation Bar (sm:hidden)                       */}
+      {/* ------------------------------------------------------------- */}
+      <nav className="sm:hidden h-14 bg-white/95 backdrop-blur-md border-t border-[#E7E5E4] px-2 flex items-center justify-around shrink-0 z-30 shadow-lg">
+        <button
+          type="button"
+          onClick={() => setActiveTab("commute")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
+            activeTab === "commute" ? "text-[#D9532F]" : "text-[#78716C]"
+          }`}
+        >
+          <Clock className="w-4 h-4 mb-0.5" />
+          <span>Commute</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("hunt")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
+            activeTab === "hunt" ? "text-[#D9532F]" : "text-[#78716C]"
+          }`}
+        >
+          <Compass className="w-4 h-4 mb-0.5" />
+          <span>Copilot</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("buddies")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
+            activeTab === "buddies" ? "text-[#D9532F]" : "text-[#78716C]"
+          }`}
+        >
+          <Users className="w-4 h-4 mb-0.5" />
+          <span>Buddies</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("shield")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
+            activeTab === "shield" ? "text-[#D9532F]" : "text-[#78716C]"
+          }`}
+        >
+          <ShieldCheck className="w-4 h-4 mb-0.5" />
+          <span>Shield</span>
+        </button>
+      </nav>
     </div>
   );
 }

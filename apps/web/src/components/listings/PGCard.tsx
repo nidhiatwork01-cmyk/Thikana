@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Scale,
   Shield,
+  MessageCircle,
 } from "lucide-react";
 import { useCommuteStore } from "../../store/commuteStore";
 import { useShortlistStore } from "../../store/shortlistStore";
@@ -225,6 +226,18 @@ export const PGCard: React.FC<PGCardProps> = ({
           </div>
 
           <div className="flex items-center gap-1.5">
+            {/* WhatsApp Quick Action */}
+            <a
+              href={`https://wa.me/91${(pg as any).contactPhone ? (pg as any).contactPhone.replace(/\D/g, "") : "9849012345"}?text=Hi!%20I%20found%20${encodeURIComponent(pg.title)}%20on%20Thikana.%20Is%20a%20bed%20available?`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              title="Chat with manager on WhatsApp"
+              className="p-2 rounded-xl text-xs font-semibold border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-all flex items-center justify-center"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+            </a>
+
             {/* Compare Button */}
             <button
               type="button"

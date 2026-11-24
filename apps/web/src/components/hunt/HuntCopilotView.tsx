@@ -35,6 +35,8 @@ export const HuntCopilotView: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<"items" | "route" | "weights">("items");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [inspectingItem, setInspectingItem] = useState<HuntItem | null>(null);
+  const [scoreResult, setScoreResult] = useState<{ item: any; score: number } | null>(null);
+  const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [routePlan, setRoutePlan] = useState<VisitPlanResult | null>(null);
   const [isOptimizing, setIsOptimizing] = useState(false);
 
@@ -106,6 +108,13 @@ export const HuntCopilotView: React.FC = () => {
     });
   };
 
+  const showNotification = (type: "success" | "error", message: string) => {
+    setNotification({ type, message });
+    setTimeout(() => {
+      setNotification((curr) => (curr?.message === message ? null : curr));
+    }, 4000);
+  };
+
   const handleOptimizeRoute = async () => {
     if (items.length < 1) return;
     setIsOptimizing(true);
@@ -118,20 +127,81 @@ export const HuntCopilotView: React.FC = () => {
       });
       setRoutePlan(plan);
       setActiveSubTab("route");
+      showNotification("success", `Optimized tour for ${items.length} PGs with 2-Opt TSP!`);
     } catch (err: any) {
-      alert(err.message || "Failed to optimize route");
+      showNotification("error", err.message || "Failed to optimize route");
     } finally {
       setIsOptimizing(false);
     }
   };
 
   const handleCalculateScore = async (itemId: string) => {
+    const targetItem = items.find((i: any) => i.id === itemId);
     try {
       const res = await scoreHuntItem(itemId, weights);
       queryClient.invalidateQueries({ queryKey: ["hunt-items"] });
-      alert(`Calculated Score: ${res.score}/100 based on your personal preferences!`);
+      setScoreResult({ item: targetItem, score: res.score });
     } catch (err: any) {
-      alert(err.message || "Failed to calculate score");
+      showNotification("error", err.message || "Failed to calculate score");
+    }
+  };
+
+  const handleClearAllCandidates = async () => {
+    if (!window.confirm("Remove all candidates from your Hunt Workspace?")) return;
+    setIsOptimizing(true);
+    try {
+      for (const item of items) {
+        await deleteHuntItem(item.id);
+      }
+      queryClient.invalidateQueries({ queryKey: ["hunt-items"] });
+      setRoutePlan(null);
+      showNotification("success", "Hunt Workspace cleared");
+    } catch (err: any) {
+      showNotification("error", "Failed to clear candidates");
+    } finally {
+      setIsOptimizing(false);
+    }
+  };
+
+  const handleLoadSamplePgs = async () => {
+    setIsOptimizing(true);
+    try {
+      const samplePgs = [
+        {
+          name: "Stanza Living Boston House",
+          address: "Silicon Valley, Madhapur, Hyderabad",
+          rent: 11500,
+          phone: "+91 98490 11223",
+          location: { lat: 17.4485, lng: 78.3842 },
+          status: "VISIT_PLANNED",
+        },
+        {
+          name: "Serene Coliving Suites",
+          address: "Near Bio-Diversity Park, Gachibowli, Hyderabad",
+          rent: 13000,
+          phone: "+91 99887 22334",
+          location: { lat: 17.4412, lng: 78.3685 },
+          status: "VISIT_PLANNED",
+        },
+        {
+          name: "Zolo Amber Luxury Stay",
+          address: "Raghavendra Colony, Kondapur, Hyderabad",
+          rent: 9500,
+          phone: "+91 91234 56789",
+          location: { lat: 17.4628, lng: 78.3582 },
+          status: "SAVED",
+        },
+      ];
+
+      for (const sp of samplePgs) {
+        await createHuntItem(sp);
+      }
+      queryClient.invalidateQueries({ queryKey: ["hunt-items"] });
+      showNotification("success", "Loaded 3 top Hyderabad PG candidates!");
+    } catch (err: any) {
+      showNotification("error", err.message || "Failed to load sample PGs");
+    } finally {
+      setIsOptimizing(false);
     }
   };
 
@@ -158,7 +228,19 @@ export const HuntCopilotView: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {items.length === 0 && (
+              <button
+                type="button"
+                onClick={handleLoadSamplePgs}
+                disabled={isOptimizing}
+                className="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+              >
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span>Load 3 Sample PGs</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setIsAddModalOpen(true)}
@@ -181,46 +263,74 @@ export const HuntCopilotView: React.FC = () => {
         </div>
 
         {/* Sub-Tabs */}
-        <div className="max-w-6xl mx-auto flex gap-2 mt-4 pt-3 border-t border-[#F3F1EC]">
-          <button
-            type="button"
-            onClick={() => setActiveSubTab("items")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-              activeSubTab === "items"
-                ? "bg-[#1C1917] text-white"
-                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
-            }`}
-          >
-            My Hunt Candidates ({items.length})
-          </button>
+        <div className="max-w-6xl mx-auto flex items-center justify-between mt-4 pt-3 border-t border-[#F3F1EC]">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveSubTab("items")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                activeSubTab === "items"
+                  ? "bg-[#1C1917] text-white"
+                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+              }`}
+            >
+              My Hunt Candidates ({items.length})
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveSubTab("route")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
-              activeSubTab === "route"
-                ? "bg-[#1C1917] text-white"
-                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
-            }`}
-          >
-            <span>Visit Day Itinerary</span>
-            {routePlan && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
-          </button>
+            <button
+              type="button"
+              onClick={() => setActiveSubTab("route")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
+                activeSubTab === "route"
+                  ? "bg-[#1C1917] text-white"
+                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+              }`}
+            >
+              <span>Visit Day Itinerary</span>
+              {routePlan && <span className="w-2 h-2 rounded-full bg-emerald-500" />}
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveSubTab("weights")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
-              activeSubTab === "weights"
-                ? "bg-[#1C1917] text-white"
-                : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
-            }`}
-          >
-            <Sliders className="w-3.5 h-3.5" />
-            <span>Scoring Weights</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setActiveSubTab("weights")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
+                activeSubTab === "weights"
+                  ? "bg-[#1C1917] text-white"
+                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+              }`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>Scoring Weights</span>
+            </button>
+          </div>
+
+          {items.length > 0 && (
+            <button
+              type="button"
+              onClick={handleClearAllCandidates}
+              className="text-[11px] text-[#A8A29E] hover:text-red-600 transition-colors flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-red-50"
+              title="Clear all candidate PGs"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Clear List</span>
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Floating In-App Notification Toast */}
+      {notification && (
+        <div
+          className={`fixed top-16 right-4 z-50 px-4 py-2.5 rounded-xl shadow-lg border text-xs font-semibold flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-200 ${
+            notification.type === "success"
+              ? "bg-emerald-900 text-white border-emerald-700"
+              : "bg-red-900 text-white border-red-700"
+          }`}
+        >
+          <span>{notification.type === "success" ? "✓" : "⚠"}</span>
+          <span>{notification.message}</span>
+        </div>
+      )}
 
       {/* ------------------------------------------------------------- */}
       {/* Tab Body                                                      */}
@@ -243,13 +353,24 @@ export const HuntCopilotView: React.FC = () => {
                   <p className="text-xs text-[#78716C] leading-relaxed">
                     Add PGs you found anywhere (broker WhatsApp chats, Google Maps links, or Thikana listings) to start planning your visits.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setIsAddModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#D9532F] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#BF4321]"
-                  >
-                    <Plus className="w-4 h-4" /> Add Your First PG
-                  </button>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleLoadSamplePgs}
+                      disabled={isOptimizing}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-xs transition-colors"
+                    >
+                      <Sparkles className="w-4 h-4" /> Load 3 Sample Hyderabad PGs
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setIsAddModalOpen(true)}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#D9532F] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#BF4321]"
+                    >
+                      <Plus className="w-4 h-4" /> Add Your First PG
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -778,6 +899,124 @@ export const HuntCopilotView: React.FC = () => {
                   Save Inspection Data
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* ------------------------------------------------------------- */}
+      {/* MODAL 3: In-App Score Breakdown Modal                          */}
+      {/* ------------------------------------------------------------- */}
+      {scoreResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-[#E7E5E4] space-y-4 animate-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-[#F3F1EC] pb-3">
+              <div className="flex items-center gap-2">
+                <span className="p-2 rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">⭐</span>
+                <div>
+                  <h3 className="text-base font-extrabold text-[#1C1917] font-display">Candidate Score</h3>
+                  <p className="text-[11px] text-[#78716C] truncate max-w-[200px]">{scoreResult.item?.name}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setScoreResult(null)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center text-xs font-bold transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Score Ring / Gauge */}
+            <div className="text-center py-2 bg-[#FAF9F6] rounded-2xl border border-[#E7E5E4]">
+              <span
+                className={`text-4xl font-black font-display ${
+                  scoreResult.score >= 80
+                    ? "text-emerald-600"
+                    : scoreResult.score >= 60
+                    ? "text-amber-600"
+                    : "text-rose-600"
+                }`}
+              >
+                {scoreResult.score}
+              </span>
+              <span className="text-lg font-bold text-stone-400">/100</span>
+              <p className="text-xs font-bold mt-1 text-[#1C1917]">
+                {scoreResult.score >= 80
+                  ? "🌟 Excellent Match for your commute & budget"
+                  : scoreResult.score >= 60
+                  ? "👍 Balanced Option (Minor compromises)"
+                  : "⚠️ High Compromise (Re-evaluate requirements)"}
+              </p>
+            </div>
+
+            {/* Weights Breakdown List */}
+            <div className="space-y-2 text-xs">
+              <p className="font-bold text-[#78716C] uppercase text-[10px] tracking-wider">
+                Evaluated with your Custom Weights
+              </p>
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center text-stone-600">
+                  <span>Commute Proximity ({Math.round(weights.commute * 100)}%)</span>
+                  <span className="font-bold text-stone-800">Evaluated</span>
+                </div>
+                <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#D9532F] h-full rounded-full"
+                    style={{ width: `${Math.min(100, scoreResult.score + 5)}%` }}
+                  />
+                </div>
+
+                <div className="flex justify-between items-center text-stone-600 pt-1">
+                  <span>Rent & Deposit ({Math.round(weights.price * 100)}%)</span>
+                  <span className="font-bold text-stone-800">Evaluated</span>
+                </div>
+                <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-emerald-500 h-full rounded-full"
+                    style={{ width: `${Math.min(100, Math.max(30, scoreResult.score - 10))}%` }}
+                  />
+                </div>
+
+                <div className="flex justify-between items-center text-stone-600 pt-1">
+                  <span>Inspection Checklist ({Math.round((weights.cleanliness + weights.food) * 100)}%)</span>
+                  <span className="font-bold text-stone-800">
+                    {scoreResult.item?.checklist ? "Inspected" : "Default (3/5)"}
+                  </span>
+                </div>
+                <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-blue-500 h-full rounded-full"
+                    style={{ width: `${Math.min(100, scoreResult.score)}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex gap-2 pt-2 border-t border-[#F3F1EC]">
+              <button
+                type="button"
+                onClick={() => {
+                  if (scoreResult.item?.id) {
+                    updateMutation.mutate({
+                      id: scoreResult.item.id,
+                      input: { status: "OFFER_MADE" },
+                    });
+                  }
+                  setScoreResult(null);
+                  showNotification("success", "Marked status as Offer Made!");
+                }}
+                className="flex-1 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors shadow-2xs"
+              >
+                Mark Offer Made
+              </button>
+              <button
+                type="button"
+                onClick={() => setScoreResult(null)}
+                className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold transition-colors"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

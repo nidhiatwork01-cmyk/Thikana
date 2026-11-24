@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { motion } from "motion/react";
-import { Bike, Car, Train, Clock, Navigation, Zap } from "lucide-react";
+import {
+  Bike,
+  Car,
+  Train,
+  Clock,
+  Navigation,
+  Zap,
+  ChevronUp,
+  SlidersHorizontal,
+} from "lucide-react";
 import { useCommuteStore, HYDERABAD_HUBS } from "../../store/commuteStore";
 import type { TravelMode } from "@thikana/shared-types";
 
@@ -14,6 +23,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   totalResults,
   isLoading = false,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+
   const {
     destination,
     arrivalTime,
@@ -41,44 +52,83 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   ];
 
   return (
-    <div className="bg-white/95 backdrop-blur-md border border-[#E7E5E4] rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
-      {/* 1. Destination Hub Chips */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-bold text-[#1C1917] uppercase tracking-wider flex items-center gap-1.5">
-            <Navigation className="w-3.5 h-3.5 text-[#D9532F]" />
-            Workplace / College
-          </label>
-          <span className="text-xs text-[#78716C] truncate max-w-[200px]">
-            {destination.name}
-          </span>
+    <div className="bg-white/95 backdrop-blur-md border border-[#E7E5E4] rounded-2xl p-3.5 sm:p-4 shadow-sm space-y-3">
+      {/* Top Bar with Hub Info & Collapse/Expand Toggle */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 truncate">
+          <div className="p-1.5 rounded-lg bg-[#FDEEE9] text-[#D9532F] shrink-0">
+            <Navigation className="w-3.5 h-3.5" />
+          </div>
+          <div className="truncate">
+            <p className="text-xs font-bold text-[#1C1917] truncate">
+              {destination.name.split(",")[0]}
+            </p>
+            <p className="text-[11px] text-[#78716C] flex items-center gap-1">
+              <span>{maxMinutes}m cutoff</span>
+              <span>• {travelMode.toUpperCase()}</span>
+              {isPeakHour && <span className="text-[#D9532F] font-semibold">(Peak)</span>}
+            </p>
+          </div>
         </div>
 
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1">
-          {HYDERABAD_HUBS.map((hub) => {
-            const isSelected =
-              Math.abs(hub.lat - destination.lat) < 0.001 &&
-              Math.abs(hub.lng - destination.lng) < 0.001;
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-xs font-bold text-[#1C1917] bg-[#FAF9F6] px-2.5 py-1 rounded-full border border-[#E7E5E4]">
+            {totalResults} PGs
+          </span>
 
-            return (
-              <button
-                key={hub.name}
-                type="button"
-                onClick={() =>
-                  setDestination({ lat: hub.lat, lng: hub.lng, name: hub.name })
-                }
-                className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
-                  isSelected
-                    ? "bg-[#D9532F] text-white shadow-sm ring-2 ring-[#D9532F]/20"
-                    : "bg-[#FAF9F6] text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917] border border-[#E7E5E4]"
-                }`}
-              >
-                {hub.shortName}
-              </button>
-            );
-          })}
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAF9F6] transition-colors border border-transparent hover:border-[#E7E5E4]"
+            title={isExpanded ? "Collapse controls to view more listings" : "Expand commute controls"}
+          >
+            {isExpanded ? (
+              <ChevronUp className="w-4 h-4 text-[#78716C]" />
+            ) : (
+              <SlidersHorizontal className="w-4 h-4 text-[#D9532F]" />
+            )}
+          </button>
         </div>
       </div>
+
+      {isExpanded && (
+        <div className="space-y-3.5 pt-2 border-t border-[#F3F1EC] animate-in fade-in duration-200">
+          {/* 1. Destination Hub Chips */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider">
+                Select Workplace Hub
+              </label>
+              <span className="text-[10px] text-[#78716C]">
+                Or click on map to drop pin
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5">
+              {HYDERABAD_HUBS.map((hub) => {
+                const isSelected =
+                  Math.abs(hub.lat - destination.lat) < 0.001 &&
+                  Math.abs(hub.lng - destination.lng) < 0.001;
+
+                return (
+                  <button
+                    key={hub.name}
+                    type="button"
+                    onClick={() =>
+                      setDestination({ lat: hub.lat, lng: hub.lng, name: hub.name })
+                    }
+                    className={`whitespace-nowrap px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
+                      isSelected
+                        ? "bg-[#D9532F] text-white shadow-sm ring-2 ring-[#D9532F]/20"
+                        : "bg-[#FAF9F6] text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917] border border-[#E7E5E4]"
+                    }`}
+                  >
+                    {hub.shortName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
       {/* 2. Signature Animated Commute Slider */}
       <div className="bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl p-3.5">
@@ -222,5 +272,7 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
         </div>
       </div>
     </div>
+  )}
+</div>
   );
 };
