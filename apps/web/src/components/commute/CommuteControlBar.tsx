@@ -10,6 +10,8 @@ import {
   Zap,
   ChevronUp,
   SlidersHorizontal,
+  Search,
+  X,
 } from "lucide-react";
 import { useCommuteStore, HYDERABAD_HUBS } from "../../store/commuteStore";
 import type { TravelMode } from "@thikana/shared-types";
@@ -31,11 +33,13 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
     travelMode,
     maxMinutes,
     gender,
+    searchQuery,
     setDestination,
     setArrivalTime,
     setTravelMode,
     setMaxMinutes,
     setGender,
+    setSearchQuery,
   } = useCommuteStore();
 
   // Traffic congestion badge indicator based on arrival time
@@ -92,7 +96,29 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
       </div>
 
       {isExpanded && (
-        <div className="space-y-3.5 pt-2 border-t border-[#F3F1EC] animate-in fade-in duration-200">
+        <div className="space-y-3 pt-2 border-t border-[#F3F1EC] animate-in fade-in duration-200">
+          {/* 0. Name & Locality Quick Search */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search PG (e.g. Live Well, Star, KR Luxury)..."
+              className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:border-[#D9532F] transition-colors shadow-2xs"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+                title="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
           {/* 1. Destination Hub Chips */}
           <div>
             <div className="flex items-center justify-between mb-1.5">

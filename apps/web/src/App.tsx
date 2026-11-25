@@ -42,6 +42,7 @@ export default function App() {
     sharingType,
     foodType,
     sortBy,
+    searchQuery,
     selectedPgId,
     setSelectedPgId,
   } = useCommuteStore();
@@ -83,10 +84,21 @@ export default function App() {
   const isochrone = data?.isochrone || null;
   const totalCount = data?.total || 0;
 
+  // Filter for search query (PG name or address)
+  const filteredBySearch = searchQuery.trim()
+    ? rawPgs.filter((p) => {
+        const q = searchQuery.toLowerCase();
+        return (
+          p.title.toLowerCase().includes(q) ||
+          p.address.toLowerCase().includes(q)
+        );
+      })
+    : rawPgs;
+
   // Filter for saved PGs if user toggles heart tab
   const displayedPgs = showOnlySaved
-    ? rawPgs.filter((p) => isShortlisted(p.id))
-    : rawPgs;
+    ? filteredBySearch.filter((p) => isShortlisted(p.id))
+    : filteredBySearch;
 
   const activeFilterCount = [
     gender,

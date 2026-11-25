@@ -133,9 +133,87 @@ async function main() {
     });
   }
 
-  // 7. Seed 42 Realistic Hyderabad PG Listings
+  // 7. Seed Realistic Hyderabad PG Listings (including iconic Madhapur hubs)
   const pgRawList = [
-    // HITEC City & Madhapur
+    // Famous Madhapur & HITEC City PGs
+    {
+      title: "Live Well Luxury Coliving Madhapur",
+      slug: "live-well-luxury-coliving-madhapur",
+      description: "One of Madhapur's most popular co-living spaces on 100 Feet Road. Premium AC rooms, 300 Mbps WiFi, gaming lounge, 3-times buffet meals (North & South Indian), biometric security, and 24/7 power backup. 5 min walk to Durgam Cheruvu metro.",
+      address: "100 Feet Road, Near Durgam Cheruvu Metro, Ayyappa Society, Madhapur, Hyderabad",
+      locality: "madhapur",
+      lat: 17.4478,
+      lng: 78.3885,
+      minRent: 10500,
+      deposit: 15000,
+      maintenance: 0,
+      gender: GenderType.CO_LIVING,
+      foodType: FoodType.BOTH,
+      isFoodIncluded: true,
+      furnishedStatus: FurnishedStatus.FULLY_FURNISHED,
+      curfew: "None (24/7 Biometric)",
+      contact: "+919849019901",
+      verified: true,
+      singleRent: 18000,
+      doubleRent: 12500,
+      tripleRent: 10500,
+      imageUrls: [
+        "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80"
+      ]
+    },
+    {
+      title: "Star Luxury Coliving Madhapur",
+      slug: "star-luxury-coliving-madhapur",
+      description: "Iconic Madhapur stay located in Kavuri Hills near D-Mart. Fully furnished AC rooms with attached washrooms, refrigerators, washing machines, and terrace cafeteria. Strict hygiene with daily room cleaning and RO drinking water.",
+      address: "Plot 112, Kavuri Hills Phase 1, Near Madhapur Metro Station, Madhapur, Hyderabad",
+      locality: "madhapur",
+      lat: 17.4425,
+      lng: 78.3942,
+      minRent: 11000,
+      deposit: 16000,
+      maintenance: 300,
+      gender: GenderType.CO_LIVING,
+      foodType: FoodType.BOTH,
+      isFoodIncluded: true,
+      furnishedStatus: FurnishedStatus.FULLY_FURNISHED,
+      curfew: "None (Biometric)",
+      contact: "+919849019902",
+      verified: true,
+      singleRent: 19000,
+      doubleRent: 13000,
+      tripleRent: 11000,
+      imageUrls: [
+        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80"
+      ]
+    },
+    {
+      title: "KR Luxury Coliving & PG Madhapur",
+      slug: "kr-luxury-coliving-pg-madhapur",
+      description: "Top-rated Madhapur PG located in Silicon Valley behind Image Hospital. Walking distance to Mindspace and Inorbit. Features high water pressure plumbing, elevator lift, generator backup, CCTV, and delicious Andhra style home meals.",
+      address: "Plot 88, VIP Hills, Silicon Valley, Behind Image Hospital, Madhapur, Hyderabad",
+      locality: "madhapur",
+      lat: 17.4495,
+      lng: 78.3855,
+      minRent: 9500,
+      deposit: 12000,
+      maintenance: 0,
+      gender: GenderType.CO_LIVING,
+      foodType: FoodType.BOTH,
+      isFoodIncluded: true,
+      furnishedStatus: FurnishedStatus.FULLY_FURNISHED,
+      curfew: "11:30 PM",
+      contact: "+919849019903",
+      verified: true,
+      singleRent: 16500,
+      doubleRent: 11500,
+      tripleRent: 9500,
+      imageUrls: [
+        "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1540518614846-7ede433c4ef5?auto=format&fit=crop&w=800&q=80"
+      ]
+    },
     {
       title: "Zolo CyberNest Luxury Co-Living",
       slug: "zolo-cybernest-hitec-city",

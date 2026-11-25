@@ -77,6 +77,7 @@ interface CommuteState {
   sharingType?: "SINGLE" | "DOUBLE" | "TRIPLE" | "FOUR_PLUS";
   foodType?: "VEG" | "NON_VEG" | "BOTH" | "NONE";
   sortBy: "commute" | "price" | "newest" | "rating";
+  searchQuery: string;
 
   // Map & UI Interaction
   selectedPgId: string | null;
@@ -93,6 +94,7 @@ interface CommuteState {
   setSharingType: (type?: "SINGLE" | "DOUBLE" | "TRIPLE" | "FOUR_PLUS") => void;
   setFoodType: (food?: "VEG" | "NON_VEG" | "BOTH" | "NONE") => void;
   setSortBy: (sort: "commute" | "price" | "newest" | "rating") => void;
+  setSearchQuery: (query: string) => void;
   setSelectedPgId: (id: string | null) => void;
   setHoveredPgId: (id: string | null) => void;
   setBottomSheetSnap: (snap: BottomSheetSnap) => void;
@@ -108,6 +110,7 @@ export const useCommuteStore = create<CommuteState>((set) => ({
   travelMode: "bike",
   maxMinutes: 30,
   sortBy: "commute",
+  searchQuery: "",
 
   selectedPgId: null,
   hoveredPgId: null,
@@ -122,6 +125,7 @@ export const useCommuteStore = create<CommuteState>((set) => ({
   setSharingType: (sharingType) => set({ sharingType }),
   setFoodType: (foodType) => set({ foodType }),
   setSortBy: (sortBy) => set({ sortBy }),
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
   setSelectedPgId: (selectedPgId) => set({ selectedPgId }),
   setHoveredPgId: (hoveredPgId) => set({ hoveredPgId }),
   setBottomSheetSnap: (bottomSheetSnap) => set({ bottomSheetSnap }),
