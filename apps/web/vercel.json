@@ -1,0 +1,10 @@
+{
+  "buildCommand": "pnpm --filter @thikana/shared-types build && pnpm --filter @thikana/web build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

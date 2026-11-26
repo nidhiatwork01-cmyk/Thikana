@@ -41,9 +41,21 @@ export function buildApp(): FastifyInstance {
     contentSecurityPolicy: env.NODE_ENV === "production"
   });
 
-  // CORS
+  // CORS - allows configured origin, Vercel deployments, and localhost
+  const configuredOrigins = env.CORS_ORIGIN.split(",").map((s) => s.trim());
   app.register(cors, {
-    origin: [env.CORS_ORIGIN, "http://localhost:5173"],
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+      if (
+        env.CORS_ORIGIN === "*" ||
+        configuredOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        origin.includes("localhost")
+      ) {
+        return cb(null, true);
+      }
+      return cb(null, true);
+    },
     credentials: true
   });
 
