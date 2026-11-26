@@ -45,5 +45,5 @@ COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
 
 EXPOSE 4000
 
-# Run migrations and start API server
-CMD ["sh", "-c", "pnpm --filter @thikana/api prisma migrate deploy && node apps/api/dist/server.js"]
+# Run idempotent schema push, PostGIS setup, and initial seed (if empty), then start API server
+CMD ["sh", "-c", "cd apps/api && npx tsx prisma/boot.ts && cd /app && node apps/api/dist/server.js"]

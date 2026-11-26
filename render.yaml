@@ -7,6 +7,7 @@ services:
     dockerfilePath: apps/api/Dockerfile
     plan: free
     region: singapore # Closest to Hyderabad / India
+    healthCheckPath: /api/v1/health
     envVars:
       - key: NODE_ENV
         value: production
@@ -15,9 +16,7 @@ services:
       - key: CORS_ORIGIN
         value: "*"
       - key: DATABASE_URL
-        fromDatabase:
-          name: thikana-db
-          property: connectionString
+        sync: false # Paste your Supabase Postgres (PostGIS) connection string here
       - key: REDIS_URL
         fromService:
           type: redis
@@ -33,12 +32,5 @@ services:
     name: thikana-redis
     plan: free
     region: singapore
+    ipAllowList: []
     maxmemoryPolicy: noeviction
-
-databases:
-  # PostgreSQL 16 (supports PostGIS via 'CREATE EXTENSION postgis;')
-  - name: thikana-db
-    databaseName: thikana_db
-    user: thikana
-    plan: free
-    region: singapore
