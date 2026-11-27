@@ -8,6 +8,7 @@ WORKDIR /app
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/shared-types/package.json ./packages/shared-types/
+COPY apps/api/package.json ./apps/api/
 COPY apps/web/package.json ./apps/web/
 RUN pnpm install --frozen-lockfile
 
@@ -16,7 +17,7 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/shared-types/node_modules ./packages/shared-types/node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY packages/shared-types ./packages/shared-types
 COPY apps/web ./apps/web
 

@@ -1,6 +1,7 @@
 # Multi-stage production Dockerfile for @thikana/api
 
 FROM node:22-alpine AS base
+RUN apk add --no-cache openssl
 RUN corepack enable && corepack prepare pnpm@12.21.0 --activate
 WORKDIR /app
 
@@ -9,6 +10,7 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/shared-types/package.json ./packages/shared-types/
 COPY apps/api/package.json ./apps/api/
+COPY apps/web/package.json ./apps/web/
 RUN pnpm install --frozen-lockfile
 
 # Stage 2: Build
@@ -16,7 +18,7 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages/shared-types/node_modules ./packages/shared-types/node_modules
 COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY packages/shared-types ./packages/shared-types
 COPY apps/api ./apps/api
 
@@ -26,8 +28,7 @@ RUN pnpm --filter @thikana/api prisma:generate
 RUN pnpm --filter @thikana/api build
 
 # Stage 3: Runner
-FROM node:22-alpine AS runner
-RUN corepack enable && corepack prepare pnpm@12.21.0 --activate
+FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
