@@ -5,6 +5,7 @@ import {
   Lock,
   Unlock,
   MessageCircle,
+  UserPlus,
 } from "lucide-react";
 import {
   fetchBuddies,
@@ -15,6 +16,7 @@ import {
 } from "../../lib/api";
 import { BuddyCard } from "./BuddyCard";
 import { HelpRequestModal } from "./HelpRequestModal";
+import { BecomeBuddyModal } from "./BecomeBuddyModal";
 import { ChatModal } from "../chat/ChatModal";
 
 export const LocalBuddiesView: React.FC = () => {
@@ -25,6 +27,7 @@ export const LocalBuddiesView: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const [selectedBuddyForRequest, setSelectedBuddyForRequest] = useState<any | null>(null);
   const [activeChatRequest, setActiveChatRequest] = useState<any | null>(null);
+  const [isOptInModalOpen, setIsOptInModalOpen] = useState(false);
 
   // Review Modal State
   const [reviewRequestId, setReviewRequestId] = useState<string | null>(null);
@@ -139,6 +142,15 @@ export const LocalBuddiesView: React.FC = () => {
               )}
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsOptInModalOpen(true)}
+            className="px-4 py-2 rounded-xl bg-[#D9532F] hover:bg-[#BF4321] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors shrink-0"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>Become a Local Buddy</span>
+          </button>
         </div>
 
         {/* Filter Chips (Browse Tab Only) */}
@@ -200,11 +212,22 @@ export const LocalBuddiesView: React.FC = () => {
                   Loading local buddies...
                 </div>
               ) : buddies.length === 0 ? (
-                <div className="text-center py-16 bg-white rounded-3xl border border-[#E7E5E4] p-8 max-w-md mx-auto space-y-2">
-                  <h3 className="text-base font-bold text-[#1C1917]">No Buddies Found</h3>
-                  <p className="text-xs text-[#78716C]">
-                    Try clearing your locality or language filter to discover more local residents.
+                <div className="text-center py-16 bg-white rounded-3xl border border-[#E7E5E4] p-8 max-w-md mx-auto space-y-3 shadow-xs">
+                  <div className="w-12 h-12 rounded-full bg-[#FDEEE9] text-[#D9532F] flex items-center justify-center mx-auto">
+                    <UserPlus className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-base font-bold text-[#1C1917]">No Real Local Buddies Yet</h3>
+                  <p className="text-xs text-[#78716C] leading-relaxed">
+                    We removed all artificial profiles so you only connect with real Hyderabad residents. Live in Madhapur, Gachibowli, or HITEC City? Be the first to opt in!
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsOptInModalOpen(true)}
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#D9532F] hover:bg-[#BF4321] text-white text-xs font-bold shadow-xs transition-colors"
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>Opt In as a Local Buddy</span>
+                  </button>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -473,6 +496,12 @@ export const LocalBuddiesView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Become a Local Buddy Opt-In Modal */}
+      <BecomeBuddyModal
+        isOpen={isOptInModalOpen}
+        onClose={() => setIsOptInModalOpen(false)}
+      />
     </div>
   );
 };

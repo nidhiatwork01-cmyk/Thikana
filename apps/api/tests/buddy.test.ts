@@ -14,6 +14,22 @@ describe("Phase 8, 9 & 10: Local Buddies, Chat & Anti-Scam Heuristics Integratio
   beforeAll(async () => {
     app = buildApp();
     await app.ready();
+
+    // Ensure a test buddy exists via the real opt-in endpoint
+    await app.inject({
+      method: "POST",
+      url: "/api/v1/buddies/opt-in",
+      payload: {
+        fullName: "Test Madhapur Buddy",
+        phone: "+919988770001",
+        bio: "Living in Madhapur for 3 years. Happy to help verify water, food, and deposits.",
+        languages: ["English", "Telugu", "Hindi"],
+        serviceLocalities: ["Madhapur", "HITEC City"],
+        hourlyFee: 150,
+        availableDays: ["SAT", "SUN"],
+        isDeclaredNotBroker: true,
+      },
+    });
   });
 
   afterAll(async () => {
@@ -23,7 +39,7 @@ describe("Phase 8, 9 & 10: Local Buddies, Chat & Anti-Scam Heuristics Integratio
     await prisma.$disconnect();
   });
 
-  it("GET /api/v1/buddies - lists seeded Hyderabad local buddies", async () => {
+  it("GET /api/v1/buddies - lists opted-in Hyderabad local buddies", async () => {
     const res = await app.inject({
       method: "GET",
       url: "/api/v1/buddies",
@@ -32,7 +48,7 @@ describe("Phase 8, 9 & 10: Local Buddies, Chat & Anti-Scam Heuristics Integratio
     expect(res.statusCode).toBe(200);
     const json = JSON.parse(res.payload);
     expect(json.success).toBe(true);
-    expect(json.data.length).toBeGreaterThanOrEqual(10);
+    expect(json.data.length).toBeGreaterThanOrEqual(1);
 
     const first = json.data[0];
     expect(first.fullName).toBeDefined();

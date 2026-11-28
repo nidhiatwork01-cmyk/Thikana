@@ -1,10 +1,24 @@
 import { prisma } from "../../lib/prisma.js";
 import { NotFoundError, ForbiddenError, BadRequestError } from "../../errors/index.js";
+import argon2 from "argon2";
+import { Role } from "@prisma/client";
 import {
   ListBuddiesQuery,
   CreateHelpRequestInput,
   CreateBuddyReviewInput,
+  OptInBuddyInput,
 } from "./buddy.schema.js";
+
+const LOCALITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  Madhapur: { lat: 17.4486, lng: 78.3908 },
+  "HITEC City": { lat: 17.4483, lng: 78.3742 },
+  Gachibowli: { lat: 17.4401, lng: 78.3489 },
+  Kondapur: { lat: 17.4699, lng: 78.3578 },
+  "Financial District": { lat: 17.4156, lng: 78.3385 },
+  Ameerpet: { lat: 17.4375, lng: 78.4482 },
+  Kukatpally: { lat: 17.4912, lng: 78.3965 },
+  Begumpet: { lat: 17.4447, lng: 78.4664 },
+};
 
 export class BuddyService {
   /**
@@ -419,6 +433,95 @@ export class BuddyService {
         createdAt: r.createdAt.toISOString(),
       };
     });
+  }
+
+  /**
+   * Real-person Opt-In to become a Local Buddy
+   */
+  async optInAsBuddy(input: OptInBuddyInput) {
+    const cleanPhone = input.phone.trim();
+    const primaryLocality = input.serviceLocalities[0] || "Madhapur";
+    const coords = LOCALITY_COORDS[primaryLocality] || { lat: 17.4486, lng: 78.3908 };
+
+    // 1. Find existing user by phone or create a new user
+    let user = await prisma.user.findFirst({
+      where: { phone: cleanPhone },
+    });
+
+    if (!user) {
+      const passwordHash = await argon2.hash(`Buddy_${Date.now()}_${Math.random()}`);
+      const slug = cleanPhone.replace(/[^0-9]/g, "") || String(Date.now());
+      user = await prisma.user.create({
+        data: {
+          email: `buddy_${slug}@thikana.community`,
+          passwordHash,
+          fullName: input.fullName.trim(),
+          phone: cleanPhone,
+          phoneVerified: true,
+          roles: [Role.USER, Role.BUDDY],
+        },
+      });
+    } else {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          fullName: input.fullName.trim(),
+          roles: Array.from(new Set([...user.roles, Role.BUDDY])),
+        },
+      });
+    }
+
+    // 2. Upsert BuddyProfile
+    const profile = await prisma.buddyProfile.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        bio: input.bio.trim(),
+        languages: input.languages,
+        serviceLocalities: input.serviceLocalities,
+        centerLat: coords.lat,
+        centerLng: coords.lng,
+        hourlyFee: input.hourlyFee,
+        availableDays: input.availableDays,
+        isDeclaredNotBroker: input.isDeclaredNotBroker,
+        verificationTier: "PHONE",
+        avgResponseMinutes: 10,
+      },
+      update: {
+        bio: input.bio.trim(),
+        languages: input.languages,
+        serviceLocalities: input.serviceLocalities,
+        centerLat: coords.lat,
+        centerLng: coords.lng,
+        hourlyFee: input.hourlyFee,
+        availableDays: input.availableDays,
+        isDeclaredNotBroker: input.isDeclaredNotBroker,
+      },
+      include: {
+        user: {
+          select: {
+            fullName: true,
+            phoneVerified: true,
+          },
+        },
+      },
+    });
+
+    return {
+      id: profile.id,
+      userId: profile.userId,
+      fullName: profile.user.fullName,
+      bio: profile.bio,
+      languages: profile.languages,
+      serviceLocalities: profile.serviceLocalities,
+      hourlyFee: Number(profile.hourlyFee),
+      verificationTier: profile.verificationTier,
+      rating: profile.rating,
+      totalReviews: profile.totalReviews,
+      avgResponseMinutes: profile.avgResponseMinutes,
+      availableDays: profile.availableDays,
+      isDeclaredNotBroker: profile.isDeclaredNotBroker,
+    };
   }
 }
 

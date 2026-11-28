@@ -41,8 +41,22 @@ export const createBuddyReviewSchema = z.object({
   comment: z.string().min(5, "Comment must be at least 5 characters"),
 });
 
+export const optInBuddySchema = z.object({
+  fullName: z.string().min(2, "Full name is required"),
+  phone: z.string().min(10, "Valid phone number is required"),
+  bio: z.string().min(15, "Please write at least 15 characters about how you can help"),
+  languages: z.array(z.string()).min(1, "Select at least one language"),
+  serviceLocalities: z.array(z.string()).min(1, "Select at least one neighborhood"),
+  hourlyFee: z.number().min(0).max(1000).default(150),
+  availableDays: z.array(z.string()).default(["SAT", "SUN"]),
+  isDeclaredNotBroker: z.literal(true, {
+    errorMap: () => ({ message: "You must confirm you are not a broker" }),
+  }),
+});
+
 export type ListBuddiesQuery = z.infer<typeof listBuddiesQuerySchema>;
 export type CreateHelpRequestInput = z.infer<typeof createHelpRequestSchema>;
 export type UpdateHelpRequestStatusInput = z.infer<typeof updateHelpRequestStatusSchema>;
 export type SharePhoneConsentInput = z.infer<typeof sharePhoneConsentSchema>;
 export type CreateBuddyReviewInput = z.infer<typeof createBuddyReviewSchema>;
+export type OptInBuddyInput = z.infer<typeof optInBuddySchema>;

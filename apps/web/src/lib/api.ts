@@ -354,3 +354,28 @@ export async function markChatRead(requestId: string): Promise<any> {
   return json.data;
 }
 
+export interface OptInBuddyPayload {
+  fullName: string;
+  phone: string;
+  bio: string;
+  languages: string[];
+  serviceLocalities: string[];
+  hourlyFee: number;
+  availableDays: string[];
+  isDeclaredNotBroker: true;
+}
+
+export async function optInAsBuddy(payload: OptInBuddyPayload): Promise<any> {
+  const res = await fetch(`${API_BASE}/buddies/opt-in`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || "Failed to opt in as a Local Buddy");
+  }
+  const json = await res.json();
+  return json.data;
+}
+

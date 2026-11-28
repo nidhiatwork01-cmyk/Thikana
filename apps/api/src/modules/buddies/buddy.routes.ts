@@ -5,6 +5,7 @@ import {
   updateHelpRequestStatusSchema,
   sharePhoneConsentSchema,
   createBuddyReviewSchema,
+  optInBuddySchema,
 } from "./buddy.schema.js";
 import { buddyService } from "./buddy.service.js";
 import { prisma } from "../../lib/prisma.js";
@@ -57,6 +58,23 @@ export async function buddyRoutes(app: FastifyInstance) {
       },
     };
     return reply.status(200).send(response);
+  });
+
+  // 1b. Opt-in as a real Local Buddy
+  app.post("/opt-in", async (request, reply) => {
+    const input = optInBuddySchema.parse(request.body);
+    const created = await buddyService.optInAsBuddy(input);
+
+    const response: ApiResponse<typeof created> = {
+      success: true,
+      data: created,
+      error: null,
+      meta: {
+        timestamp: new Date().toISOString(),
+        requestId: request.id,
+      },
+    };
+    return reply.status(201).send(response);
   });
 
   // 2. Get Single Buddy Profile
