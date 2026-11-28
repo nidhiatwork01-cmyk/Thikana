@@ -109,28 +109,28 @@ export default function App() {
   ].filter(Boolean).length;
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#FAF9F6] flex flex-col font-sans">
+    <div className="h-screen w-screen overflow-hidden bg-[#F8FAFC] flex flex-col font-sans">
       {/* ------------------------------------------------------------- */}
       {/* App Header Bar                                                */}
       {/* ------------------------------------------------------------- */}
-      <header className="h-14 sm:h-16 shrink-0 bg-white border-b border-[#E7E5E4] px-4 sm:px-6 flex items-center justify-between z-30">
+      <header className="h-14 sm:h-16 shrink-0 bg-white border-b border-[#E2E8F0] px-4 sm:px-6 flex items-center justify-between z-30">
         {/* Brand */}
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#E2603C] to-[#C84623] flex items-center justify-center text-white shadow-sm font-bold text-lg font-display">
-            ठ
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#4338CA] flex items-center justify-center text-white shadow-sm font-bold text-lg font-display">
+            à¤ 
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-extrabold text-xl tracking-tight text-[#1C1917] font-display">
+            <span className="font-extrabold text-xl tracking-tight text-[#0F172A] font-display">
               {APP_CONFIG.name}
             </span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FDEEE9] text-[#D9532F] border border-[#D9532F]/15">
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EEF2FF] text-[#4F46E5] border border-[#4F46E5]/15">
               {APP_CONFIG.city}
             </span>
           </div>
         </div>
 
         {/* Segmented Pill Navigation (Desktop & Tablet) */}
-        <nav className="hidden sm:flex items-center gap-1 p-1 rounded-full bg-[#F3F1EC] border border-[#E7E5E4]/80">
+        <nav className="hidden sm:flex items-center gap-1 p-1 rounded-full bg-[#F1F5F9] border border-[#E2E8F0]/80">
           {[
             { id: "commute" as const, label: "Commute Map", icon: Clock },
             { id: "hunt" as const, label: "Hunt Copilot", icon: Compass },
@@ -146,11 +146,11 @@ export default function App() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   active
-                    ? "bg-white text-[#1C1917] shadow-xs"
-                    : "text-[#78716C] hover:text-[#1C1917]"
+                    ? "bg-white text-[#0F172A] shadow-xs"
+                    : "text-[#64748B] hover:text-[#0F172A]"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${active ? "text-[#D9532F]" : ""}`} />
+                <Icon className={`w-3.5 h-3.5 ${active ? "text-[#4F46E5]" : ""}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -188,14 +188,14 @@ export default function App() {
                         onClick={() => setIsFilterModalOpen(true)}
                         className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
                           activeFilterCount > 0
-                            ? "bg-[#1C1917] text-white border-[#1C1917]"
-                            : "bg-[#FAF9F6] text-[#1C1917] border-[#E7E5E4] hover:bg-stone-100"
+                            ? "bg-[#0F172A] text-white border-[#0F172A]"
+                            : "bg-[#F8FAFC] text-[#0F172A] border-[#E2E8F0] hover:bg-stone-100"
                         }`}
                       >
-                        <SlidersHorizontal className="w-3.5 h-3.5 text-[#D9532F]" />
+                        <SlidersHorizontal className="w-3.5 h-3.5 text-[#4F46E5]" />
                         <span>Filters</span>
                         {activeFilterCount > 0 && (
-                          <span className="w-4 h-4 rounded-full bg-[#D9532F] text-white text-[10px] flex items-center justify-center font-bold">
+                          <span className="w-4 h-4 rounded-full bg-[#4F46E5] text-white text-[10px] flex items-center justify-center font-bold">
                             {activeFilterCount}
                           </span>
                         )}
@@ -206,14 +206,14 @@ export default function App() {
                         onClick={() => setShowOnlySaved(!showOnlySaved)}
                         className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all cursor-pointer ${
                           showOnlySaved
-                            ? "bg-[#D9532F] text-white border-[#D9532F]"
-                            : "bg-[#FAF9F6] text-[#78716C] border-[#E7E5E4] hover:text-[#1C1917]"
+                            ? "bg-[#4F46E5] text-white border-[#4F46E5]"
+                            : "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:text-[#0F172A]"
                         }`}
                         title="Show saved PGs only"
                       >
                         <Heart
                           className={`w-3.5 h-3.5 ${
-                            showOnlySaved || shortlistedIds.length > 0 ? "fill-current text-[#D9532F]" : ""
+                            showOnlySaved || shortlistedIds.length > 0 ? "fill-current text-[#4F46E5]" : ""
                           } ${showOnlySaved ? "text-white!" : ""}`}
                         />
                         <span>{shortlistedIds.length}</span>
@@ -229,12 +229,12 @@ export default function App() {
                     {[1, 2, 3].map((i) => (
                       <div
                         key={i}
-                        className="bg-white rounded-2xl p-4 border border-[#E7E5E4] animate-pulse flex flex-col gap-3"
+                        className="bg-white rounded-2xl p-4 border border-[#E2E8F0] animate-pulse flex flex-col gap-3"
                       >
-                        <div className="w-full aspect-16/10 bg-[#E7E5E4] rounded-xl" />
+                        <div className="w-full aspect-16/10 bg-[#E2E8F0] rounded-xl" />
                         <div className="space-y-2">
-                          <div className="h-4 bg-[#E7E5E4] rounded w-2/3" />
-                          <div className="h-3 bg-[#E7E5E4] rounded w-1/2" />
+                          <div className="h-4 bg-[#E2E8F0] rounded w-2/3" />
+                          <div className="h-3 bg-[#E2E8F0] rounded w-1/2" />
                         </div>
                       </div>
                     ))}
@@ -244,19 +244,19 @@ export default function App() {
                     <p className="text-sm font-semibold text-red-600">
                       Failed to fetch commute zone
                     </p>
-                    <p className="text-xs text-[#78716C] mt-1">
+                    <p className="text-xs text-[#64748B] mt-1">
                       {(error as Error)?.message || "Please check your network and try again."}
                     </p>
                   </div>
                 ) : displayedPgs.length === 0 ? (
-                  <div className="p-6 text-center bg-white rounded-xl border border-[#E7E5E4] space-y-2">
-                    <Info className="w-8 h-8 text-[#D9532F] mx-auto opacity-70" />
-                    <h4 className="text-sm font-bold text-[#1C1917]">
+                  <div className="p-6 text-center bg-white rounded-xl border border-[#E2E8F0] space-y-2">
+                    <Info className="w-8 h-8 text-[#4F46E5] mx-auto opacity-70" />
+                    <h4 className="text-sm font-bold text-[#0F172A]">
                       {showOnlySaved
                         ? "No saved PGs in this commute zone"
                         : `No PGs found within ${maxMinutes} minutes`}
                     </h4>
-                    <p className="text-xs text-[#78716C] max-w-xs mx-auto">
+                    <p className="text-xs text-[#64748B] max-w-xs mx-auto">
                       {showOnlySaved
                         ? "Tap the heart icon on any PG card to save it to your shortlist."
                         : "Try sliding your commute time to 25 or 30 minutes, or adjust your budget filters."}
@@ -311,12 +311,12 @@ export default function App() {
       {/* ------------------------------------------------------------- */}
       {/* Mobile Bottom Navigation Bar (sm:hidden)                       */}
       {/* ------------------------------------------------------------- */}
-      <nav className="sm:hidden h-14 bg-white/95 backdrop-blur-md border-t border-[#E7E5E4] px-2 flex items-center justify-around shrink-0 z-30 shadow-lg">
+      <nav className="sm:hidden h-14 bg-white/95 backdrop-blur-md border-t border-[#E2E8F0] px-2 flex items-center justify-around shrink-0 z-30 shadow-lg">
         <button
           type="button"
           onClick={() => setActiveTab("commute")}
           className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "commute" ? "text-[#D9532F]" : "text-[#78716C]"
+            activeTab === "commute" ? "text-[#4F46E5]" : "text-[#64748B]"
           }`}
         >
           <Clock className="w-4 h-4 mb-0.5" />
@@ -327,7 +327,7 @@ export default function App() {
           type="button"
           onClick={() => setActiveTab("hunt")}
           className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "hunt" ? "text-[#D9532F]" : "text-[#78716C]"
+            activeTab === "hunt" ? "text-[#4F46E5]" : "text-[#64748B]"
           }`}
         >
           <Compass className="w-4 h-4 mb-0.5" />
@@ -338,7 +338,7 @@ export default function App() {
           type="button"
           onClick={() => setActiveTab("buddies")}
           className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "buddies" ? "text-[#D9532F]" : "text-[#78716C]"
+            activeTab === "buddies" ? "text-[#4F46E5]" : "text-[#64748B]"
           }`}
         >
           <Users className="w-4 h-4 mb-0.5" />
@@ -349,7 +349,7 @@ export default function App() {
           type="button"
           onClick={() => setActiveTab("shield")}
           className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl text-[10px] font-bold transition-colors ${
-            activeTab === "shield" ? "text-[#D9532F]" : "text-[#78716C]"
+            activeTab === "shield" ? "text-[#4F46E5]" : "text-[#64748B]"
           }`}
         >
           <ShieldCheck className="w-4 h-4 mb-0.5" />

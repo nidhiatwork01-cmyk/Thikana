@@ -41,19 +41,19 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         <button
           type="button"
           onClick={() => setIsDesktopCollapsed(false)}
-          className="hidden lg:flex items-center gap-2 absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-[#E7E5E4] font-bold text-xs text-[#1C1917] hover:border-[#D9532F] transition-all cursor-pointer"
+          className="hidden lg:flex items-center gap-2 absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-[#E2E8F0] font-bold text-xs text-[#0F172A] hover:border-[#4F46E5] transition-all cursor-pointer"
         >
-          <List className="w-4 h-4 text-[#D9532F]" />
+          <List className="w-4 h-4 text-[#4F46E5]" />
           <span>Show Listings ({totalCount})</span>
         </button>
       ) : (
         <div
-          className={`hidden lg:flex flex-col absolute top-4 left-4 bottom-4 z-20 bg-[#FAF9F6]/98 backdrop-blur-md rounded-3xl shadow-[0_12px_40px_rgba(28,25,23,0.12)] border border-[#E7E5E4] overflow-hidden transition-all duration-200 ${
+          className={`hidden lg:flex flex-col absolute top-4 left-4 bottom-4 z-20 bg-[#F8FAFC]/98 backdrop-blur-md rounded-3xl shadow-[0_12px_40px_rgba(28,25,23,0.12)] border border-[#E2E8F0] overflow-hidden transition-all duration-200 ${
             isDesktopExpanded ? "right-4" : "w-[470px] xl:w-[530px]"
           }`}
         >
           {/* Unified Panel Header */}
-          <div className="px-4 py-3.5 border-b border-[#E7E5E4] shrink-0 bg-white">
+          <div className="px-4 py-3.5 border-b border-[#E2E8F0] shrink-0 bg-white">
             {typeof headerContent === "function"
               ? headerContent(
                   <div className="flex items-center gap-1">
@@ -61,7 +61,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
                       type="button"
                       onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
                       title={isDesktopExpanded ? "Split view with map" : "Expand grid to full screen"}
-                      className="p-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+                      className="p-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] hover:bg-stone-100 transition-colors"
                     >
                       {isDesktopExpanded ? (
                         <Minimize2 className="w-3.5 h-3.5" />
@@ -73,7 +73,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
                       type="button"
                       onClick={() => setIsDesktopCollapsed(true)}
                       title="Hide panel to inspect full map"
-                      className="p-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+                      className="p-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] hover:bg-stone-100 transition-colors"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
                     </button>
@@ -98,15 +98,15 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
           <button
             type="button"
             onClick={() => setIsMobileListMode(!isMobileListMode)}
-            className="flex items-center gap-2 bg-[#1C1917] text-white px-4 py-2.5 rounded-full shadow-lg font-semibold text-xs tracking-wide active:scale-95 transition-transform"
+            className="flex items-center gap-2 bg-[#0F172A] text-white px-4 py-2.5 rounded-full shadow-lg font-semibold text-xs tracking-wide active:scale-95 transition-transform"
           >
             {isMobileListMode ? (
               <>
-                <MapIcon className="w-4 h-4 text-[#D9532F]" /> Map View
+                <MapIcon className="w-4 h-4 text-[#4F46E5]" /> Map View
               </>
             ) : (
               <>
-                <List className="w-4 h-4 text-[#D9532F]" /> Full List ({totalCount})
+                <List className="w-4 h-4 text-[#4F46E5]" /> Full List ({totalCount})
               </>
             )}
           </button>
@@ -118,24 +118,24 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
             height: isMobileListMode ? "calc(100vh - 4rem)" : snapHeights[bottomSheetSnap],
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-14 sm:bottom-0 inset-x-0 z-20 bg-[#FAF9F6] border-t border-[#E7E5E4] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden"
+          className="fixed bottom-14 sm:bottom-0 inset-x-0 z-20 bg-[#F8FAFC] border-t border-[#E2E8F0] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* Drawer Handle & Header */}
           <div
             onClick={toggleSnap}
-            className="w-full pt-3 pb-2 px-4 flex flex-col items-center cursor-pointer bg-white border-b border-[#E7E5E4] shrink-0 select-none"
+            className="w-full pt-3 pb-2 px-4 flex flex-col items-center cursor-pointer bg-white border-b border-[#E2E8F0] shrink-0 select-none"
           >
             {/* Grab Bar */}
-            <div className="w-12 h-1.5 rounded-full bg-[#D6D3D1] mb-2" />
+            <div className="w-12 h-1.5 rounded-full bg-[#CBD5E1] mb-2" />
 
             <div className="w-full flex items-center justify-between">
-              <span className="text-xs font-bold text-[#1C1917]">
+              <span className="text-xs font-bold text-[#0F172A]">
                 {totalCount} PGs matching commute
               </span>
 
               <button
                 type="button"
-                className="p-1 rounded-full text-[#78716C] hover:text-[#1C1917]"
+                className="p-1 rounded-full text-[#64748B] hover:text-[#0F172A]"
               >
                 {bottomSheetSnap === "full" ? (
                   <ChevronDown className="w-4 h-4" />
@@ -147,7 +147,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
           </div>
 
           {/* Controls Bar in Drawer */}
-          <div className="p-3 bg-white border-b border-[#E7E5E4] shrink-0 max-h-[38vh] overflow-y-auto">
+          <div className="p-3 bg-white border-b border-[#E2E8F0] shrink-0 max-h-[38vh] overflow-y-auto">
             {typeof headerContent === "function" ? headerContent(null) : headerContent}
           </div>
 

@@ -164,7 +164,7 @@ export const DepositShieldView: React.FC = () => {
   const completedCount = checklist.filter((i) => i.status !== "PENDING").length;
 
   return (
-    <div className="h-full bg-[#FAF9F6] flex flex-col overflow-hidden">
+    <div className="h-full bg-[#F8FAFC] flex flex-col overflow-hidden">
       <input
         ref={fileInputRef}
         type="file"
@@ -176,36 +176,36 @@ export const DepositShieldView: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* Header Banner                                                 */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-white border-b border-[#E7E5E4] p-4 sm:p-5 shrink-0 shadow-2xs">
+      <div className="bg-white border-b border-[#E2E8F0] p-4 sm:p-5 shrink-0 shadow-2xs">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-[#FDEEE9] text-[#D9532F] border border-[#D9532F]/20">
+            <div className="p-2.5 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] border border-[#4F46E5]/20">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-extrabold text-[#1C1917] font-display">
+                <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] font-display">
                   Deposit Shield Vault
                 </h1>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   SHA-256 Protected
                 </span>
               </div>
-              <p className="text-[11px] text-[#78716C]">
+              <p className="text-[11px] text-[#64748B]">
                 Move-in photo hashes & Telangana tenancy notice
               </p>
             </div>
           </div>
 
           {/* Sub-Tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-full bg-[#F3F1EC] border border-[#E7E5E4]/80 shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-full bg-[#F1F5F9] border border-[#E2E8F0]/80 shrink-0">
             <button
               type="button"
               onClick={() => setActiveSubTab("audit")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "audit"
-                  ? "bg-white text-[#1C1917] shadow-xs"
-                  : "text-[#78716C] hover:text-[#1C1917]"
+                  ? "bg-white text-[#0F172A] shadow-xs"
+                  : "text-[#64748B] hover:text-[#0F172A]"
               }`}
             >
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
@@ -217,11 +217,11 @@ export const DepositShieldView: React.FC = () => {
               onClick={() => setActiveSubTab("chain")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "chain"
-                  ? "bg-white text-[#1C1917] shadow-xs"
-                  : "text-[#78716C] hover:text-[#1C1917]"
+                  ? "bg-white text-[#0F172A] shadow-xs"
+                  : "text-[#64748B] hover:text-[#0F172A]"
               }`}
             >
-              <Lock className="w-3.5 h-3.5 text-[#D9532F]" />
+              <Lock className="w-3.5 h-3.5 text-[#4F46E5]" />
               <span>Hashes</span>
             </button>
 
@@ -230,8 +230,8 @@ export const DepositShieldView: React.FC = () => {
               onClick={() => setActiveSubTab("legal")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "legal"
-                  ? "bg-white text-[#1C1917] shadow-xs"
-                  : "text-[#78716C] hover:text-[#1C1917]"
+                  ? "bg-white text-[#0F172A] shadow-xs"
+                  : "text-[#64748B] hover:text-[#0F172A]"
               }`}
             >
               <FileText className="w-3.5 h-3.5 text-blue-600" />
@@ -250,15 +250,15 @@ export const DepositShieldView: React.FC = () => {
           {activeSubTab === "audit" && (
             <div className="space-y-4">
               {/* Quick Tenancy Summary Card */}
-              <div className="bg-white rounded-2xl border border-[#E7E5E4] p-4 sm:p-5 shadow-xs space-y-3">
+              <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 sm:p-5 shadow-xs space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#78716C]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">
                     Active Tenancy Record
                   </span>
                   <button
                     type="button"
                     onClick={() => setIsEditingDetails(!isEditingDetails)}
-                    className="text-xs font-bold text-[#D9532F] hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-[#4F46E5] hover:underline flex items-center gap-1"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>{isEditingDetails ? "Done Editing" : "Edit Details"}</span>
@@ -272,64 +272,64 @@ export const DepositShieldView: React.FC = () => {
                       value={tenancyDetails.pgName}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, pgName: e.target.value })}
                       placeholder="PG Name"
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
                       type="text"
                       value={tenancyDetails.roomNo}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, roomNo: e.target.value })}
                       placeholder="Room No."
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
                       type="text"
                       value={tenancyDetails.depositAmount}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, depositAmount: e.target.value })}
-                      placeholder="Deposit (₹)"
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      placeholder="Deposit (â‚¹)"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
                       type="text"
                       value={tenancyDetails.tenantName}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, tenantName: e.target.value })}
                       placeholder="Your Name"
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
                       type="text"
                       value={tenancyDetails.ownerName}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, ownerName: e.target.value })}
                       placeholder="Owner Name"
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
                       type="date"
                       value={tenancyDetails.moveInDate}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, moveInDate: e.target.value })}
-                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                      className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                     <div>
-                      <span className="text-[11px] text-[#78716C]">Property & Room</span>
-                      <p className="font-bold text-[#1C1917] truncate">{tenancyDetails.pgName}</p>
-                      <p className="text-[11px] text-[#78716C]">{tenancyDetails.roomNo}</p>
+                      <span className="text-[11px] text-[#64748B]">Property & Room</span>
+                      <p className="font-bold text-[#0F172A] truncate">{tenancyDetails.pgName}</p>
+                      <p className="text-[11px] text-[#64748B]">{tenancyDetails.roomNo}</p>
                     </div>
                     <div>
-                      <span className="text-[11px] text-[#78716C]">Security Deposit</span>
-                      <p className="font-bold text-[#D9532F] text-sm">₹{tenancyDetails.depositAmount}</p>
+                      <span className="text-[11px] text-[#64748B]">Security Deposit</span>
+                      <p className="font-bold text-[#4F46E5] text-sm">â‚¹{tenancyDetails.depositAmount}</p>
                       <p className="text-[11px] text-emerald-600">Shield Protected</p>
                     </div>
                     <div>
-                      <span className="text-[11px] text-[#78716C]">Move-In Date</span>
-                      <p className="font-bold text-[#1C1917]">{tenancyDetails.moveInDate}</p>
-                      <p className="text-[11px] text-[#78716C]">Notice: 30 Days</p>
+                      <span className="text-[11px] text-[#64748B]">Move-In Date</span>
+                      <p className="font-bold text-[#0F172A]">{tenancyDetails.moveInDate}</p>
+                      <p className="text-[11px] text-[#64748B]">Notice: 30 Days</p>
                     </div>
                     <div>
-                      <span className="text-[11px] text-[#78716C]">Owner / Caretaker</span>
-                      <p className="font-bold text-[#1C1917]">{tenancyDetails.ownerName}</p>
-                      <p className="text-[11px] text-[#78716C]">{tenancyDetails.ownerPhone}</p>
+                      <span className="text-[11px] text-[#64748B]">Owner / Caretaker</span>
+                      <p className="font-bold text-[#0F172A]">{tenancyDetails.ownerName}</p>
+                      <p className="text-[11px] text-[#64748B]">{tenancyDetails.ownerPhone}</p>
                     </div>
                   </div>
                 )}
@@ -338,42 +338,42 @@ export const DepositShieldView: React.FC = () => {
               {/* Checklist Items */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-[#1C1917] flex items-center gap-1.5">
+                  <h3 className="text-sm font-bold text-[#0F172A] flex items-center gap-1.5">
                     <span>Move-In Condition Audit Items</span>
-                    <span className="text-xs text-[#78716C]">({completedCount} of {checklist.length} verified)</span>
+                    <span className="text-xs text-[#64748B]">({completedCount} of {checklist.length} verified)</span>
                   </h3>
-                  <span className="text-[11px] text-[#78716C]">Upload photo to compute live SHA-256</span>
+                  <span className="text-[11px] text-[#64748B]">Upload photo to compute live SHA-256</span>
                 </div>
 
                 <div className="space-y-2.5">
                   {checklist.map((item) => (
                     <div
                       key={item.id}
-                      className="bg-white rounded-2xl border border-[#E7E5E4] p-4 shadow-xs hover:border-[#D9532F]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="bg-white rounded-2xl border border-[#E2E8F0] p-4 shadow-xs hover:border-[#4F46E5]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div className="flex items-start gap-3">
                         {item.photoPreviewUrl && (
                           <img
                             src={item.photoPreviewUrl}
                             alt={item.category}
-                            className="w-12 h-12 rounded-xl object-cover border border-[#E7E5E4] shrink-0"
+                            className="w-12 h-12 rounded-xl object-cover border border-[#E2E8F0] shrink-0"
                           />
                         )}
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FAF9F6] border border-[#E7E5E4] text-[#78716C]">
+                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B]">
                               {item.category}
                             </span>
-                            <span className="text-xs font-bold text-[#1C1917]">
+                            <span className="text-xs font-bold text-[#0F172A]">
                               {item.item}
                             </span>
                           </div>
-                          <p className="text-[11px] text-[#78716C] pl-1">
+                          <p className="text-[11px] text-[#64748B] pl-1">
                             "{item.note}"
                           </p>
                           {item.fileName && (
                             <p className="text-[10px] text-emerald-700 font-medium pl-1">
-                              📸 {item.fileName} hashed at {item.hashedAt}
+                              ðŸ“¸ {item.fileName} hashed at {item.hashedAt}
                             </p>
                           )}
                         </div>
@@ -392,10 +392,10 @@ export const DepositShieldView: React.FC = () => {
                           }`}
                         >
                           {item.status === "GOOD"
-                            ? "✓ Pre-Existing OK"
+                            ? "âœ“ Pre-Existing OK"
                             : item.status === "DAMAGED"
-                            ? "⚠️ Pre-Existing Damaged"
-                            : "🔧 Needs Repair"}
+                            ? "âš ï¸ Pre-Existing Damaged"
+                            : "ðŸ”§ Needs Repair"}
                         </button>
 
                         <button
@@ -415,7 +415,7 @@ export const DepositShieldView: React.FC = () => {
                               navigator.clipboard.writeText(item.shaHash!);
                               showToast(`Copied SHA-256: ${item.shaHash!.slice(0, 14)}...`);
                             }}
-                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#FAF9F6] hover:bg-stone-100 border border-[#E7E5E4] text-[11px] font-mono text-[#78716C] transition-colors cursor-pointer"
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#F8FAFC] hover:bg-stone-100 border border-[#E2E8F0] text-[11px] font-mono text-[#64748B] transition-colors cursor-pointer"
                             title={`Click to copy full SHA-256:\n${item.shaHash}`}
                           >
                             <Hash className="w-3 h-3 text-emerald-600" />
@@ -433,16 +433,16 @@ export const DepositShieldView: React.FC = () => {
           {/* TAB 2: Evidence Chain (Cryptographic Proof) */}
           {activeSubTab === "chain" && (
             <div className="space-y-4">
-              <div className="bg-white rounded-3xl border border-[#E7E5E4] p-6 shadow-xs space-y-4">
+              <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 shadow-xs space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-2xl bg-stone-900 text-white">
                     <Hash className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-[#1C1917]">
+                    <h3 className="text-base font-bold text-[#0F172A]">
                       SHA-256 Evidence Hash-Chain
                     </h3>
-                    <p className="text-xs text-[#78716C]">
+                    <p className="text-xs text-[#64748B]">
                       Each move-in condition photo is hashed using SHA-256 upon capture. Because the cryptographic hash cannot be generated in reverse or modified retroactively, owners cannot claim you caused pre-existing damage during checkout.
                     </p>
                   </div>
@@ -450,7 +450,7 @@ export const DepositShieldView: React.FC = () => {
 
                 <div className="p-4 rounded-2xl bg-stone-950 text-emerald-400 font-mono text-xs space-y-2 overflow-x-auto">
                   <p className="text-stone-400 text-[11px] font-sans">
-                    // Cryptographic Evidence Ledger — Stored on Thikana Vault
+                    // Cryptographic Evidence Ledger â€” Stored on Thikana Vault
                   </p>
                   {checklist.map((item, idx) => (
                     <div key={item.id} className="leading-relaxed">
@@ -462,15 +462,15 @@ export const DepositShieldView: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#F3F1EC] text-xs">
-                  <span className="text-[#78716C]">
-                    Tamper-Proof Certificate ID: <strong className="text-[#1C1917]">THK-HYD-2026-9481</strong>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#F1F5F9] text-xs">
+                  <span className="text-[#64748B]">
+                    Tamper-Proof Certificate ID: <strong className="text-[#0F172A]">THK-HYD-2026-9481</strong>
                   </span>
 
                   <button
                     type="button"
                     onClick={() => {
-                      const auditDoc = `# THIKANA DEPOSIT SHIELD — MOVE-IN AUDIT CERTIFICATE
+                      const auditDoc = `# THIKANA DEPOSIT SHIELD â€” MOVE-IN AUDIT CERTIFICATE
 Certificate ID: THK-HYD-2026-9481
 Timestamp: ${tenancyDetails.moveInDate}T10:00:00+05:30
 Tenant: ${tenancyDetails.tenantName}
@@ -496,7 +496,7 @@ Signed and verified under Telangana Tenancy Act Move-In Standards.`;
                       URL.revokeObjectURL(url);
                       showToast("Downloaded Sealed Audit Certificate!");
                     }}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#D9532F] text-white rounded-xl text-xs font-bold hover:bg-[#BF4321] transition-colors shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#4F46E5] text-white rounded-xl text-xs font-bold hover:bg-[#4338CA] transition-colors shadow-xs"
                   >
                     <Download className="w-4 h-4" /> Download Sealed Audit (.md)
                   </button>
@@ -508,17 +508,17 @@ Signed and verified under Telangana Tenancy Act Move-In Standards.`;
           {/* TAB 3: Automated Legal Dispute Pack */}
           {activeSubTab === "legal" && (
             <div className="space-y-4">
-              <div className="bg-white rounded-3xl border border-[#E7E5E4] p-6 shadow-xs space-y-4">
+              <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 shadow-xs space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="p-3 rounded-2xl bg-blue-50 text-blue-700 border border-blue-200">
                       <Scale className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-[#1C1917]">
+                      <h3 className="text-base font-bold text-[#0F172A]">
                         Telangana Tenancy Act Notice Generator
                       </h3>
-                      <p className="text-xs text-[#78716C]">
+                      <p className="text-xs text-[#64748B]">
                         Pre-formatted statutory legal demand notice ready for WhatsApp or registered post.
                       </p>
                     </div>
@@ -533,11 +533,11 @@ Date: 25-Nov-2026
 To: ${tenancyDetails.ownerName} (${tenancyDetails.pgName})
 
 Dear Sir/Madam,
-This is formal notice demanding immediate refund of security deposit amount of ₹${tenancyDetails.depositAmount} for Room ${tenancyDetails.roomNo}.
+This is formal notice demanding immediate refund of security deposit amount of â‚¹${tenancyDetails.depositAmount} for Room ${tenancyDetails.roomNo}.
 
 As recorded under Thikana Deposit Shield Audit (Certificate: THK-HYD-2026-9481), all property conditions and pre-existing items were cryptographically timestamped upon move-in on ${tenancyDetails.moveInDate}. No unauthorized deductions may be applied under the Telangana Tenancy Framework.
 
-Please remit the full refund of ₹${tenancyDetails.depositAmount} via UPI within 7 business days.
+Please remit the full refund of â‚¹${tenancyDetails.depositAmount} via UPI within 7 business days.
 
 Sincerely,
 ${tenancyDetails.tenantName}`;
@@ -547,7 +547,7 @@ ${tenancyDetails.tenantName}`;
                         showToast("Notice copied to clipboard!");
                         setTimeout(() => setCopied(false), 2500);
                       }}
-                      className="px-3.5 py-2 bg-[#1C1917] text-white rounded-xl text-xs font-bold hover:bg-stone-800 transition-colors flex items-center gap-1.5 shadow-2xs"
+                      className="px-3.5 py-2 bg-[#0F172A] text-white rounded-xl text-xs font-bold hover:bg-stone-800 transition-colors flex items-center gap-1.5 shadow-2xs"
                     >
                       {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copied ? "Copied!" : "Copy Notice"}</span>
@@ -555,7 +555,7 @@ ${tenancyDetails.tenantName}`;
 
                     <a
                       href={`https://wa.me/?text=${encodeURIComponent(
-                        `Formal Legal Demand Notice for Security Deposit Refund (₹${tenancyDetails.depositAmount}) - Room ${tenancyDetails.roomNo}, ${tenancyDetails.pgName}. Certified under Thikana Certificate THK-HYD-2026-9481.`
+                        `Formal Legal Demand Notice for Security Deposit Refund (â‚¹${tenancyDetails.depositAmount}) - Room ${tenancyDetails.roomNo}, ${tenancyDetails.pgName}. Certified under Thikana Certificate THK-HYD-2026-9481.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -568,21 +568,21 @@ ${tenancyDetails.tenantName}`;
                 </div>
 
                 {/* Notice Preview */}
-                <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-[#E7E5E4] font-serif text-xs text-stone-800 space-y-3 leading-relaxed">
-                  <p className="font-sans font-bold text-[11px] text-[#78716C] uppercase tracking-wider">
+                <div className="bg-[#F8FAFC] p-5 rounded-2xl border border-[#E2E8F0] font-serif text-xs text-stone-800 space-y-3 leading-relaxed">
+                  <p className="font-sans font-bold text-[11px] text-[#64748B] uppercase tracking-wider">
                     Statutory Demand Notice Preview
                   </p>
                   <p>
                     <strong>To:</strong> {tenancyDetails.ownerName}, Owner/Manager of {tenancyDetails.pgName}
                   </p>
                   <p>
-                    <strong>Subject:</strong> Formal Demand for Refund of Security Deposit (₹{tenancyDetails.depositAmount}) upon Vacation of Room {tenancyDetails.roomNo}.
+                    <strong>Subject:</strong> Formal Demand for Refund of Security Deposit (â‚¹{tenancyDetails.depositAmount}) upon Vacation of Room {tenancyDetails.roomNo}.
                   </p>
                   <p>
                     Pursuant to the rental agreement for Room {tenancyDetails.roomNo}, please be advised that the move-in condition audit was cryptographically sealed on {tenancyDetails.moveInDate} under Certificate ID <strong>THK-HYD-2026-9481</strong> with SHA-256 photo hash verification.
                   </p>
                   <p>
-                    All fixtures, electrical readings (1,420.5 kWh baseline), and wall conditions match the move-in inspection record. Under the tenancy regulations of Telangana, any withholding beyond 7 days of peaceful handover incurs statutory interest. Please remit the refund of ₹{tenancyDetails.depositAmount} immediately to prevent legal escalation to the Rent Tribunal.
+                    All fixtures, electrical readings (1,420.5 kWh baseline), and wall conditions match the move-in inspection record. Under the tenancy regulations of Telangana, any withholding beyond 7 days of peaceful handover incurs statutory interest. Please remit the refund of â‚¹{tenancyDetails.depositAmount} immediately to prevent legal escalation to the Rent Tribunal.
                   </p>
                 </div>
               </div>
@@ -593,7 +593,7 @@ ${tenancyDetails.tenantName}`;
 
       {/* Floating Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#1C1917] text-white px-4 py-2.5 rounded-2xl shadow-xl border border-stone-700 text-xs font-bold flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#0F172A] text-white px-4 py-2.5 rounded-2xl shadow-xl border border-stone-700 text-xs font-bold flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>

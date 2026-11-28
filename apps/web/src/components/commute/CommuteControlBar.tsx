@@ -64,22 +64,22 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
       {/* Top Row: Hub Info + Commute Toggle + Panel Controls */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-xl bg-[#FDEEE9] text-[#D9532F] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center shrink-0">
             <Navigation className="w-4 h-4" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <p className="text-xs sm:text-sm font-bold text-[#1C1917] truncate">
+              <p className="text-xs sm:text-sm font-bold text-[#0F172A] truncate">
                 {destination.name.split(",")[0]}
               </p>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-700 shrink-0">
                 {totalResults} PGs
               </span>
             </div>
-            <p className="text-[11px] text-[#78716C] flex items-center gap-1">
+            <p className="text-[11px] text-[#64748B] flex items-center gap-1">
               <span>{maxMinutes} min</span>
-              <span>· {travelMode === "bike" ? "Bike" : travelMode === "car" ? "Car" : "Metro"}</span>
-              {isPeakHour && <span className="text-[#D9532F] font-semibold">· Peak Traffic</span>}
+              <span>Â· {travelMode === "bike" ? "Bike" : travelMode === "car" ? "Car" : "Metro"}</span>
+              {isPeakHour && <span className="text-[#4F46E5] font-semibold">Â· Peak Traffic</span>}
             </p>
           </div>
         </div>
@@ -90,8 +90,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
             onClick={() => setIsExpanded(!isExpanded)}
             className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all border ${
               isExpanded
-                ? "bg-[#1C1917] text-white border-[#1C1917]"
-                : "bg-[#FAF9F6] text-[#D9532F] border-[#E7E5E4] hover:border-[#D9532F]/40 hover:bg-[#FDEEE9]"
+                ? "bg-[#0F172A] text-white border-[#0F172A]"
+                : "bg-[#F8FAFC] text-[#4F46E5] border-[#E2E8F0] hover:border-[#4F46E5]/40 hover:bg-[#EEF2FF]"
             }`}
             title={isExpanded ? "Hide commute settings" : "Change workplace, time or travel mode"}
           >
@@ -120,7 +120,7 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search PG or area..."
-            className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:bg-white focus:border-[#D9532F] transition-colors"
+            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#0F172A] placeholder:text-stone-400 focus:outline-none focus:bg-white focus:border-[#4F46E5] transition-colors"
           />
           {searchQuery && (
             <button
@@ -137,14 +137,14 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
       </div>
 
       {isExpanded && (
-        <div className="space-y-3 pt-2 border-t border-[#F3F1EC] animate-in fade-in duration-200">
+        <div className="space-y-3 pt-2 border-t border-[#F1F5F9] animate-in fade-in duration-200">
           {/* 1. Destination Hub Chips */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider">
+              <label className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
                 Select Workplace Hub
               </label>
-              <span className="text-[10px] text-[#78716C]">
+              <span className="text-[10px] text-[#64748B]">
                 Or click on map to drop pin
               </span>
             </div>
@@ -164,8 +164,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
                     }
                     className={`whitespace-nowrap px-2.5 py-1 rounded-full text-xs font-semibold transition-all ${
                       isSelected
-                        ? "bg-[#D9532F] text-white shadow-sm ring-2 ring-[#D9532F]/20"
-                        : "bg-[#FAF9F6] text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917] border border-[#E7E5E4]"
+                        ? "bg-[#4F46E5] text-white shadow-sm ring-2 ring-[#4F46E5]/20"
+                        : "bg-[#F8FAFC] text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] border border-[#E2E8F0]"
                     }`}
                   >
                     {hub.shortName}
@@ -176,24 +176,24 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
           </div>
 
       {/* 2. Signature Animated Commute Slider */}
-      <div className="bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl p-3.5">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-[#1C1917]">Max Commute Time</span>
+            <span className="text-xs font-bold text-[#0F172A]">Max Commute Time</span>
             {isLoading && (
-              <span className="inline-block w-2 h-2 rounded-full bg-[#D9532F] animate-pulse" />
+              <span className="inline-block w-2 h-2 rounded-full bg-[#4F46E5] animate-pulse" />
             )}
           </div>
           <div className="flex items-baseline gap-1">
             <motion.span
               key={maxMinutes}
-              initial={{ scale: 1.2, color: "#D9532F" }}
-              animate={{ scale: 1, color: "#1C1917" }}
-              className="text-2xl font-black font-display text-[#1C1917]"
+              initial={{ scale: 1.2, color: "#4F46E5" }}
+              animate={{ scale: 1, color: "#0F172A" }}
+              className="text-2xl font-black font-display text-[#0F172A]"
             >
               {maxMinutes}
             </motion.span>
-            <span className="text-xs font-semibold text-[#78716C]">minutes</span>
+            <span className="text-xs font-semibold text-[#64748B]">minutes</span>
           </div>
         </div>
 
@@ -206,17 +206,17 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
           step={5}
           onValueChange={(val) => setMaxMinutes(val[0] ?? 30)}
         >
-          <Slider.Track className="bg-[#E7E5E4] relative grow rounded-full h-2.5 overflow-hidden">
-            <Slider.Range className="absolute bg-[#D9532F] h-full" />
+          <Slider.Track className="bg-[#E2E8F0] relative grow rounded-full h-2.5 overflow-hidden">
+            <Slider.Range className="absolute bg-[#4F46E5] h-full" />
           </Slider.Track>
           <Slider.Thumb
-            className="block w-6 h-6 bg-white border-3 border-[#D9532F] shadow-lg rounded-full hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#D9532F]/25 transition-transform"
+            className="block w-6 h-6 bg-white border-3 border-[#4F46E5] shadow-lg rounded-full hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#4F46E5]/25 transition-transform"
             aria-label="Commute cutoff in minutes"
           />
         </Slider.Root>
 
         {/* Reach Hint */}
-        <div className="flex justify-between items-center text-[11px] text-[#78716C] mt-2 font-medium">
+        <div className="flex justify-between items-center text-[11px] text-[#64748B] mt-2 font-medium">
           <span>10m (Walking / Hyperlocal)</span>
           <span className="hidden sm:inline">30m (Target Workzone)</span>
           <span>60m (Outer Ring Road)</span>
@@ -227,7 +227,7 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Mode Selector */}
         <div>
-          <label className="block text-[11px] font-bold text-[#78716C] uppercase tracking-wider mb-1.5">
+          <label className="block text-[11px] font-bold text-[#64748B] uppercase tracking-wider mb-1.5">
             Commute Mode
           </label>
           <div className="grid grid-cols-3 gap-1.5">
@@ -242,8 +242,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
                   onClick={() => setTravelMode(mode.id)}
                   className={`flex flex-col items-center justify-center p-2 rounded-xl border text-xs font-medium transition-all ${
                     isSelected
-                      ? "bg-[#FDEEE9] text-[#D9532F] border-[#D9532F] shadow-sm font-semibold"
-                      : "bg-[#FAF9F6] text-[#78716C] border-[#E7E5E4] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+                      ? "bg-[#EEF2FF] text-[#4F46E5] border-[#4F46E5] shadow-sm font-semibold"
+                      : "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
                   }`}
                 >
                   <Icon className="w-4 h-4 mb-1" />
@@ -257,12 +257,12 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
         {/* Arrival Time */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider flex items-center gap-1">
+            <label className="text-[11px] font-bold text-[#64748B] uppercase tracking-wider flex items-center gap-1">
               <Clock className="w-3 h-3" />
               Arrival Time
             </label>
             {isPeakHour ? (
-              <span className="text-[10px] font-bold text-[#D9532F] flex items-center gap-0.5 bg-[#FDEEE9] px-1.5 py-0.5 rounded">
+              <span className="text-[10px] font-bold text-[#4F46E5] flex items-center gap-0.5 bg-[#EEF2FF] px-1.5 py-0.5 rounded">
                 <Zap className="w-3 h-3 fill-current" /> Peak Traffic
               </span>
             ) : (
@@ -280,8 +280,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
                 onClick={() => setArrivalTime(timeStr)}
                 className={`flex-1 py-2 px-1 text-xs rounded-xl border font-medium text-center transition-all ${
                   arrivalTime === timeStr
-                    ? "bg-[#1C1917] text-white border-[#1C1917]"
-                    : "bg-[#FAF9F6] text-[#78716C] border-[#E7E5E4] hover:bg-[#F3F1EC]"
+                    ? "bg-[#0F172A] text-white border-[#0F172A]"
+                    : "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:bg-[#F1F5F9]"
                 }`}
               >
                 {timeStr}
@@ -292,10 +292,10 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
       </div>
 
       {/* 4. Results Bar & Quick Filters */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#E7E5E4] text-xs">
+      <div className="flex items-center justify-between pt-2 border-t border-[#E2E8F0] text-xs">
         <div className="flex items-center gap-1.5">
-          <span className="font-bold text-[#1C1917]">{totalResults} PGs</span>
-          <span className="text-[#78716C]">found within {maxMinutes} mins</span>
+          <span className="font-bold text-[#0F172A]">{totalResults} PGs</span>
+          <span className="text-[#64748B]">found within {maxMinutes} mins</span>
         </div>
 
         {/* Quick Gender Chips */}
@@ -307,8 +307,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
               onClick={() => setGender(gender === g ? undefined : g)}
               className={`px-2 py-1 rounded-md text-[11px] font-medium border transition-colors ${
                 gender === g
-                  ? "bg-[#D9532F] text-white border-[#D9532F]"
-                  : "bg-white text-[#78716C] border-[#E7E5E4] hover:bg-[#FAF9F6]"
+                  ? "bg-[#4F46E5] text-white border-[#4F46E5]"
+                  : "bg-white text-[#64748B] border-[#E2E8F0] hover:bg-[#F8FAFC]"
               }`}
             >
               {g === "MEN" ? "Boys" : g === "WOMEN" ? "Girls" : "Co-living"}

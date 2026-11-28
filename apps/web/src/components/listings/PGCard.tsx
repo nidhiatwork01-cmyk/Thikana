@@ -34,7 +34,7 @@ export const PGCard: React.FC<PGCardProps> = ({
   const inCompare = isInCompare(pg.id);
 
   const images = pg.images.length > 0 ? pg.images : [pg.coverImageUrl || ""];
-  const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
+  const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,14 +53,14 @@ export const PGCard: React.FC<PGCardProps> = ({
       onMouseLeave={() => setHoveredPgId(null)}
       className={`group bg-white rounded-2xl border transition-all duration-200 overflow-hidden shadow-[0_2px_10px_rgba(28,25,23,0.04)] hover:shadow-[0_12px_28px_rgba(28,25,23,0.09)] hover:-translate-y-0.5 cursor-pointer flex flex-col ${
         isSelected
-          ? "border-[#D9532F] ring-2 ring-[#D9532F]/20"
-          : "border-[#E7E5E4] hover:border-[#D9532F]/40"
+          ? "border-[#4F46E5] ring-2 ring-[#4F46E5]/20"
+          : "border-[#E2E8F0] hover:border-[#4F46E5]/40"
       }`}
     >
       {/* ------------------------------------------------------------- */}
       {/* Image Carousel & Floating Badges                              */}
       {/* ------------------------------------------------------------- */}
-      <div className="relative w-full aspect-16/10 bg-[#F3F1EC] overflow-hidden">
+      <div className="relative w-full aspect-16/10 bg-[#F1F5F9] overflow-hidden">
         {images[currentImageIdx] ? (
           <>
             <img
@@ -72,7 +72,7 @@ export const PGCard: React.FC<PGCardProps> = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/15 pointer-events-none" />
           </>
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-xs font-semibold text-[#78716C]">
+          <div className="w-full h-full flex items-center justify-center text-xs font-semibold text-[#64748B]">
             Thikana Verified PG
           </div>
         )}
@@ -115,13 +115,13 @@ export const PGCard: React.FC<PGCardProps> = ({
         <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10">
           <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide bg-black/65 text-white backdrop-blur-md">
             {pg.gender === "MEN" ? "Boys" : pg.gender === "WOMEN" ? "Girls" : "Co-Living"}
-            {pg.isVerified ? " · Verified" : ""}
+            {pg.isVerified ? " Â· Verified" : ""}
           </span>
         </div>
 
         {/* Floating Commute Pill (Bottom-Left of Image) */}
         <div className="absolute bottom-2.5 left-2.5 z-10">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-[#1C1917] shadow-sm backdrop-blur-md">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-[#0F172A] shadow-sm backdrop-blur-md">
             <span>{modeEmoji}</span>
             <span>{pg.estimatedCommuteMinutes} min</span>
           </span>
@@ -138,8 +138,8 @@ export const PGCard: React.FC<PGCardProps> = ({
           aria-label={shortlisted ? "Remove from shortlist" : "Add to shortlist"}
           className={`absolute top-2.5 right-2.5 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md shadow-md transition-colors z-10 ${
             shortlisted
-              ? "bg-[#D9532F] text-white"
-              : "bg-white/85 text-[#1C1917] hover:bg-white hover:text-[#D9532F]"
+              ? "bg-[#4F46E5] text-white"
+              : "bg-white/85 text-[#0F172A] hover:bg-white hover:text-[#4F46E5]"
           }`}
         >
           <motion.div
@@ -160,25 +160,25 @@ export const PGCard: React.FC<PGCardProps> = ({
         <div className="space-y-1">
           {/* Title & Distance */}
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-sm sm:text-base font-bold text-[#1C1917] group-hover:text-[#D9532F] transition-colors truncate">
+            <h3 className="text-sm sm:text-base font-bold text-[#0F172A] group-hover:text-[#4F46E5] transition-colors truncate">
               {pg.title}
             </h3>
-            <span className="text-[11px] text-[#78716C] shrink-0 font-medium">
+            <span className="text-[11px] text-[#64748B] shrink-0 font-medium">
               {pg.distanceKm} km
             </span>
           </div>
 
           {/* Clean Short Location */}
-          <p className="text-xs text-[#78716C] truncate">
+          <p className="text-xs text-[#64748B] truncate">
             {pg.address}
           </p>
 
           {/* Review Bracket */}
           <div className="pt-1">
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50/90 border border-amber-200/70 text-[11px] font-bold text-amber-800">
-              <span>★ {pg.avgRating ? pg.avgRating : "New"}</span>
+              <span>â˜… {pg.avgRating ? pg.avgRating : "New"}</span>
               <span className="font-normal text-amber-700/80">
-                {pg.reviewCount ? `(${pg.reviewCount})` : "· Unrated"}
+                {pg.reviewCount ? `(${pg.reviewCount})` : "Â· Unrated"}
               </span>
             </span>
           </div>
@@ -189,13 +189,13 @@ export const PGCard: React.FC<PGCardProps> = ({
         {/* ----------------------------------------------------------- */}
         <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
           <div className="flex items-baseline gap-0.5">
-            <span className="text-base font-black font-display text-[#1C1917] tracking-tight">
-              ₹{(pg.minRent / 1000).toFixed(1).replace(".0", "")}k
+            <span className="text-base font-black font-display text-[#0F172A] tracking-tight">
+              â‚¹{(pg.minRent / 1000).toFixed(1).replace(".0", "")}k
               {pg.maxRent && pg.maxRent > pg.minRent
-                ? `–${(pg.maxRent / 1000).toFixed(1).replace(".0", "")}k`
+                ? `â€“${(pg.maxRent / 1000).toFixed(1).replace(".0", "")}k`
                 : ""}
             </span>
-            <span className="text-[11px] text-[#78716C] font-medium">/mo</span>
+            <span className="text-[11px] text-[#64748B] font-medium">/mo</span>
           </div>
 
           <div className="flex items-center gap-1.5">
@@ -221,8 +221,8 @@ export const PGCard: React.FC<PGCardProps> = ({
               title="Compare side-by-side"
               className={`p-2 rounded-xl border transition-all flex items-center ${
                 inCompare
-                  ? "bg-[#1C1917] text-white border-[#1C1917]"
-                  : "bg-[#FAF9F6] text-[#78716C] border-[#E7E5E4] hover:border-stone-400 hover:text-[#1C1917]"
+                  ? "bg-[#0F172A] text-white border-[#0F172A]"
+                  : "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0] hover:border-stone-400 hover:text-[#0F172A]"
               }`}
             >
               <Scale className="w-3.5 h-3.5" />
@@ -236,7 +236,7 @@ export const PGCard: React.FC<PGCardProps> = ({
                 if (onOpenDetails) onOpenDetails();
                 else if (onSelect) onSelect();
               }}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#1C1917] text-white hover:bg-[#D9532F] transition-colors shadow-2xs"
+              className="px-3.5 py-2 rounded-xl text-xs font-bold bg-[#0F172A] text-white hover:bg-[#4F46E5] transition-colors shadow-2xs"
             >
               Details
             </button>

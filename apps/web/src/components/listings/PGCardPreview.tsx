@@ -16,7 +16,7 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
 }) => {
   const { setHoveredPgId, travelMode } = useCommuteStore();
 
-  const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
+  const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
 
   return (
     <div
@@ -25,12 +25,12 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
       onMouseLeave={() => setHoveredPgId(null)}
       className={`group relative bg-white rounded-xl p-3.5 border transition-all cursor-pointer flex gap-3 shadow-xs hover:shadow-md ${
         isSelected
-          ? "border-[#D9532F] ring-2 ring-[#D9532F]/20 bg-[#FDEEE9]/30"
-          : "border-[#E7E5E4] hover:border-[#D9532F]/60"
+          ? "border-[#4F46E5] ring-2 ring-[#4F46E5]/20 bg-[#EEF2FF]/30"
+          : "border-[#E2E8F0] hover:border-[#4F46E5]/60"
       }`}
     >
       {/* Thumbnail */}
-      <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-[#F3F1EC]">
+      <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-lg overflow-hidden shrink-0 bg-[#F1F5F9]">
         {pg.coverImageUrl ? (
           <img
             src={pg.coverImageUrl}
@@ -39,7 +39,7 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[#78716C] text-xs font-semibold">
+          <div className="w-full h-full flex items-center justify-center text-[#64748B] text-xs font-semibold">
             Thikana PG
           </div>
         )}
@@ -55,15 +55,15 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
         <div>
           {/* Commute Time Badge */}
           <div className="flex items-center gap-1.5 mb-1">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#FDEEE9] text-[#D9532F]">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#EEF2FF] text-[#4F46E5]">
               <span>{modeEmoji}</span>
               <span>{pg.estimatedCommuteMinutes} min commute</span>
             </span>
-            <span className="text-[11px] text-[#78716C]">• {pg.distanceKm} km</span>
+            <span className="text-[11px] text-[#64748B]">â€¢ {pg.distanceKm} km</span>
           </div>
 
           {/* Title */}
-          <h3 className="text-sm font-bold text-[#1C1917] truncate group-hover:text-[#D9532F] transition-colors flex items-center gap-1">
+          <h3 className="text-sm font-bold text-[#0F172A] truncate group-hover:text-[#4F46E5] transition-colors flex items-center gap-1">
             <span>{pg.title}</span>
             {pg.isVerified && (
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 inline" />
@@ -71,19 +71,19 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
           </h3>
 
           {/* Address */}
-          <p className="text-xs text-[#78716C] truncate mt-0.5 flex items-center gap-1">
+          <p className="text-xs text-[#64748B] truncate mt-0.5 flex items-center gap-1">
             <MapPin className="w-3 h-3 shrink-0" />
             <span className="truncate">{pg.address}</span>
           </p>
         </div>
 
         {/* Price & Features Footer */}
-        <div className="flex items-baseline justify-between mt-2 pt-2 border-t border-[#F3F1EC]">
+        <div className="flex items-baseline justify-between mt-2 pt-2 border-t border-[#F1F5F9]">
           <div>
-            <span className="text-base font-extrabold font-display text-[#1C1917]">
-              ₹{pg.minRent.toLocaleString()}
+            <span className="text-base font-extrabold font-display text-[#0F172A]">
+              â‚¹{pg.minRent.toLocaleString()}
             </span>
-            <span className="text-[11px] text-[#78716C] font-normal"> /mo</span>
+            <span className="text-[11px] text-[#64748B] font-normal"> /mo</span>
           </div>
 
           {pg.isFoodIncluded && (

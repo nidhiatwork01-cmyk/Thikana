@@ -206,22 +206,22 @@ export const HuntCopilotView: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-[#FAF9F6] flex flex-col overflow-hidden">
+    <div className="h-full bg-[#F8FAFC] flex flex-col overflow-hidden">
       {/* ------------------------------------------------------------- */}
       {/* Top Banner & Control Bar                                      */}
       {/* ------------------------------------------------------------- */}
-      <div className="bg-white border-b border-[#E7E5E4] p-4 sm:p-5 shrink-0 shadow-2xs">
+      <div className="bg-white border-b border-[#E2E8F0] p-4 sm:p-5 shrink-0 shadow-2xs">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-[#FDEEE9] text-[#D9532F]">
+              <div className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5]">
                 <Compass className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-xl font-extrabold text-[#1C1917] font-display">
+                <h1 className="text-lg sm:text-xl font-extrabold text-[#0F172A] font-display">
                   PG Hunt Copilot
                 </h1>
-                <p className="text-[11px] text-[#78716C]">
+                <p className="text-[11px] text-[#64748B]">
                   Shortlist, inspect & optimize your visit route
                 </p>
               </div>
@@ -244,9 +244,9 @@ export const HuntCopilotView: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(true)}
-              className="px-3.5 py-2 rounded-xl bg-[#FAF9F6] hover:bg-[#F3F1EC] text-[#1C1917] border border-[#E7E5E4] font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+              className="px-3.5 py-2 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0] font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
             >
-              <Plus className="w-4 h-4 text-[#D9532F]" />
+              <Plus className="w-4 h-4 text-[#4F46E5]" />
               <span>Add External PG</span>
             </button>
 
@@ -254,7 +254,7 @@ export const HuntCopilotView: React.FC = () => {
               type="button"
               disabled={items.length < 1 || isOptimizing}
               onClick={handleOptimizeRoute}
-              className="px-4 py-2 rounded-xl bg-[#D9532F] hover:bg-[#BF4321] disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+              className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] disabled:opacity-50 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
             >
               <Route className="w-4 h-4" />
               <span>{isOptimizing ? "Optimizing..." : "Optimize Visit Day (TSP)"}</span>
@@ -263,15 +263,15 @@ export const HuntCopilotView: React.FC = () => {
         </div>
 
         {/* Sub-Tabs */}
-        <div className="max-w-6xl mx-auto flex items-center justify-between mt-4 pt-3 border-t border-[#F3F1EC]">
+        <div className="max-w-6xl mx-auto flex items-center justify-between mt-4 pt-3 border-t border-[#F1F5F9]">
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setActiveSubTab("items")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                 activeSubTab === "items"
-                  ? "bg-[#1C1917] text-white"
-                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+                  ? "bg-[#0F172A] text-white"
+                  : "text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
               }`}
             >
               My Hunt Candidates ({items.length})
@@ -282,8 +282,8 @@ export const HuntCopilotView: React.FC = () => {
               onClick={() => setActiveSubTab("route")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
                 activeSubTab === "route"
-                  ? "bg-[#1C1917] text-white"
-                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+                  ? "bg-[#0F172A] text-white"
+                  : "text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
               }`}
             >
               <span>Visit Day Itinerary</span>
@@ -295,8 +295,8 @@ export const HuntCopilotView: React.FC = () => {
               onClick={() => setActiveSubTab("weights")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1 ${
                 activeSubTab === "weights"
-                  ? "bg-[#1C1917] text-white"
-                  : "text-[#78716C] hover:bg-[#F3F1EC] hover:text-[#1C1917]"
+                  ? "bg-[#0F172A] text-white"
+                  : "text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]"
               }`}
             >
               <Sliders className="w-3.5 h-3.5" />
@@ -308,7 +308,7 @@ export const HuntCopilotView: React.FC = () => {
             <button
               type="button"
               onClick={handleClearAllCandidates}
-              className="text-[11px] text-[#A8A29E] hover:text-red-600 transition-colors flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-red-50"
+              className="text-[11px] text-[#94A3B8] hover:text-red-600 transition-colors flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-red-50"
               title="Clear all candidate PGs"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -327,7 +327,7 @@ export const HuntCopilotView: React.FC = () => {
               : "bg-red-900 text-white border-red-700"
           }`}
         >
-          <span>{notification.type === "success" ? "✓" : "⚠"}</span>
+          <span>{notification.type === "success" ? "âœ“" : "âš "}</span>
           <span>{notification.message}</span>
         </div>
       )}
@@ -341,16 +341,16 @@ export const HuntCopilotView: React.FC = () => {
           {activeSubTab === "items" && (
             <div className="space-y-4">
               {isLoading ? (
-                <div className="text-center py-12 text-xs text-[#78716C]">
+                <div className="text-center py-12 text-xs text-[#64748B]">
                   Loading your hunt candidates...
                 </div>
               ) : items.length === 0 ? (
-                <div className="text-center py-16 bg-white rounded-3xl border border-[#E7E5E4] p-8 max-w-md mx-auto space-y-3 shadow-xs">
-                  <div className="w-12 h-12 rounded-full bg-[#FDEEE9] text-[#D9532F] flex items-center justify-center mx-auto text-xl font-bold">
-                    🧭
+                <div className="text-center py-16 bg-white rounded-3xl border border-[#E2E8F0] p-8 max-w-md mx-auto space-y-3 shadow-xs">
+                  <div className="w-12 h-12 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto text-xl font-bold">
+                    ðŸ§­
                   </div>
-                  <h3 className="text-base font-bold text-[#1C1917]">Your Hunt Workspace is Empty</h3>
-                  <p className="text-xs text-[#78716C] leading-relaxed">
+                  <h3 className="text-base font-bold text-[#0F172A]">Your Hunt Workspace is Empty</h3>
+                  <p className="text-xs text-[#64748B] leading-relaxed">
                     Add PGs you found anywhere (broker WhatsApp chats, Google Maps links, or Thikana listings) to start planning your visits.
                   </p>
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
@@ -366,7 +366,7 @@ export const HuntCopilotView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setIsAddModalOpen(true)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#D9532F] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#BF4321]"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#4F46E5] text-white rounded-xl text-xs font-bold shadow-xs hover:bg-[#4338CA]"
                     >
                       <Plus className="w-4 h-4" /> Add Your First PG
                     </button>
@@ -386,7 +386,7 @@ export const HuntCopilotView: React.FC = () => {
                     return (
                       <div
                         key={item.id}
-                        className="bg-white rounded-2xl border border-[#E7E5E4] p-4.5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-3"
+                        className="bg-white rounded-2xl border border-[#E2E8F0] p-4.5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-3"
                       >
                         <div>
                           {/* Header row */}
@@ -401,31 +401,31 @@ export const HuntCopilotView: React.FC = () => {
 
                             {item.calculatedScore != null && (
                               <span className="px-2 py-0.5 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                ⭐ {item.calculatedScore}/100
+                                â­ {item.calculatedScore}/100
                               </span>
                             )}
                           </div>
 
-                          <h3 className="text-base font-bold text-[#1C1917] mt-2 truncate">
+                          <h3 className="text-base font-bold text-[#0F172A] mt-2 truncate">
                             {item.name}
                           </h3>
-                          <p className="text-xs text-[#78716C] flex items-center gap-1 mt-0.5 truncate">
-                            <MapPin className="w-3.5 h-3.5 shrink-0 text-[#D9532F]" />
+                          <p className="text-xs text-[#64748B] flex items-center gap-1 mt-0.5 truncate">
+                            <MapPin className="w-3.5 h-3.5 shrink-0 text-[#4F46E5]" />
                             <span className="truncate">{item.address}</span>
                           </p>
 
-                          <div className="mt-3 flex items-baseline justify-between pt-2 border-t border-[#F3F1EC]">
+                          <div className="mt-3 flex items-baseline justify-between pt-2 border-t border-[#F1F5F9]">
                             <div>
-                              <span className="text-base font-extrabold font-display text-[#1C1917]">
-                                ₹{item.rent.toLocaleString()}
+                              <span className="text-base font-extrabold font-display text-[#0F172A]">
+                                â‚¹{item.rent.toLocaleString()}
                               </span>
-                              <span className="text-[11px] text-[#78716C]">/mo</span>
+                              <span className="text-[11px] text-[#64748B]">/mo</span>
                             </div>
 
                             {item.phone && (
                               <a
                                 href={`tel:${item.phone}`}
-                                className="text-xs text-[#78716C] hover:text-[#1C1917] flex items-center gap-1"
+                                className="text-xs text-[#64748B] hover:text-[#0F172A] flex items-center gap-1"
                               >
                                 <Phone className="w-3 h-3" /> {item.phone}
                               </a>
@@ -434,34 +434,34 @@ export const HuntCopilotView: React.FC = () => {
                         </div>
 
                         {/* On-Site Checklist Summary */}
-                        <div className="bg-[#FAF9F6] p-2.5 rounded-xl border border-[#E7E5E4] text-[11px] space-y-1">
-                          <div className="flex justify-between text-[#78716C]">
+                        <div className="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0] text-[11px] space-y-1">
+                          <div className="flex justify-between text-[#64748B]">
                             <span>Water Pressure:</span>
-                            <span className="font-semibold text-[#1C1917]">
-                              {"★".repeat(item.checklist?.waterPressure || 3)} ({item.checklist?.waterPressure || 3}/5)
+                            <span className="font-semibold text-[#0F172A]">
+                              {"â˜…".repeat(item.checklist?.waterPressure || 3)} ({item.checklist?.waterPressure || 3}/5)
                             </span>
                           </div>
-                          <div className="flex justify-between text-[#78716C]">
+                          <div className="flex justify-between text-[#64748B]">
                             <span>Clean Smell:</span>
-                            <span className="font-semibold text-[#1C1917]">
-                              {item.checklist?.waterSmellClean ? "✅ Yes" : "❌ No"}
+                            <span className="font-semibold text-[#0F172A]">
+                              {item.checklist?.waterSmellClean ? "âœ… Yes" : "âŒ No"}
                             </span>
                           </div>
-                          <div className="flex justify-between text-[#78716C]">
+                          <div className="flex justify-between text-[#64748B]">
                             <span>Curfew Policy:</span>
-                            <span className="font-semibold text-[#1C1917]">
+                            <span className="font-semibold text-[#0F172A]">
                               {item.checklist?.curfewTime || "None"}
                             </span>
                           </div>
                         </div>
 
                         {/* Card Actions */}
-                        <div className="flex items-center justify-between pt-2 border-t border-[#F3F1EC]">
+                        <div className="flex items-center justify-between pt-2 border-t border-[#F1F5F9]">
                           <div className="flex items-center gap-1.5">
                             <button
                               type="button"
                               onClick={() => setInspectingItem(item)}
-                              className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#FAF9F6] hover:bg-[#F3F1EC] text-[#D9532F] border border-[#D9532F]/20 flex items-center gap-1"
+                              className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#4F46E5] border border-[#4F46E5]/20 flex items-center gap-1"
                             >
                               <CheckSquare className="w-3.5 h-3.5" />
                               <span>Checklist</span>
@@ -470,7 +470,7 @@ export const HuntCopilotView: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => handleCalculateScore(item.id)}
-                              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#FAF9F6] hover:bg-[#F3F1EC] text-[#1C1917] border border-[#E7E5E4]"
+                              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]"
                               title="Calculate score based on personal weights"
                             >
                               Score
@@ -498,16 +498,16 @@ export const HuntCopilotView: React.FC = () => {
           {activeSubTab === "route" && (
             <div className="space-y-6">
               {!routePlan ? (
-                <div className="text-center py-16 bg-white rounded-3xl border border-[#E7E5E4] p-8 max-w-md mx-auto space-y-3">
-                  <Route className="w-10 h-10 text-[#D9532F] mx-auto" />
-                  <h3 className="text-base font-bold text-[#1C1917]">No Route Generated Yet</h3>
-                  <p className="text-xs text-[#78716C]">
+                <div className="text-center py-16 bg-white rounded-3xl border border-[#E2E8F0] p-8 max-w-md mx-auto space-y-3">
+                  <Route className="w-10 h-10 text-[#4F46E5] mx-auto" />
+                  <h3 className="text-base font-bold text-[#0F172A]">No Route Generated Yet</h3>
+                  <p className="text-xs text-[#64748B]">
                     Click the "Optimize Visit Day (TSP)" button to calculate the most efficient visiting order across all your shortlisted PGs.
                   </p>
                   <button
                     type="button"
                     onClick={handleOptimizeRoute}
-                    className="px-4 py-2 rounded-xl bg-[#D9532F] text-white text-xs font-bold"
+                    className="px-4 py-2 rounded-xl bg-[#4F46E5] text-white text-xs font-bold"
                   >
                     Run 2-Opt Optimization
                   </button>
@@ -516,48 +516,48 @@ export const HuntCopilotView: React.FC = () => {
                 <div className="space-y-6">
                   {/* Summary Metric Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="bg-white p-4 rounded-2xl border border-[#E7E5E4] shadow-2xs">
-                      <span className="text-[11px] font-bold text-[#78716C] uppercase">Total Driving Distance</span>
-                      <p className="text-xl font-black font-display text-[#1C1917] mt-0.5">
+                    <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs">
+                      <span className="text-[11px] font-bold text-[#64748B] uppercase">Total Driving Distance</span>
+                      <p className="text-xl font-black font-display text-[#0F172A] mt-0.5">
                         {routePlan.totalDistanceKm} km
                       </p>
                     </div>
-                    <div className="bg-white p-4 rounded-2xl border border-[#E7E5E4] shadow-2xs">
-                      <span className="text-[11px] font-bold text-[#78716C] uppercase">Total Day Duration</span>
-                      <p className="text-xl font-black font-display text-[#1C1917] mt-0.5">
+                    <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs">
+                      <span className="text-[11px] font-bold text-[#64748B] uppercase">Total Day Duration</span>
+                      <p className="text-xl font-black font-display text-[#0F172A] mt-0.5">
                         {Math.floor(routePlan.totalTimeMinutes / 60)}h {routePlan.totalTimeMinutes % 60}m
                       </p>
                     </div>
-                    <div className="bg-white p-4 rounded-2xl border border-[#E7E5E4] shadow-2xs">
-                      <span className="text-[11px] font-bold text-[#78716C] uppercase">Starting Point</span>
-                      <p className="text-sm font-bold text-[#1C1917] truncate mt-1">
+                    <div className="bg-white p-4 rounded-2xl border border-[#E2E8F0] shadow-2xs">
+                      <span className="text-[11px] font-bold text-[#64748B] uppercase">Starting Point</span>
+                      <p className="text-sm font-bold text-[#0F172A] truncate mt-1">
                         {destination.name.split(",")[0]} (10:00 AM)
                       </p>
                     </div>
                   </div>
 
                   {/* Step-by-Step Route Legs */}
-                  <div className="bg-white rounded-2xl border border-[#E7E5E4] p-5 shadow-xs space-y-4">
-                    <h3 className="text-sm font-bold text-[#1C1917] flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#D9532F]" />
+                  <div className="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-xs space-y-4">
+                    <h3 className="text-sm font-bold text-[#0F172A] flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-[#4F46E5]" />
                       Optimized Visiting Schedule (2-Opt Minimum Travel Tour)
                     </h3>
 
-                    <div className="relative border-l-2 border-[#D9532F] ml-3 pl-6 space-y-6">
+                    <div className="relative border-l-2 border-[#4F46E5] ml-3 pl-6 space-y-6">
                       {routePlan.timeline.map((stop, idx) => {
                         const leg = routePlan.legs[idx];
 
                         return (
                           <div key={stop.huntItemId} className="relative space-y-2">
                             {/* Marker dot */}
-                            <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-white border-3 border-[#D9532F]" />
+                            <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-white border-3 border-[#4F46E5]" />
 
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                               <div>
-                                <span className="text-xs font-extrabold text-[#D9532F]">
-                                  Stop {idx + 1}: {stop.arrivalTime} – {stop.departureTime}
+                                <span className="text-xs font-extrabold text-[#4F46E5]">
+                                  Stop {idx + 1}: {stop.arrivalTime} â€“ {stop.departureTime}
                                 </span>
-                                <h4 className="text-sm font-bold text-[#1C1917]">{stop.name}</h4>
+                                <h4 className="text-sm font-bold text-[#0F172A]">{stop.name}</h4>
                               </div>
 
                               {leg && (
@@ -565,7 +565,7 @@ export const HuntCopilotView: React.FC = () => {
                                   href={leg.googleMapsUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FDEEE9] text-[#D9532F] font-bold text-xs hover:bg-[#D9532F] hover:text-white transition-colors shrink-0"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EEF2FF] text-[#4F46E5] font-bold text-xs hover:bg-[#4F46E5] hover:text-white transition-colors shrink-0"
                                 >
                                   <span>Navigate in Maps</span>
                                   <ExternalLink className="w-3 h-3" />
@@ -574,8 +574,8 @@ export const HuntCopilotView: React.FC = () => {
                             </div>
 
                             {leg && (
-                              <p className="text-xs text-[#78716C] bg-[#FAF9F6] p-2 rounded-lg border border-[#E7E5E4]">
-                                🏍️ Travel Leg: ~{leg.travelMinutes} mins ({leg.distanceKm} km from {leg.fromName.split(",")[0]})
+                              <p className="text-xs text-[#64748B] bg-[#F8FAFC] p-2 rounded-lg border border-[#E2E8F0]">
+                                ðŸï¸ Travel Leg: ~{leg.travelMinutes} mins ({leg.distanceKm} km from {leg.fromName.split(",")[0]})
                               </p>
                             )}
                           </div>
@@ -590,13 +590,13 @@ export const HuntCopilotView: React.FC = () => {
 
           {/* TAB 3: Scoring Weights Matrix */}
           {activeSubTab === "weights" && (
-            <div className="bg-white rounded-3xl border border-[#E7E5E4] p-6 max-w-2xl mx-auto shadow-xs space-y-6">
+            <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 max-w-2xl mx-auto shadow-xs space-y-6">
               <div>
-                <h3 className="text-base font-bold text-[#1C1917] flex items-center gap-2">
-                  <Sliders className="w-4 h-4 text-[#D9532F]" />
+                <h3 className="text-base font-bold text-[#0F172A] flex items-center gap-2">
+                  <Sliders className="w-4 h-4 text-[#4F46E5]" />
                   Personal Decision Weights
                 </h3>
-                <p className="text-xs text-[#78716C] mt-1">
+                <p className="text-xs text-[#64748B] mt-1">
                   Adjust what matters to you when ranking prospective PGs. Thikana computes a personalized 0-100 suitability score for each accommodation based on your real on-site inspection data.
                 </p>
               </div>
@@ -613,13 +613,13 @@ export const HuntCopilotView: React.FC = () => {
                   const Icon = crit.icon;
 
                   return (
-                    <div key={crit.key} className="p-3.5 rounded-xl bg-[#FAF9F6] border border-[#E7E5E4] space-y-1.5">
+                    <div key={crit.key} className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1.5">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-[#1C1917] flex items-center gap-1.5">
-                          <Icon className="w-4 h-4 text-[#D9532F]" />
+                        <span className="font-bold text-[#0F172A] flex items-center gap-1.5">
+                          <Icon className="w-4 h-4 text-[#4F46E5]" />
                           {crit.label}
                         </span>
-                        <span className="font-extrabold text-[#D9532F]">{Math.round(val * 100)}%</span>
+                        <span className="font-extrabold text-[#4F46E5]">{Math.round(val * 100)}%</span>
                       </div>
 
                       <input
@@ -631,7 +631,7 @@ export const HuntCopilotView: React.FC = () => {
                         onChange={(e) =>
                           setWeights({ ...weights, [crit.key]: parseFloat(e.target.value) })
                         }
-                        className="w-full accent-[#D9532F] cursor-pointer"
+                        className="w-full accent-[#4F46E5] cursor-pointer"
                       />
                     </div>
                   );
@@ -647,15 +647,15 @@ export const HuntCopilotView: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {isAddModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-[#E7E5E4] space-y-4 animate-scale-up">
-            <h3 className="text-base font-bold text-[#1C1917]">Add PG to Hunt Workspace</h3>
-            <p className="text-xs text-[#78716C]">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-[#E2E8F0] space-y-4 animate-scale-up">
+            <h3 className="text-base font-bold text-[#0F172A]">Add PG to Hunt Workspace</h3>
+            <p className="text-xs text-[#64748B]">
               Paste details from your broker WhatsApp message or Google Maps pin.
             </p>
 
             <form onSubmit={handleAddSubmit} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-bold text-[#78716C] uppercase mb-1">
+                <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
                   PG / Coliving Name *
                 </label>
                 <input
@@ -664,12 +664,12 @@ export const HuntCopilotView: React.FC = () => {
                   placeholder="e.g. Sri Balaji Luxury PG"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none focus:border-[#D9532F]"
+                  className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none focus:border-[#4F46E5]"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-[#78716C] uppercase mb-1">
+                <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
                   Locality / Landmark Address *
                 </label>
                 <input
@@ -678,26 +678,26 @@ export const HuntCopilotView: React.FC = () => {
                   placeholder="e.g. Near Botanical Garden Road, Kondapur"
                   value={formAddress}
                   onChange={(e) => setFormAddress(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none focus:border-[#D9532F]"
+                  className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none focus:border-[#4F46E5]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[11px] font-bold text-[#78716C] uppercase mb-1">
-                    Monthly Rent (₹) *
+                  <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
+                    Monthly Rent (â‚¹) *
                   </label>
                   <input
                     type="number"
                     required
                     value={formRent}
                     onChange={(e) => setFormRent(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none focus:border-[#D9532F]"
+                    className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none focus:border-[#4F46E5]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-[#78716C] uppercase mb-1">
+                  <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
                     Owner Phone
                   </label>
                   <input
@@ -705,13 +705,13 @@ export const HuntCopilotView: React.FC = () => {
                     placeholder="+91..."
                     value={formPhone}
                     onChange={(e) => setFormPhone(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none focus:border-[#D9532F]"
+                    className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none focus:border-[#4F46E5]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-[#78716C] uppercase mb-1">
+                <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
                   Google Maps / WhatsApp URL
                 </label>
                 <input
@@ -719,7 +719,7 @@ export const HuntCopilotView: React.FC = () => {
                   placeholder="https://maps.google.com/..."
                   value={formSource}
                   onChange={(e) => setFormSource(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none focus:border-[#D9532F]"
+                  className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none focus:border-[#4F46E5]"
                 />
               </div>
 
@@ -727,14 +727,14 @@ export const HuntCopilotView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl border border-[#E7E5E4] text-xs font-bold text-[#78716C] hover:bg-[#F3F1EC]"
+                  className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-xs font-bold text-[#64748B] hover:bg-[#F1F5F9]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addMutation.isPending}
-                  className="flex-1 py-2.5 rounded-xl bg-[#D9532F] text-white text-xs font-bold hover:bg-[#BF4321]"
+                  className="flex-1 py-2.5 rounded-xl bg-[#4F46E5] text-white text-xs font-bold hover:bg-[#4338CA]"
                 >
                   {addMutation.isPending ? "Adding..." : "Add Candidate"}
                 </button>
@@ -749,25 +749,25 @@ export const HuntCopilotView: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {inspectingItem && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] p-6 shadow-2xl border border-[#E7E5E4] space-y-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] p-6 shadow-2xl border border-[#E2E8F0] space-y-4 overflow-y-auto">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-base font-bold text-[#1C1917]">On-Site Inspection Checklist</h3>
-                <p className="text-xs text-[#78716C]">{inspectingItem.name}</p>
+                <h3 className="text-base font-bold text-[#0F172A]">On-Site Inspection Checklist</h3>
+                <p className="text-xs text-[#64748B]">{inspectingItem.name}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setInspectingItem(null)}
-                className="text-stone-400 hover:text-[#1C1917]"
+                className="text-stone-400 hover:text-[#0F172A]"
               >
-                ✕
+                âœ•
               </button>
             </div>
 
             <div className="space-y-4 text-xs">
               {/* Status */}
               <div>
-                <label className="block font-bold text-[#78716C] uppercase mb-1">
+                <label className="block font-bold text-[#64748B] uppercase mb-1">
                   Visit Stage
                 </label>
                 <select
@@ -775,7 +775,7 @@ export const HuntCopilotView: React.FC = () => {
                   onChange={(e) =>
                     setInspectingItem({ ...inspectingItem, status: e.target.value as any })
                   }
-                  className="w-full p-2.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] font-semibold"
+                  className="w-full p-2.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] font-semibold"
                 >
                   <option value="SAVED">Saved</option>
                   <option value="VISIT_PLANNED">Visit Planned</option>
@@ -786,10 +786,10 @@ export const HuntCopilotView: React.FC = () => {
               </div>
 
               {/* Water Pressure */}
-              <div className="p-3 bg-[#FAF9F6] rounded-xl border border-[#E7E5E4]">
+              <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0]">
                 <div className="flex justify-between font-bold mb-1">
                   <span>Water Pressure (Bathroom Tap)</span>
-                  <span className="text-[#D9532F]">{inspectingItem.checklist.waterPressure}/5</span>
+                  <span className="text-[#4F46E5]">{inspectingItem.checklist.waterPressure}/5</span>
                 </div>
                 <input
                   type="range"
@@ -805,12 +805,12 @@ export const HuntCopilotView: React.FC = () => {
                       },
                     })
                   }
-                  className="w-full accent-[#D9532F]"
+                  className="w-full accent-[#4F46E5]"
                 />
               </div>
 
               {/* Water Smell Clean */}
-              <div className="p-3 bg-[#FAF9F6] rounded-xl border border-[#E7E5E4] flex items-center justify-between">
+              <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] flex items-center justify-between">
                 <span className="font-bold">Water Odor (Clean, No Rust/Sulfur Smell)</span>
                 <input
                   type="checkbox"
@@ -824,15 +824,15 @@ export const HuntCopilotView: React.FC = () => {
                       },
                     })
                   }
-                  className="w-4 h-4 accent-[#D9532F]"
+                  className="w-4 h-4 accent-[#4F46E5]"
                 />
               </div>
 
               {/* Traffic Noise Level */}
-              <div className="p-3 bg-[#FAF9F6] rounded-xl border border-[#E7E5E4]">
+              <div className="p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0]">
                 <div className="flex justify-between font-bold mb-1">
                   <span>Peacefulness (1 = Loud traffic, 5 = Peaceful)</span>
-                  <span className="text-[#D9532F]">{inspectingItem.checklist.trafficNoiseLevel}/5</span>
+                  <span className="text-[#4F46E5]">{inspectingItem.checklist.trafficNoiseLevel}/5</span>
                 </div>
                 <input
                   type="range"
@@ -848,13 +848,13 @@ export const HuntCopilotView: React.FC = () => {
                       },
                     })
                   }
-                  className="w-full accent-[#D9532F]"
+                  className="w-full accent-[#4F46E5]"
                 />
               </div>
 
               {/* Notes */}
               <div>
-                <label className="block font-bold text-[#78716C] uppercase mb-1">
+                <label className="block font-bold text-[#64748B] uppercase mb-1">
                   On-Site Inspection Notes
                 </label>
                 <textarea
@@ -870,7 +870,7 @@ export const HuntCopilotView: React.FC = () => {
                       },
                     })
                   }
-                  className="w-full p-2.5 rounded-xl border border-[#E7E5E4] text-xs focus:outline-none"
+                  className="w-full p-2.5 rounded-xl border border-[#E2E8F0] text-xs focus:outline-none"
                 />
               </div>
 
@@ -878,7 +878,7 @@ export const HuntCopilotView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setInspectingItem(null)}
-                  className="flex-1 py-2.5 rounded-xl border border-[#E7E5E4] text-xs font-bold text-[#78716C]"
+                  className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-xs font-bold text-[#64748B]"
                 >
                   Cancel
                 </button>
@@ -894,7 +894,7 @@ export const HuntCopilotView: React.FC = () => {
                     });
                     setInspectingItem(null);
                   }}
-                  className="flex-1 py-2.5 rounded-xl bg-[#D9532F] text-white text-xs font-bold"
+                  className="flex-1 py-2.5 rounded-xl bg-[#4F46E5] text-white text-xs font-bold"
                 >
                   Save Inspection Data
                 </button>
@@ -908,13 +908,13 @@ export const HuntCopilotView: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {scoreResult && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-[#E7E5E4] space-y-4 animate-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between border-b border-[#F3F1EC] pb-3">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-[#E2E8F0] space-y-4 animate-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3">
               <div className="flex items-center gap-2">
-                <span className="p-2 rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">⭐</span>
+                <span className="p-2 rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">â­</span>
                 <div>
-                  <h3 className="text-base font-extrabold text-[#1C1917] font-display">Candidate Score</h3>
-                  <p className="text-[11px] text-[#78716C] truncate max-w-[200px]">{scoreResult.item?.name}</p>
+                  <h3 className="text-base font-extrabold text-[#0F172A] font-display">Candidate Score</h3>
+                  <p className="text-[11px] text-[#64748B] truncate max-w-[200px]">{scoreResult.item?.name}</p>
                 </div>
               </div>
               <button
@@ -922,12 +922,12 @@ export const HuntCopilotView: React.FC = () => {
                 onClick={() => setScoreResult(null)}
                 className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center text-xs font-bold transition-colors"
               >
-                ✕
+                âœ•
               </button>
             </div>
 
             {/* Score Ring / Gauge */}
-            <div className="text-center py-2 bg-[#FAF9F6] rounded-2xl border border-[#E7E5E4]">
+            <div className="text-center py-2 bg-[#F8FAFC] rounded-2xl border border-[#E2E8F0]">
               <span
                 className={`text-4xl font-black font-display ${
                   scoreResult.score >= 80
@@ -940,18 +940,18 @@ export const HuntCopilotView: React.FC = () => {
                 {scoreResult.score}
               </span>
               <span className="text-lg font-bold text-stone-400">/100</span>
-              <p className="text-xs font-bold mt-1 text-[#1C1917]">
+              <p className="text-xs font-bold mt-1 text-[#0F172A]">
                 {scoreResult.score >= 80
-                  ? "🌟 Excellent Match for your commute & budget"
+                  ? "ðŸŒŸ Excellent Match for your commute & budget"
                   : scoreResult.score >= 60
-                  ? "👍 Balanced Option (Minor compromises)"
-                  : "⚠️ High Compromise (Re-evaluate requirements)"}
+                  ? "ðŸ‘ Balanced Option (Minor compromises)"
+                  : "âš ï¸ High Compromise (Re-evaluate requirements)"}
               </p>
             </div>
 
             {/* Weights Breakdown List */}
             <div className="space-y-2 text-xs">
-              <p className="font-bold text-[#78716C] uppercase text-[10px] tracking-wider">
+              <p className="font-bold text-[#64748B] uppercase text-[10px] tracking-wider">
                 Evaluated with your Custom Weights
               </p>
               <div className="space-y-1.5">
@@ -961,7 +961,7 @@ export const HuntCopilotView: React.FC = () => {
                 </div>
                 <div className="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#D9532F] h-full rounded-full"
+                    className="bg-[#4F46E5] h-full rounded-full"
                     style={{ width: `${Math.min(100, scoreResult.score + 5)}%` }}
                   />
                 </div>
@@ -993,7 +993,7 @@ export const HuntCopilotView: React.FC = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="flex gap-2 pt-2 border-t border-[#F3F1EC]">
+            <div className="flex gap-2 pt-2 border-t border-[#F1F5F9]">
               <button
                 type="button"
                 onClick={() => {

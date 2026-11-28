@@ -5,15 +5,15 @@
   --font-display: "Outfit", system-ui, -apple-system, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
-  /* Thikana warm editorial palette */
-  --color-brand-terracotta: #D9532F;
-  --color-brand-terracotta-hover: #BF4321;
-  --color-brand-terracotta-light: #FDEEE9;
-  --color-brand-sand: #FAF9F6;
-  --color-brand-sand-subtle: #F3F1EC;
-  --color-brand-ink: #1C1917;
-  --color-brand-ink-muted: #78716C;
-  --color-brand-border: #E7E5E4;
+  /* Thikana Crisp Alabaster & Royal Indigo palette */
+  --color-brand-terracotta: #4F46E5;
+  --color-brand-terracotta-hover: #4338CA;
+  --color-brand-terracotta-light: #EEF2FF;
+  --color-brand-sand: #F8FAFC;
+  --color-brand-sand-subtle: #F1F5F9;
+  --color-brand-ink: #0F172A;
+  --color-brand-ink-muted: #64748B;
+  --color-brand-border: #E2E8F0;
   --color-brand-success: #15803D;
   --color-brand-amber: #D97706;
 }
@@ -32,9 +32,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D6D3D1;
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #A8A29E;
+  background: #94A3B8;
 }

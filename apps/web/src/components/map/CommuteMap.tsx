@@ -66,7 +66,7 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
         type: "fill",
         source: "commute-isochrone",
         paint: {
-          "fill-color": "#D9532F",
+          "fill-color": "#4F46E5",
           "fill-opacity": 0.16,
         },
       });
@@ -77,7 +77,7 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
         type: "line",
         source: "commute-isochrone",
         paint: {
-          "line-color": "#D9532F",
+          "line-color": "#4F46E5",
           "line-width": 2.5,
           "line-opacity": 0.85,
         },
@@ -118,9 +118,9 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
       el.className = "destination-pin-container cursor-pointer";
       el.innerHTML = `
         <div class="relative flex items-center justify-center">
-          <span class="absolute inline-flex h-9 w-9 animate-ping rounded-full bg-[#D9532F] opacity-35"></span>
-          <span class="relative inline-flex items-center justify-center h-7 w-7 rounded-full bg-[#D9532F] text-white shadow-lg border-2 border-white text-[12px] font-bold">
-            📍
+          <span class="absolute inline-flex h-9 w-9 animate-ping rounded-full bg-[#4F46E5] opacity-35"></span>
+          <span class="relative inline-flex items-center justify-center h-7 w-7 rounded-full bg-[#4F46E5] text-white shadow-lg border-2 border-white text-[12px] font-bold">
+            ðŸ“
           </span>
         </div>
       `;
@@ -209,15 +209,15 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
       // Update marker appearance
       const el = marker.getElement();
       el.style.zIndex = isActive ? "50" : "10";
-      const rentK = `₹${(pg.minRent / 1000).toFixed(1).replace(".0", "")}k`;
+      const rentK = `â‚¹${(pg.minRent / 1000).toFixed(1).replace(".0", "")}k`;
       const commuteTime = `${pg.estimatedCommuteMinutes}m`;
-      const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
+      const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
 
       el.innerHTML = `
         <div class="px-2.5 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5 border transition-all ${
           isActive
-            ? "bg-[#D9532F] text-white border-white scale-110 ring-2 ring-[#D9532F]/50 shadow-lg"
-            : "bg-white text-[#1C1917] border-[#E7E5E4] hover:border-[#D9532F]"
+            ? "bg-[#4F46E5] text-white border-white scale-110 ring-2 ring-[#4F46E5]/50 shadow-lg"
+            : "bg-white text-[#0F172A] border-[#E2E8F0] hover:border-[#4F46E5]"
         }">
           <span class="text-[11px] font-medium">${modeEmoji} ${commuteTime}</span>
           <span class="opacity-40">|</span>

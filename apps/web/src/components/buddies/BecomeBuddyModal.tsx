@@ -120,18 +120,18 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 animate-in fade-in" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] max-w-lg max-h-[90vh] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden border border-[#E7E5E4] animate-in zoom-in-95">
+        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] max-w-lg max-h-[90vh] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden border border-[#E2E8F0] animate-in zoom-in-95">
           {/* Header */}
-          <div className="bg-[#FAF9F6] border-b border-[#E7E5E4] px-5 py-4 flex items-center justify-between shrink-0">
+          <div className="bg-[#F8FAFC] border-b border-[#E2E8F0] px-5 py-4 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-[#FDEEE9] text-[#D9532F]">
+              <div className="p-2 rounded-xl bg-[#EEF2FF] text-[#4F46E5]">
                 <UserCheck className="w-5 h-5" />
               </div>
               <div>
-                <Dialog.Title className="text-base font-extrabold text-[#1C1917] font-display">
+                <Dialog.Title className="text-base font-extrabold text-[#0F172A] font-display">
                   Become a Local Buddy
                 </Dialog.Title>
-                <p className="text-[11px] text-[#78716C]">
+                <p className="text-[11px] text-[#64748B]">
                   Help newcomers avoid PG scams & inspect rooms in your area
                 </p>
               </div>
@@ -155,32 +155,32 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-[#1C1917] mb-1">Full Name *</label>
+                <label className="block font-bold text-[#0F172A] mb-1">Full Name *</label>
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Nidhi Singh"
-                  className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] focus:outline-none focus:border-[#D9532F]"
+                  className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] focus:outline-none focus:border-[#4F46E5]"
                 />
               </div>
               <div>
-                <label className="block font-bold text-[#1C1917] mb-1">Phone Number *</label>
+                <label className="block font-bold text-[#0F172A] mb-1">Phone Number *</label>
                 <input
                   type="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+91 98490 XXXXX"
-                  className="w-full px-3 py-2 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] focus:outline-none focus:border-[#D9532F]"
+                  className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] focus:outline-none focus:border-[#4F46E5]"
                 />
               </div>
             </div>
 
             {/* Neighborhoods */}
             <div>
-              <label className="block font-bold text-[#1C1917] mb-1.5">
+              <label className="block font-bold text-[#0F172A] mb-1.5">
                 Areas You Know Well *
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -193,8 +193,8 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                       onClick={() => toggleItem(selectedLocalities, setSelectedLocalities, loc)}
                       className={`px-2.5 py-1 rounded-full font-semibold transition-colors border ${
                         active
-                          ? "bg-[#D9532F] text-white border-[#D9532F]"
-                          : "bg-[#FAF9F6] text-stone-600 border-[#E7E5E4] hover:border-stone-400"
+                          ? "bg-[#4F46E5] text-white border-[#4F46E5]"
+                          : "bg-[#F8FAFC] text-stone-600 border-[#E2E8F0] hover:border-stone-400"
                       }`}
                     >
                       {loc}
@@ -207,7 +207,7 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
             {/* Languages & Days */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-[#1C1917] mb-1.5">Languages *</label>
+                <label className="block font-bold text-[#0F172A] mb-1.5">Languages *</label>
                 <div className="flex flex-wrap gap-1.5">
                   {LANGUAGES.map((lang) => {
                     const active = selectedLanguages.includes(lang);
@@ -218,8 +218,8 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                         onClick={() => toggleItem(selectedLanguages, setSelectedLanguages, lang)}
                         className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
                           active
-                            ? "bg-[#1C1917] text-white border-[#1C1917]"
-                            : "bg-[#FAF9F6] text-stone-600 border-[#E7E5E4]"
+                            ? "bg-[#0F172A] text-white border-[#0F172A]"
+                            : "bg-[#F8FAFC] text-stone-600 border-[#E2E8F0]"
                         }`}
                       >
                         {lang}
@@ -230,7 +230,7 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
               </div>
 
               <div>
-                <label className="block font-bold text-[#1C1917] mb-1.5">Available Days</label>
+                <label className="block font-bold text-[#0F172A] mb-1.5">Available Days</label>
                 <div className="flex flex-wrap gap-1.5">
                   {DAYS.map((day) => {
                     const active = selectedDays.includes(day);
@@ -242,7 +242,7 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                         className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
                           active
                             ? "bg-emerald-700 text-white border-emerald-700"
-                            : "bg-[#FAF9F6] text-stone-600 border-[#E7E5E4]"
+                            : "bg-[#F8FAFC] text-stone-600 border-[#E2E8F0]"
                         }`}
                       >
                         {day}
@@ -255,14 +255,14 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
 
             {/* Fee */}
             <div>
-              <label className="block font-bold text-[#1C1917] mb-1.5">
-                Visit / Help Fee (₹)
+              <label className="block font-bold text-[#0F172A] mb-1.5">
+                Visit / Help Fee (â‚¹)
               </label>
               <div className="flex gap-2">
                 {[
                   { value: 0, label: "Free (Volunteer)" },
-                  { value: 150, label: "₹150 / help" },
-                  { value: 250, label: "₹250 / visit" },
+                  { value: 150, label: "â‚¹150 / help" },
+                  { value: 250, label: "â‚¹250 / visit" },
                 ].map((opt) => (
                   <button
                     key={opt.value}
@@ -270,8 +270,8 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                     onClick={() => setHourlyFee(opt.value)}
                     className={`flex-1 py-1.5 rounded-xl font-bold border transition-colors ${
                       hourlyFee === opt.value
-                        ? "bg-[#FDEEE9] text-[#D9532F] border-[#D9532F]"
-                        : "bg-[#FAF9F6] text-stone-600 border-[#E7E5E4]"
+                        ? "bg-[#EEF2FF] text-[#4F46E5] border-[#4F46E5]"
+                        : "bg-[#F8FAFC] text-stone-600 border-[#E2E8F0]"
                     }`}
                   >
                     {opt.label}
@@ -283,10 +283,10 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
             {/* Description with Smart Text Recommender */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="font-bold text-[#1C1917]">
+                <label className="font-bold text-[#0F172A]">
                   Short Bio / How You Can Help *
                 </label>
-                <span className="text-[10px] text-[#D9532F] font-semibold flex items-center gap-1">
+                <span className="text-[10px] text-[#4F46E5] font-semibold flex items-center gap-1">
                   <Sparkles className="w-3 h-3" /> Smart Bio Assist
                 </span>
               </div>
@@ -297,7 +297,7 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Write one quick line (e.g. 'Living in Madhapur 2 yrs, know good PGs and water issues')..."
-                className="w-full p-3 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] focus:outline-none focus:border-[#D9532F] leading-relaxed"
+                className="w-full p-3 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] focus:outline-none focus:border-[#4F46E5] leading-relaxed"
               />
 
               {/* Quick Phrase Chips */}
@@ -311,7 +311,7 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
                         prev.trim() ? `${prev.trim().replace(/\.$/, "")}, can ${phrase}.` : `I can ${phrase}.`
                       )
                     }
-                    className="px-2 py-0.5 rounded-full bg-stone-100 hover:bg-[#FDEEE9] text-stone-700 hover:text-[#D9532F] text-[10px] font-medium transition-colors"
+                    className="px-2 py-0.5 rounded-full bg-stone-100 hover:bg-[#EEF2FF] text-stone-700 hover:text-[#4F46E5] text-[10px] font-medium transition-colors"
                   >
                     + {phrase}
                   </button>
@@ -359,14 +359,14 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-2.5 rounded-xl border border-[#E7E5E4] font-bold text-stone-600 hover:bg-stone-50"
+                className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] font-bold text-stone-600 hover:bg-stone-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="flex-1 py-2.5 rounded-xl bg-[#D9532F] hover:bg-[#BF4321] text-white font-bold shadow-xs disabled:opacity-50"
+                className="flex-1 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold shadow-xs disabled:opacity-50"
               >
                 {mutation.isPending ? "Publishing..." : "Publish Buddy Profile"}
               </button>
