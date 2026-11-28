@@ -4,7 +4,7 @@ import { ChevronUp, ChevronDown, ChevronLeft, Maximize2, Minimize2, List, Map as
 import { useCommuteStore, BottomSheetSnap } from "../../store/commuteStore";
 
 interface BottomSheetProps {
-  children: React.ReactNode;
+  children: React.ReactNode | ((isDesktopExpanded: boolean) => React.ReactNode);
   headerContent?: React.ReactNode;
   totalCount: number;
 }
@@ -81,9 +81,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
 
           {/* Scrollable Listings / Results */}
           <div className="flex-1 overflow-y-auto p-4">
-            <div className={isDesktopExpanded ? "grid grid-cols-2 xl:grid-cols-3 gap-4" : "space-y-3"}>
-              {children}
-            </div>
+            {typeof children === "function" ? children(isDesktopExpanded) : children}
           </div>
         </div>
       )}
@@ -152,7 +150,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
 
           {/* Listings Scroll Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 pb-24">
-            {children}
+            {typeof children === "function" ? children(false) : children}
           </div>
         </motion.div>
       </div>

@@ -252,65 +252,74 @@ export default function App() {
                 </div>
               }
             >
-              {/* Listings Stream */}
-              {isLoading && !displayedPgs.length ? (
-                <div className="space-y-3 p-2">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-2xl p-4 border border-[#E7E5E4] animate-pulse flex flex-col gap-3"
-                    >
-                      <div className="w-full aspect-16/10 bg-[#E7E5E4] rounded-xl" />
-                      <div className="space-y-2">
-                        <div className="h-4 bg-[#E7E5E4] rounded w-2/3" />
-                        <div className="h-3 bg-[#E7E5E4] rounded w-1/2" />
+              {(isDesktopExpanded) =>
+                isLoading && !displayedPgs.length ? (
+                  <div className="space-y-3 p-2">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="bg-white rounded-2xl p-4 border border-[#E7E5E4] animate-pulse flex flex-col gap-3"
+                      >
+                        <div className="w-full aspect-16/10 bg-[#E7E5E4] rounded-xl" />
+                        <div className="space-y-2">
+                          <div className="h-4 bg-[#E7E5E4] rounded w-2/3" />
+                          <div className="h-3 bg-[#E7E5E4] rounded w-1/2" />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : isError ? (
-                <div className="p-6 text-center bg-white rounded-xl border border-red-200">
-                  <p className="text-sm font-semibold text-red-600">
-                    Failed to fetch commute zone
-                  </p>
-                  <p className="text-xs text-[#78716C] mt-1">
-                    {(error as Error)?.message || "Please check your network and try again."}
-                  </p>
-                </div>
-              ) : displayedPgs.length === 0 ? (
-                <div className="p-6 text-center bg-white rounded-xl border border-[#E7E5E4] space-y-2">
-                  <Info className="w-8 h-8 text-[#D9532F] mx-auto opacity-70" />
-                  <h4 className="text-sm font-bold text-[#1C1917]">
-                    {showOnlySaved
-                      ? "No saved PGs in this commute zone"
-                      : `No PGs found within ${maxMinutes} minutes`}
-                  </h4>
-                  <p className="text-xs text-[#78716C] max-w-xs mx-auto">
-                    {showOnlySaved
-                      ? "Tap the heart icon on any PG card to save it to your shortlist."
-                      : "Try sliding your commute time to 25 or 30 minutes, or adjust your budget filters."}
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3.5">
-                  <div className="flex items-center justify-between text-[11px] text-[#78716C] px-1 font-medium">
-                    <span>
-                      {showOnlySaved ? "Saved PGs" : "Sorted by fastest commute"}
-                    </span>
-                    <span>{displayedPgs.length} properties</span>
+                    ))}
                   </div>
+                ) : isError ? (
+                  <div className="p-6 text-center bg-white rounded-xl border border-red-200">
+                    <p className="text-sm font-semibold text-red-600">
+                      Failed to fetch commute zone
+                    </p>
+                    <p className="text-xs text-[#78716C] mt-1">
+                      {(error as Error)?.message || "Please check your network and try again."}
+                    </p>
+                  </div>
+                ) : displayedPgs.length === 0 ? (
+                  <div className="p-6 text-center bg-white rounded-xl border border-[#E7E5E4] space-y-2">
+                    <Info className="w-8 h-8 text-[#D9532F] mx-auto opacity-70" />
+                    <h4 className="text-sm font-bold text-[#1C1917]">
+                      {showOnlySaved
+                        ? "No saved PGs in this commute zone"
+                        : `No PGs found within ${maxMinutes} minutes`}
+                    </h4>
+                    <p className="text-xs text-[#78716C] max-w-xs mx-auto">
+                      {showOnlySaved
+                        ? "Tap the heart icon on any PG card to save it to your shortlist."
+                        : "Try sliding your commute time to 25 or 30 minutes, or adjust your budget filters."}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3.5">
+                    <div className="flex items-center justify-between text-[11px] text-[#78716C] px-1 font-medium">
+                      <span>
+                        {showOnlySaved ? "Saved PGs" : "Sorted by fastest commute"}
+                      </span>
+                      <span>{displayedPgs.length} properties</span>
+                    </div>
 
-                  {displayedPgs.map((pg) => (
-                    <PGCard
-                      key={pg.id}
-                      pg={pg}
-                      isSelected={selectedPgId === pg.id}
-                      onSelect={() => setSelectedPgId(pg.id)}
-                      onOpenDetails={() => setInspectingPgId(pg.id)}
-                    />
-                  ))}
-                </div>
-              )}
+                    <div
+                      className={
+                        isDesktopExpanded
+                          ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+                          : "space-y-3.5"
+                      }
+                    >
+                      {displayedPgs.map((pg) => (
+                        <PGCard
+                          key={pg.id}
+                          pg={pg}
+                          isSelected={selectedPgId === pg.id}
+                          onSelect={() => setSelectedPgId(pg.id)}
+                          onOpenDetails={() => setInspectingPgId(pg.id)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
             </BottomSheet>
 
             {/* Filter Modal */}
