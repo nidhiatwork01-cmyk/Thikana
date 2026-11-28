@@ -52,7 +52,7 @@ export const BuddyCard: React.FC<BuddyCardProps> = ({ buddy, onRequestHelp }) =>
           {/* Fee Pill */}
           <div className="text-right shrink-0">
             <span className="text-base font-extrabold font-display text-[#0F172A]">
-              â‚¹{buddy.hourlyFee}
+              ₹{buddy.hourlyFee}
             </span>
             <span className="text-[11px] text-[#64748B] block font-normal">/help session</span>
           </div>
@@ -96,7 +96,7 @@ export const BuddyCard: React.FC<BuddyCardProps> = ({ buddy, onRequestHelp }) =>
       {/* Footer Actions */}
       <div className="pt-3 border-t border-[#F1F5F9] flex items-center justify-between gap-2">
         <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md flex items-center gap-1">
-          <span>ðŸ›¡ï¸</span> Declared Non-Broker
+          <span>🛡️</span> Declared Non-Broker
         </span>
 
         <button

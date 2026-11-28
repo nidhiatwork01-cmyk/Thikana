@@ -165,7 +165,7 @@ export const HelpRequestModal: React.FC<HelpRequestModalProps> = ({
             {/* 3. Budget */}
             <div>
               <label className="block font-bold text-[#64748B] uppercase tracking-wider mb-1.5">
-                Your Monthly PG Budget (â‚¹)
+                Your Monthly PG Budget (₹)
               </label>
               <input
                 type="number"
@@ -194,7 +194,7 @@ export const HelpRequestModal: React.FC<HelpRequestModalProps> = ({
             <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 space-y-1.5">
               <div className="flex items-center gap-1.5 font-bold text-xs">
                 <ShieldCheck className="w-4 h-4 text-emerald-700" />
-                <span>Fair Helper Fee Agreement: â‚¹{buddy.hourlyFee}</span>
+                <span>Fair Helper Fee Agreement: ₹{buddy.hourlyFee}</span>
               </div>
               <p className="text-[11px] leading-relaxed text-emerald-800">
                 You pay this nominal token fee directly to your buddy via UPI only after your session is completed. Thikana takes zero cut. Never pay any advance deposit before meeting.
@@ -215,7 +215,7 @@ export const HelpRequestModal: React.FC<HelpRequestModalProps> = ({
                 disabled={isSubmitting}
                 className="flex-1 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs shadow-xs transition-colors"
               >
-                {isSubmitting ? "Sending Request..." : `Send Request (â‚¹${buddy.hourlyFee})`}
+                {isSubmitting ? "Sending Request..." : `Send Request (₹${buddy.hourlyFee})`}
               </button>
             </div>
           </form>

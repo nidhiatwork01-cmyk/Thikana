@@ -285,7 +285,7 @@ export const DepositShieldView: React.FC = () => {
                       type="text"
                       value={tenancyDetails.depositAmount}
                       onChange={(e) => setTenancyDetails({ ...tenancyDetails, depositAmount: e.target.value })}
-                      placeholder="Deposit (â‚¹)"
+                      placeholder="Deposit (₹)"
                       className="px-3 py-1.5 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC]"
                     />
                     <input
@@ -318,7 +318,7 @@ export const DepositShieldView: React.FC = () => {
                     </div>
                     <div>
                       <span className="text-[11px] text-[#64748B]">Security Deposit</span>
-                      <p className="font-bold text-[#4F46E5] text-sm">â‚¹{tenancyDetails.depositAmount}</p>
+                      <p className="font-bold text-[#4F46E5] text-sm">₹{tenancyDetails.depositAmount}</p>
                       <p className="text-[11px] text-emerald-600">Shield Protected</p>
                     </div>
                     <div>
@@ -373,7 +373,7 @@ export const DepositShieldView: React.FC = () => {
                           </p>
                           {item.fileName && (
                             <p className="text-[10px] text-emerald-700 font-medium pl-1">
-                              ðŸ“¸ {item.fileName} hashed at {item.hashedAt}
+                              📸 {item.fileName} hashed at {item.hashedAt}
                             </p>
                           )}
                         </div>
@@ -392,10 +392,10 @@ export const DepositShieldView: React.FC = () => {
                           }`}
                         >
                           {item.status === "GOOD"
-                            ? "âœ“ Pre-Existing OK"
+                            ? "✓ Pre-Existing OK"
                             : item.status === "DAMAGED"
-                            ? "âš ï¸ Pre-Existing Damaged"
-                            : "ðŸ”§ Needs Repair"}
+                            ? "⚠️ Pre-Existing Damaged"
+                            : "🔧 Needs Repair"}
                         </button>
 
                         <button
@@ -450,7 +450,7 @@ export const DepositShieldView: React.FC = () => {
 
                 <div className="p-4 rounded-2xl bg-stone-950 text-emerald-400 font-mono text-xs space-y-2 overflow-x-auto">
                   <p className="text-stone-400 text-[11px] font-sans">
-                    // Cryptographic Evidence Ledger â€” Stored on Thikana Vault
+                    // Cryptographic Evidence Ledger — Stored on Thikana Vault
                   </p>
                   {checklist.map((item, idx) => (
                     <div key={item.id} className="leading-relaxed">
@@ -470,7 +470,7 @@ export const DepositShieldView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      const auditDoc = `# THIKANA DEPOSIT SHIELD â€” MOVE-IN AUDIT CERTIFICATE
+                      const auditDoc = `# THIKANA DEPOSIT SHIELD — MOVE-IN AUDIT CERTIFICATE
 Certificate ID: THK-HYD-2026-9481
 Timestamp: ${tenancyDetails.moveInDate}T10:00:00+05:30
 Tenant: ${tenancyDetails.tenantName}
@@ -533,11 +533,11 @@ Date: 25-Nov-2026
 To: ${tenancyDetails.ownerName} (${tenancyDetails.pgName})
 
 Dear Sir/Madam,
-This is formal notice demanding immediate refund of security deposit amount of â‚¹${tenancyDetails.depositAmount} for Room ${tenancyDetails.roomNo}.
+This is formal notice demanding immediate refund of security deposit amount of ₹${tenancyDetails.depositAmount} for Room ${tenancyDetails.roomNo}.
 
 As recorded under Thikana Deposit Shield Audit (Certificate: THK-HYD-2026-9481), all property conditions and pre-existing items were cryptographically timestamped upon move-in on ${tenancyDetails.moveInDate}. No unauthorized deductions may be applied under the Telangana Tenancy Framework.
 
-Please remit the full refund of â‚¹${tenancyDetails.depositAmount} via UPI within 7 business days.
+Please remit the full refund of ₹${tenancyDetails.depositAmount} via UPI within 7 business days.
 
 Sincerely,
 ${tenancyDetails.tenantName}`;
@@ -555,7 +555,7 @@ ${tenancyDetails.tenantName}`;
 
                     <a
                       href={`https://wa.me/?text=${encodeURIComponent(
-                        `Formal Legal Demand Notice for Security Deposit Refund (â‚¹${tenancyDetails.depositAmount}) - Room ${tenancyDetails.roomNo}, ${tenancyDetails.pgName}. Certified under Thikana Certificate THK-HYD-2026-9481.`
+                        `Formal Legal Demand Notice for Security Deposit Refund (₹${tenancyDetails.depositAmount}) - Room ${tenancyDetails.roomNo}, ${tenancyDetails.pgName}. Certified under Thikana Certificate THK-HYD-2026-9481.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -576,13 +576,13 @@ ${tenancyDetails.tenantName}`;
                     <strong>To:</strong> {tenancyDetails.ownerName}, Owner/Manager of {tenancyDetails.pgName}
                   </p>
                   <p>
-                    <strong>Subject:</strong> Formal Demand for Refund of Security Deposit (â‚¹{tenancyDetails.depositAmount}) upon Vacation of Room {tenancyDetails.roomNo}.
+                    <strong>Subject:</strong> Formal Demand for Refund of Security Deposit (₹{tenancyDetails.depositAmount}) upon Vacation of Room {tenancyDetails.roomNo}.
                   </p>
                   <p>
                     Pursuant to the rental agreement for Room {tenancyDetails.roomNo}, please be advised that the move-in condition audit was cryptographically sealed on {tenancyDetails.moveInDate} under Certificate ID <strong>THK-HYD-2026-9481</strong> with SHA-256 photo hash verification.
                   </p>
                   <p>
-                    All fixtures, electrical readings (1,420.5 kWh baseline), and wall conditions match the move-in inspection record. Under the tenancy regulations of Telangana, any withholding beyond 7 days of peaceful handover incurs statutory interest. Please remit the refund of â‚¹{tenancyDetails.depositAmount} immediately to prevent legal escalation to the Rent Tribunal.
+                    All fixtures, electrical readings (1,420.5 kWh baseline), and wall conditions match the move-in inspection record. Under the tenancy regulations of Telangana, any withholding beyond 7 days of peaceful handover incurs statutory interest. Please remit the refund of ₹{tenancyDetails.depositAmount} immediately to prevent legal escalation to the Rent Tribunal.
                   </p>
                 </div>
               </div>

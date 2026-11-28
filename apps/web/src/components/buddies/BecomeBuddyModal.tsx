@@ -256,13 +256,13 @@ export const BecomeBuddyModal: React.FC<BecomeBuddyModalProps> = ({ isOpen, onCl
             {/* Fee */}
             <div>
               <label className="block font-bold text-[#0F172A] mb-1.5">
-                Visit / Help Fee (â‚¹)
+                Visit / Help Fee (₹)
               </label>
               <div className="flex gap-2">
                 {[
                   { value: 0, label: "Free (Volunteer)" },
-                  { value: 150, label: "â‚¹150 / help" },
-                  { value: 250, label: "â‚¹250 / visit" },
+                  { value: 150, label: "₹150 / help" },
+                  { value: 250, label: "₹250 / visit" },
                 ].map((opt) => (
                   <button
                     key={opt.value}

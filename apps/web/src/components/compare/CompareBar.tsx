@@ -20,7 +20,7 @@ export const CompareBar: React.FC<CompareBarProps> = ({ allPgs }) => {
     .map((id) => allPgs.find((p) => p.id === id))
     .filter(Boolean) as CommutePGListing[];
 
-  const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
+  const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
 
   return (
     <>
@@ -54,7 +54,7 @@ export const CompareBar: React.FC<CompareBarProps> = ({ allPgs }) => {
                 onClick={() => toggleCompare(pg.id)}
                 className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-red-600 text-white flex items-center justify-center text-[9px]"
               >
-                Ã—
+                ×
               </button>
             </div>
           ))}
@@ -154,7 +154,7 @@ export const CompareBar: React.FC<CompareBarProps> = ({ allPgs }) => {
                     <td className="p-3 font-bold text-[#0F172A]">Starting Rent</td>
                     {comparedPgs.map((pg) => (
                       <td key={pg.id} className="p-3 text-sm font-extrabold font-display text-[#0F172A]">
-                        â‚¹{pg.minRent.toLocaleString()}/mo
+                        ₹{pg.minRent.toLocaleString()}/mo
                       </td>
                     ))}
                   </tr>
@@ -164,7 +164,7 @@ export const CompareBar: React.FC<CompareBarProps> = ({ allPgs }) => {
                     <td className="p-3 font-bold text-[#0F172A]">Security Deposit</td>
                     {comparedPgs.map((pg) => (
                       <td key={pg.id} className="p-3 font-semibold text-[#0F172A]">
-                        â‚¹{pg.depositAmount.toLocaleString()}
+                        ₹{pg.depositAmount.toLocaleString()}
                       </td>
                     ))}
                   </tr>

@@ -34,7 +34,7 @@ export const PGCard: React.FC<PGCardProps> = ({
   const inCompare = isInCompare(pg.id);
 
   const images = pg.images.length > 0 ? pg.images : [pg.coverImageUrl || ""];
-  const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
+  const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -115,7 +115,7 @@ export const PGCard: React.FC<PGCardProps> = ({
         <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10">
           <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide bg-black/65 text-white backdrop-blur-md">
             {pg.gender === "MEN" ? "Boys" : pg.gender === "WOMEN" ? "Girls" : "Co-Living"}
-            {pg.isVerified ? " Â· Verified" : ""}
+            {pg.isVerified ? " · Verified" : ""}
           </span>
         </div>
 
@@ -176,9 +176,9 @@ export const PGCard: React.FC<PGCardProps> = ({
           {/* Review Bracket */}
           <div className="pt-1">
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50/90 border border-amber-200/70 text-[11px] font-bold text-amber-800">
-              <span>â˜… {pg.avgRating ? pg.avgRating : "New"}</span>
+              <span>★ {pg.avgRating ? pg.avgRating : "New"}</span>
               <span className="font-normal text-amber-700/80">
-                {pg.reviewCount ? `(${pg.reviewCount})` : "Â· Unrated"}
+                {pg.reviewCount ? `(${pg.reviewCount})` : "· Unrated"}
               </span>
             </span>
           </div>
@@ -190,9 +190,9 @@ export const PGCard: React.FC<PGCardProps> = ({
         <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
           <div className="flex items-baseline gap-0.5">
             <span className="text-base font-black font-display text-[#0F172A] tracking-tight">
-              â‚¹{(pg.minRent / 1000).toFixed(1).replace(".0", "")}k
+              ₹{(pg.minRent / 1000).toFixed(1).replace(".0", "")}k
               {pg.maxRent && pg.maxRent > pg.minRent
-                ? `â€“${(pg.maxRent / 1000).toFixed(1).replace(".0", "")}k`
+                ? `–${(pg.maxRent / 1000).toFixed(1).replace(".0", "")}k`
                 : ""}
             </span>
             <span className="text-[11px] text-[#64748B] font-medium">/mo</span>

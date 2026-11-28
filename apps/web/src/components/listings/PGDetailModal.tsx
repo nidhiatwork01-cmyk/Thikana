@@ -203,7 +203,7 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
                                 : "4+ Sharing"}
                             </span>
                             <div className="text-base font-black font-display text-[#0F172A] mt-1">
-                              â‚¹{Number(room.rentPerMonth).toLocaleString()}
+                              ₹{Number(room.rentPerMonth).toLocaleString()}
                               <span className="text-[10px] text-[#64748B] font-normal"> /mo</span>
                             </div>
                           </div>
@@ -224,14 +224,14 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
                     <div>
                       <span className="text-[11px] text-[#64748B]">Security Deposit</span>
                       <p className="text-sm font-bold text-[#0F172A]">
-                        â‚¹{Number(pg.depositAmount).toLocaleString()}
+                        ₹{Number(pg.depositAmount).toLocaleString()}
                       </p>
                     </div>
                     <div>
                       <span className="text-[11px] text-[#64748B]">Monthly Maintenance</span>
                       <p className="text-sm font-bold text-[#0F172A]">
                         {Number(pg.maintenanceFee) > 0
-                          ? `â‚¹${Number(pg.maintenanceFee).toLocaleString()}`
+                          ? `₹${Number(pg.maintenanceFee).toLocaleString()}`
                           : "Included in Rent"}
                       </p>
                     </div>
@@ -333,7 +333,7 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
                                 {rev.user?.fullName || "Thikana Seeker"}
                               </span>
                               <span className="text-amber-600 font-bold">
-                                {"â˜…".repeat(rev.rating)} ({rev.rating}/5)
+                                {"★".repeat(rev.rating)} ({rev.rating}/5)
                               </span>
                             </div>
                             <p className="text-[#64748B]">{rev.comment}</p>
@@ -373,7 +373,7 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
                                 star <= reviewRating ? "text-amber-500" : "text-stone-300"
                               }`}
                             >
-                              â˜…
+                              ★
                             </button>
                           ))}
                         </div>
@@ -417,7 +417,7 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
               <div>
                 <span className="text-[11px] text-[#64748B]">Starting from</span>
                 <div className="text-lg font-black font-display text-[#0F172A]">
-                  â‚¹{Number(pg.minRent).toLocaleString()}
+                  ₹{Number(pg.minRent).toLocaleString()}
                   <span className="text-xs font-normal text-[#64748B]">/mo</span>
                 </div>
               </div>

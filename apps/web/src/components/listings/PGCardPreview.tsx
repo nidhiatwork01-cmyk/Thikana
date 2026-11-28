@@ -16,7 +16,7 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
 }) => {
   const { setHoveredPgId, travelMode } = useCommuteStore();
 
-  const modeEmoji = travelMode === "bike" ? "ðŸï¸" : travelMode === "car" ? "ðŸš—" : "ðŸš‡";
+  const modeEmoji = travelMode === "bike" ? "🏍️" : travelMode === "car" ? "🚗" : "🚇";
 
   return (
     <div
@@ -59,7 +59,7 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
               <span>{modeEmoji}</span>
               <span>{pg.estimatedCommuteMinutes} min commute</span>
             </span>
-            <span className="text-[11px] text-[#64748B]">â€¢ {pg.distanceKm} km</span>
+            <span className="text-[11px] text-[#64748B]">• {pg.distanceKm} km</span>
           </div>
 
           {/* Title */}
@@ -81,7 +81,7 @@ export const PGCardPreview: React.FC<PGCardPreviewProps> = ({
         <div className="flex items-baseline justify-between mt-2 pt-2 border-t border-[#F1F5F9]">
           <div>
             <span className="text-base font-extrabold font-display text-[#0F172A]">
-              â‚¹{pg.minRent.toLocaleString()}
+              ₹{pg.minRent.toLocaleString()}
             </span>
             <span className="text-[11px] text-[#64748B] font-normal"> /mo</span>
           </div>

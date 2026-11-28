@@ -117,7 +117,7 @@ export default function App() {
         {/* Brand */}
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#4338CA] flex items-center justify-center text-white shadow-sm font-bold text-lg font-display">
-            à¤ 
+            ठ
           </div>
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-xl tracking-tight text-[#0F172A] font-display">
@@ -144,7 +144,7 @@ export default function App() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 md:px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   active
                     ? "bg-white text-[#0F172A] shadow-xs"
                     : "text-[#64748B] hover:text-[#0F172A]"

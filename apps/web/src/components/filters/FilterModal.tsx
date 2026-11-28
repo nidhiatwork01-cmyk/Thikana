@@ -92,7 +92,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => 
                   Monthly Budget Limit
                 </label>
                 <span className="text-sm font-extrabold text-[#4F46E5] font-display">
-                  {maxBudget ? `Up to â‚¹${maxBudget.toLocaleString()}` : "Any Budget"}
+                  {maxBudget ? `Up to ₹${maxBudget.toLocaleString()}` : "Any Budget"}
                 </span>
               </div>
 
@@ -111,9 +111,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => 
               </Slider.Root>
 
               <div className="flex justify-between text-[11px] text-[#64748B] mt-2">
-                <span>â‚¹6,000</span>
-                <span>â‚¹15,000</span>
-                <span>â‚¹30,000+</span>
+                <span>₹6,000</span>
+                <span>₹15,000</span>
+                <span>₹30,000+</span>
               </div>
             </div>
 
@@ -221,10 +221,10 @@ export const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose }) => 
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: "commute", label: "âš¡ Fastest Commute Time" },
-                  { id: "price", label: "ðŸ’° Lowest Price" },
-                  { id: "newest", label: "âœ¨ Newest Added" },
-                  { id: "rating", label: "â­ Top Rated" },
+                  { id: "commute", label: "⚡ Fastest Commute Time" },
+                  { id: "price", label: "💰 Lowest Price" },
+                  { id: "newest", label: "✨ Newest Added" },
+                  { id: "rating", label: "⭐ Top Rated" },
                 ].map((item) => {
                   const isSelected = sortBy === item.id;
                   return (

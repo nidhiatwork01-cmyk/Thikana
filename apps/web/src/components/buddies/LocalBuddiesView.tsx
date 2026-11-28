@@ -105,7 +105,7 @@ export const LocalBuddiesView: React.FC = () => {
                   Local Buddies
                 </h1>
                 <p className="text-[11px] text-[#64748B]">
-                  Real Hyderabad residents Â· Zero brokers
+                  Real Hyderabad residents · Zero brokers
                 </p>
               </div>
             </div>
@@ -251,7 +251,7 @@ export const LocalBuddiesView: React.FC = () => {
               ) : myRequests.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-3xl border border-[#E2E8F0] p-8 max-w-md mx-auto space-y-3">
                   <div className="w-12 h-12 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto text-xl font-bold">
-                    ðŸ’¬
+                    💬
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">No Active Help Requests</h3>
                   <p className="text-xs text-[#64748B]">
@@ -291,11 +291,11 @@ export const LocalBuddiesView: React.FC = () => {
                             >
                               {req.status}
                             </span>
-                            <span className="text-xs text-[#64748B]">â€¢ {req.channel}</span>
+                            <span className="text-xs text-[#64748B]">• {req.channel}</span>
                           </div>
 
                           <span className="text-xs font-bold text-[#0F172A]">
-                            Agreed Fee: â‚¹{req.agreedFee} (Off-Platform UPI)
+                            Agreed Fee: ₹{req.agreedFee} (Off-Platform UPI)
                           </span>
                         </div>
 
@@ -405,7 +405,7 @@ export const LocalBuddiesView: React.FC = () => {
                                 onClick={() => setReviewRequestId(req.id)}
                                 className="px-3 py-1.5 rounded-lg bg-[#4F46E5] text-white font-bold text-xs"
                               >
-                                Leave Review â­
+                                Leave Review ⭐
                               </button>
                             )}
                           </div>
@@ -455,7 +455,7 @@ export const LocalBuddiesView: React.FC = () => {
                   onClick={() => setReviewRating(star)}
                   className="text-2xl"
                 >
-                  {star <= reviewRating ? "â­" : "â˜†"}
+                  {star <= reviewRating ? "⭐" : "☆"}
                 </button>
               ))}
             </div>

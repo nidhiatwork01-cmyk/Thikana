@@ -327,7 +327,7 @@ export const HuntCopilotView: React.FC = () => {
               : "bg-red-900 text-white border-red-700"
           }`}
         >
-          <span>{notification.type === "success" ? "âœ“" : "âš "}</span>
+          <span>{notification.type === "success" ? "✓" : "⚠"}</span>
           <span>{notification.message}</span>
         </div>
       )}
@@ -347,7 +347,7 @@ export const HuntCopilotView: React.FC = () => {
               ) : items.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-3xl border border-[#E2E8F0] p-8 max-w-md mx-auto space-y-3 shadow-xs">
                   <div className="w-12 h-12 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto text-xl font-bold">
-                    ðŸ§­
+                    🧭
                   </div>
                   <h3 className="text-base font-bold text-[#0F172A]">Your Hunt Workspace is Empty</h3>
                   <p className="text-xs text-[#64748B] leading-relaxed">
@@ -401,7 +401,7 @@ export const HuntCopilotView: React.FC = () => {
 
                             {item.calculatedScore != null && (
                               <span className="px-2 py-0.5 rounded-full text-[11px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                â­ {item.calculatedScore}/100
+                                ⭐ {item.calculatedScore}/100
                               </span>
                             )}
                           </div>
@@ -417,7 +417,7 @@ export const HuntCopilotView: React.FC = () => {
                           <div className="mt-3 flex items-baseline justify-between pt-2 border-t border-[#F1F5F9]">
                             <div>
                               <span className="text-base font-extrabold font-display text-[#0F172A]">
-                                â‚¹{item.rent.toLocaleString()}
+                                ₹{item.rent.toLocaleString()}
                               </span>
                               <span className="text-[11px] text-[#64748B]">/mo</span>
                             </div>
@@ -438,13 +438,13 @@ export const HuntCopilotView: React.FC = () => {
                           <div className="flex justify-between text-[#64748B]">
                             <span>Water Pressure:</span>
                             <span className="font-semibold text-[#0F172A]">
-                              {"â˜…".repeat(item.checklist?.waterPressure || 3)} ({item.checklist?.waterPressure || 3}/5)
+                              {"★".repeat(item.checklist?.waterPressure || 3)} ({item.checklist?.waterPressure || 3}/5)
                             </span>
                           </div>
                           <div className="flex justify-between text-[#64748B]">
                             <span>Clean Smell:</span>
                             <span className="font-semibold text-[#0F172A]">
-                              {item.checklist?.waterSmellClean ? "âœ… Yes" : "âŒ No"}
+                              {item.checklist?.waterSmellClean ? "✅ Yes" : "❌ No"}
                             </span>
                           </div>
                           <div className="flex justify-between text-[#64748B]">
@@ -555,7 +555,7 @@ export const HuntCopilotView: React.FC = () => {
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                               <div>
                                 <span className="text-xs font-extrabold text-[#4F46E5]">
-                                  Stop {idx + 1}: {stop.arrivalTime} â€“ {stop.departureTime}
+                                  Stop {idx + 1}: {stop.arrivalTime} – {stop.departureTime}
                                 </span>
                                 <h4 className="text-sm font-bold text-[#0F172A]">{stop.name}</h4>
                               </div>
@@ -575,7 +575,7 @@ export const HuntCopilotView: React.FC = () => {
 
                             {leg && (
                               <p className="text-xs text-[#64748B] bg-[#F8FAFC] p-2 rounded-lg border border-[#E2E8F0]">
-                                ðŸï¸ Travel Leg: ~{leg.travelMinutes} mins ({leg.distanceKm} km from {leg.fromName.split(",")[0]})
+                                🏍️ Travel Leg: ~{leg.travelMinutes} mins ({leg.distanceKm} km from {leg.fromName.split(",")[0]})
                               </p>
                             )}
                           </div>
@@ -685,7 +685,7 @@ export const HuntCopilotView: React.FC = () => {
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-[11px] font-bold text-[#64748B] uppercase mb-1">
-                    Monthly Rent (â‚¹) *
+                    Monthly Rent (₹) *
                   </label>
                   <input
                     type="number"
@@ -760,7 +760,7 @@ export const HuntCopilotView: React.FC = () => {
                 onClick={() => setInspectingItem(null)}
                 className="text-stone-400 hover:text-[#0F172A]"
               >
-                âœ•
+                ✕
               </button>
             </div>
 
@@ -911,7 +911,7 @@ export const HuntCopilotView: React.FC = () => {
           <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-[#E2E8F0] space-y-4 animate-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-3">
               <div className="flex items-center gap-2">
-                <span className="p-2 rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">â­</span>
+                <span className="p-2 rounded-xl bg-amber-50 text-amber-600 text-lg font-bold">⭐</span>
                 <div>
                   <h3 className="text-base font-extrabold text-[#0F172A] font-display">Candidate Score</h3>
                   <p className="text-[11px] text-[#64748B] truncate max-w-[200px]">{scoreResult.item?.name}</p>
@@ -922,7 +922,7 @@ export const HuntCopilotView: React.FC = () => {
                 onClick={() => setScoreResult(null)}
                 className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center text-xs font-bold transition-colors"
               >
-                âœ•
+                ✕
               </button>
             </div>
 
@@ -942,10 +942,10 @@ export const HuntCopilotView: React.FC = () => {
               <span className="text-lg font-bold text-stone-400">/100</span>
               <p className="text-xs font-bold mt-1 text-[#0F172A]">
                 {scoreResult.score >= 80
-                  ? "ðŸŒŸ Excellent Match for your commute & budget"
+                  ? "🌟 Excellent Match for your commute & budget"
                   : scoreResult.score >= 60
-                  ? "ðŸ‘ Balanced Option (Minor compromises)"
-                  : "âš ï¸ High Compromise (Re-evaluate requirements)"}
+                  ? "👍 Balanced Option (Minor compromises)"
+                  : "⚠️ High Compromise (Re-evaluate requirements)"}
               </p>
             </div>
 

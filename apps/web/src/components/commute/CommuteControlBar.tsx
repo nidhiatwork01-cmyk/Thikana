@@ -78,8 +78,8 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
             </div>
             <p className="text-[11px] text-[#64748B] flex items-center gap-1">
               <span>{maxMinutes} min</span>
-              <span>Â· {travelMode === "bike" ? "Bike" : travelMode === "car" ? "Car" : "Metro"}</span>
-              {isPeakHour && <span className="text-[#4F46E5] font-semibold">Â· Peak Traffic</span>}
+              <span>· {travelMode === "bike" ? "Bike" : travelMode === "car" ? "Car" : "Metro"}</span>
+              {isPeakHour && <span className="text-[#4F46E5] font-semibold">· Peak Traffic</span>}
             </p>
           </div>
         </div>

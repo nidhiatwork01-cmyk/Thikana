@@ -20,10 +20,10 @@ interface ChatModalProps {
 }
 
 const QUICK_PROMPTS = [
-  "ðŸ’§ Is water 24/7 or dependent on tankers in this area?",
-  "ðŸ² How is the food quality, taste, and hygiene in this PG?",
-  "âš¡ Is power backup included or charged separately per unit?",
-  "ðŸŽ¥ Could you do a quick in-person visit or video walkthrough?",
+  "💧 Is water 24/7 or dependent on tankers in this area?",
+  "🍲 How is the food quality, taste, and hygiene in this PG?",
+  "⚡ Is power backup included or charged separately per unit?",
+  "🎥 Could you do a quick in-person visit or video walkthrough?",
 ];
 
 export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, request }) => {
@@ -93,7 +93,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, request }
                       .join("")
                       .slice(0, 2)
                       .toUpperCase()
-                  : "ðŸ¤"}
+                  : "🤝"}
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -106,7 +106,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, request }
                 </div>
                 <p className="text-[11px] text-[#64748B] flex items-center gap-1">
                   <span>Target: {request.targetLocalities?.join(", ") || "Hyderabad"}</span>
-                  <span>â€¢ Fee: â‚¹{request.agreedFee} (Direct UPI)</span>
+                  <span>• Fee: ₹{request.agreedFee} (Direct UPI)</span>
                 </p>
               </div>
             </div>
@@ -150,11 +150,11 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, request }
             ) : messages.length === 0 ? (
               <div className="text-center py-10 space-y-2">
                 <div className="w-10 h-10 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center mx-auto text-sm font-bold">
-                  ðŸ’¬
+                  💬
                 </div>
                 <h4 className="text-xs font-bold text-[#0F172A]">No Messages Yet</h4>
                 <p className="text-[11px] text-[#64748B] max-w-xs mx-auto">
-                  Ask your buddy about ground reality â€” water supply, electricity metering, caretaker attitude, or food hygiene.
+                  Ask your buddy about ground reality — water supply, electricity metering, caretaker attitude, or food hygiene.
                 </p>
               </div>
             ) : (
@@ -176,7 +176,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose, request }
                       <div className="max-w-[85%] mb-1.5 p-2.5 rounded-2xl bg-red-50 border border-red-300 text-red-900 text-xs shadow-xs space-y-1 animate-pulse">
                         <div className="flex items-center gap-1.5 font-bold text-red-700">
                           <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
-                          <span>âš ï¸ SCAM ALERT FLAGGED</span>
+                          <span>⚠️ SCAM ALERT FLAGGED</span>
                         </div>
                         <p className="text-[11px] leading-tight">
                           This message mentions known rental fraud patterns (e.g., gate pass fees, QR code scams, or advance token before inspection). Genuine PGs in Hyderabad NEVER demand gate pass fees.
