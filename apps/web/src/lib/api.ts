@@ -379,3 +379,20 @@ export async function optInAsBuddy(payload: OptInBuddyPayload): Promise<any> {
   return json.data;
 }
 
+export async function submitPgReview(
+  pgId: string,
+  payload: { rating: number; comment: string; reviewerName?: string }
+): Promise<any> {
+  const res = await fetch(`${API_BASE}/pgs/${pgId}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || "Failed to submit review");
+  }
+  const json = await res.json();
+  return json.data;
+}
+

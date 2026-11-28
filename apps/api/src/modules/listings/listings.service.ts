@@ -282,6 +282,35 @@ export class ListingsService {
     return { id: pgId, deleted: true };
   }
 
+  async createReview(pgId: string, rating: number, comment: string, reviewerName?: string) {
+    const existing = await prisma.pGListing.findUnique({ where: { id: pgId } });
+    if (!existing || existing.isDeleted) {
+      throw new NotFoundError("PG listing not found");
+    }
+
+    let user = await prisma.user.findFirst({ where: { email: "seeker@gmail.com" } });
+    if (!user) {
+      user = await prisma.user.findFirst();
+    }
+    if (!user) {
+      throw new NotFoundError("No reviewer user found");
+    }
+
+    const review = await prisma.review.create({
+      data: {
+        pgId,
+        userId: user.id,
+        rating,
+        comment: reviewerName ? `${reviewerName}: ${comment}` : comment,
+      },
+      include: {
+        user: { select: { fullName: true } },
+      },
+    });
+
+    return review;
+  }
+
   private formatPgCard(pg: any) {
     return {
       id: pg.id,

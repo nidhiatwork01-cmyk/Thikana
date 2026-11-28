@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   X,
   MapPin,
@@ -14,8 +14,10 @@ import {
   Scale,
   Sparkles,
   Bed,
+  ExternalLink,
+  Star,
 } from "lucide-react";
-import { fetchPgDetails, PGDetailData } from "../../lib/api";
+import { fetchPgDetails, submitPgReview, PGDetailData } from "../../lib/api";
 import { useShortlistStore } from "../../store/shortlistStore";
 
 interface PGDetailModalProps {
@@ -24,8 +26,12 @@ interface PGDetailModalProps {
 }
 
 export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) => {
+  const queryClient = useQueryClient();
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [showPhone, setShowPhone] = useState(false);
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewerName, setReviewerName] = useState("");
 
   const { isShortlisted, toggleShortlist, isInCompare, toggleCompare } =
     useShortlistStore();
@@ -34,6 +40,17 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
     queryKey: ["pg-detail", pgId],
     queryFn: () => fetchPgDetails(pgId!),
     enabled: Boolean(pgId),
+  });
+
+  const reviewMutation = useMutation({
+    mutationFn: (payload: { rating: number; comment: string; reviewerName?: string }) =>
+      submitPgReview(pgId!, payload),
+    onSuccess: () => {
+      setReviewComment("");
+      setReviewerName("");
+      queryClient.invalidateQueries({ queryKey: ["pg-detail", pgId] });
+      queryClient.invalidateQueries({ queryKey: ["commute-search"] });
+    },
   });
 
   if (!pgId) return null;
@@ -266,6 +283,106 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
                         {pg.rulesNoticePeriod || "30 Days"}
                       </p>
                     </div>
+                  </div>
+
+                  {/* 6. Community Reviews & r/hyderabad Lookup */}
+                  <div className="space-y-3 pt-2 border-t border-[#F3F1EC]">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-xs font-bold text-[#1C1917] uppercase tracking-wider flex items-center gap-1.5">
+                        <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                        Community Reviews ({(pg as any).reviews?.length || 0})
+                      </h3>
+
+                      <a
+                        href={`https://www.reddit.com/r/hyderabad/search/?q=${encodeURIComponent(
+                          `${pg.title.split(" ").slice(0, 3).join(" ")} PG`
+                        )}&restrict_sr=1`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-[11px] font-bold flex items-center gap-1 transition-colors"
+                      >
+                        <span>Search r/hyderabad</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+
+                    {/* Existing Reviews */}
+                    {(pg as any).reviews?.length > 0 && (
+                      <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                        {(pg as any).reviews.map((rev: any) => (
+                          <div
+                            key={rev.id}
+                            className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E7E5E4] text-xs space-y-1"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-[#1C1917]">
+                                {rev.user?.fullName || "Thikana Seeker"}
+                              </span>
+                              <span className="text-amber-600 font-bold">
+                                {"★".repeat(rev.rating)} ({rev.rating}/5)
+                              </span>
+                            </div>
+                            <p className="text-[#78716C]">{rev.comment}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Inline Add Review Form */}
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (reviewComment.trim().length < 5) return;
+                        reviewMutation.mutate({
+                          rating: reviewRating,
+                          comment: reviewComment.trim(),
+                          reviewerName: reviewerName.trim() || undefined,
+                        });
+                      }}
+                      className="p-3 rounded-2xl bg-[#FAF9F6] border border-[#E7E5E4] space-y-2 text-xs"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <input
+                          type="text"
+                          value={reviewerName}
+                          onChange={(e) => setReviewerName(e.target.value)}
+                          placeholder="Your name (optional)"
+                          className="flex-1 px-2.5 py-1.5 rounded-lg border border-[#E7E5E4] bg-white focus:outline-none focus:border-[#D9532F]"
+                        />
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setReviewRating(star)}
+                              className={`text-base ${
+                                star <= reviewRating ? "text-amber-500" : "text-stone-300"
+                              }`}
+                            >
+                              ★
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          required
+                          minLength={5}
+                          value={reviewComment}
+                          onChange={(e) => setReviewComment(e.target.value)}
+                          placeholder="Share honest water, food, or deposit feedback..."
+                          className="flex-1 px-2.5 py-1.5 rounded-lg border border-[#E7E5E4] bg-white focus:outline-none focus:border-[#D9532F]"
+                        />
+                        <button
+                          type="submit"
+                          disabled={reviewMutation.isPending}
+                          className="px-3 py-1.5 rounded-lg bg-[#1C1917] hover:bg-stone-800 text-white font-bold disabled:opacity-50"
+                        >
+                          {reviewMutation.isPending ? "Saving..." : "Post"}
+                        </button>
+                      </div>
+                    </form>
                   </div>
 
                   {/* Safety Tip Alert */}

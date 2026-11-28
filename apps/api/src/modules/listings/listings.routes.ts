@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { z } from "zod";
 import { listingsService } from "./listings.service.js";
 import { pgFilterQuerySchema, createPgSchema, updatePgSchema } from "./listings.schema.js";
 import { authenticate, requireRole } from "../../middlewares/auth.js";
@@ -111,4 +112,34 @@ export async function listingsRoutes(app: FastifyInstance) {
       return reply.status(200).send(response);
     }
   );
+
+  // Add Community Review to a PG Listing
+  app.post("/:id/reviews", async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const body = z
+      .object({
+        rating: z.number().int().min(1).max(5),
+        comment: z.string().min(5, "Review must be at least 5 characters"),
+        reviewerName: z.string().optional(),
+      })
+      .parse(request.body);
+
+    const review = await listingsService.createReview(
+      id,
+      body.rating,
+      body.comment,
+      body.reviewerName
+    );
+
+    const response: ApiResponse<typeof review> = {
+      success: true,
+      data: review,
+      error: null,
+      meta: {
+        timestamp: new Date().toISOString(),
+        requestId: request.id,
+      },
+    };
+    return reply.status(201).send(response);
+  });
 }
