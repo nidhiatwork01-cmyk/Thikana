@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   ShieldCheck,
   Camera,
@@ -11,6 +11,7 @@ import {
   Copy,
   Check,
   Share2,
+  Edit3,
 } from "lucide-react";
 
 interface InspectionTask {
@@ -20,22 +21,35 @@ interface InspectionTask {
   status: "GOOD" | "DAMAGED" | "NEEDS_REPAIR" | "PENDING";
   hasPhoto: boolean;
   shaHash?: string;
+  photoPreviewUrl?: string;
+  fileName?: string;
+  hashedAt?: string;
   note?: string;
+}
+
+async function computeFileSha256(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 export const DepositShieldView: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<"audit" | "chain" | "legal">("audit");
   const [copied, setCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isEditingDetails, setIsEditingDetails] = useState(false);
+  const [activeUploadId, setActiveUploadId] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+    setTimeout(() => setToastMessage(null), 3500);
   };
 
-  const [tenancyDetails] = useState({
+  const [tenancyDetails, setTenancyDetails] = useState({
     tenantName: "Rohit Varma",
-    pgName: "Stanza Living Boston House, Madhapur",
+    pgName: "Live Well Luxury Coliving, Madhapur",
     roomNo: "304 (2-Sharing)",
     depositAmount: "24,000",
     monthlyRent: "12,000",
@@ -110,10 +124,55 @@ export const DepositShieldView: React.FC = () => {
     );
   };
 
+  const triggerPhotoUpload = (id: string) => {
+    setActiveUploadId(id);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    const targetId = activeUploadId;
+    e.target.value = "";
+    if (!file || !targetId) return;
+
+    try {
+      const hash = await computeFileSha256(file);
+      const previewUrl = URL.createObjectURL(file);
+      const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      setChecklist((prev) =>
+        prev.map((item) =>
+          item.id === targetId
+            ? {
+                ...item,
+                hasPhoto: true,
+                shaHash: hash,
+                photoPreviewUrl: previewUrl,
+                fileName: file.name,
+                hashedAt: timestamp,
+              }
+            : item
+        )
+      );
+
+      showToast(`Real SHA-256 generated: ${hash.slice(0, 12)}...`);
+    } catch {
+      showToast("Failed to hash file in browser");
+    }
+  };
+
   const completedCount = checklist.filter((i) => i.status !== "PENDING").length;
 
   return (
     <div className="h-full bg-[#FAF9F6] flex flex-col overflow-hidden">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleFileSelected}
+        className="hidden"
+      />
       {/* ------------------------------------------------------------- */}
       {/* Header Banner                                                 */}
       {/* ------------------------------------------------------------- */}
@@ -191,27 +250,89 @@ export const DepositShieldView: React.FC = () => {
           {activeSubTab === "audit" && (
             <div className="space-y-4">
               {/* Quick Tenancy Summary Card */}
-              <div className="bg-white rounded-2xl border border-[#E7E5E4] p-4 sm:p-5 shadow-xs grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                <div>
-                  <span className="text-[11px] text-[#78716C]">Property & Room</span>
-                  <p className="font-bold text-[#1C1917] truncate">{tenancyDetails.pgName}</p>
-                  <p className="text-[11px] text-[#78716C]">{tenancyDetails.roomNo}</p>
+              <div className="bg-white rounded-2xl border border-[#E7E5E4] p-4 sm:p-5 shadow-xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#78716C]">
+                    Active Tenancy Record
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingDetails(!isEditingDetails)}
+                    className="text-xs font-bold text-[#D9532F] hover:underline flex items-center gap-1"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    <span>{isEditingDetails ? "Done Editing" : "Edit Details"}</span>
+                  </button>
                 </div>
-                <div>
-                  <span className="text-[11px] text-[#78716C]">Security Deposit</span>
-                  <p className="font-bold text-[#D9532F] text-sm">₹{tenancyDetails.depositAmount}</p>
-                  <p className="text-[11px] text-emerald-600">Shield Protected</p>
-                </div>
-                <div>
-                  <span className="text-[11px] text-[#78716C]">Move-In Date</span>
-                  <p className="font-bold text-[#1C1917]">{tenancyDetails.moveInDate}</p>
-                  <p className="text-[11px] text-[#78716C]">Notice: 30 Days</p>
-                </div>
-                <div>
-                  <span className="text-[11px] text-[#78716C]">Owner / Caretaker</span>
-                  <p className="font-bold text-[#1C1917]">{tenancyDetails.ownerName}</p>
-                  <p className="text-[11px] text-[#78716C]">{tenancyDetails.ownerPhone}</p>
-                </div>
+
+                {isEditingDetails ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+                    <input
+                      type="text"
+                      value={tenancyDetails.pgName}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, pgName: e.target.value })}
+                      placeholder="PG Name"
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                    <input
+                      type="text"
+                      value={tenancyDetails.roomNo}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, roomNo: e.target.value })}
+                      placeholder="Room No."
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                    <input
+                      type="text"
+                      value={tenancyDetails.depositAmount}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, depositAmount: e.target.value })}
+                      placeholder="Deposit (₹)"
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                    <input
+                      type="text"
+                      value={tenancyDetails.tenantName}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, tenantName: e.target.value })}
+                      placeholder="Your Name"
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                    <input
+                      type="text"
+                      value={tenancyDetails.ownerName}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, ownerName: e.target.value })}
+                      placeholder="Owner Name"
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                    <input
+                      type="date"
+                      value={tenancyDetails.moveInDate}
+                      onChange={(e) => setTenancyDetails({ ...tenancyDetails, moveInDate: e.target.value })}
+                      className="px-3 py-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6]"
+                    />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div>
+                      <span className="text-[11px] text-[#78716C]">Property & Room</span>
+                      <p className="font-bold text-[#1C1917] truncate">{tenancyDetails.pgName}</p>
+                      <p className="text-[11px] text-[#78716C]">{tenancyDetails.roomNo}</p>
+                    </div>
+                    <div>
+                      <span className="text-[11px] text-[#78716C]">Security Deposit</span>
+                      <p className="font-bold text-[#D9532F] text-sm">₹{tenancyDetails.depositAmount}</p>
+                      <p className="text-[11px] text-emerald-600">Shield Protected</p>
+                    </div>
+                    <div>
+                      <span className="text-[11px] text-[#78716C]">Move-In Date</span>
+                      <p className="font-bold text-[#1C1917]">{tenancyDetails.moveInDate}</p>
+                      <p className="text-[11px] text-[#78716C]">Notice: 30 Days</p>
+                    </div>
+                    <div>
+                      <span className="text-[11px] text-[#78716C]">Owner / Caretaker</span>
+                      <p className="font-bold text-[#1C1917]">{tenancyDetails.ownerName}</p>
+                      <p className="text-[11px] text-[#78716C]">{tenancyDetails.ownerPhone}</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Checklist Items */}
@@ -221,7 +342,7 @@ export const DepositShieldView: React.FC = () => {
                     <span>Move-In Condition Audit Items</span>
                     <span className="text-xs text-[#78716C]">({completedCount} of {checklist.length} verified)</span>
                   </h3>
-                  <span className="text-[11px] text-[#78716C]">Click tag to toggle status</span>
+                  <span className="text-[11px] text-[#78716C]">Upload photo to compute live SHA-256</span>
                 </div>
 
                 <div className="space-y-2.5">
@@ -230,21 +351,35 @@ export const DepositShieldView: React.FC = () => {
                       key={item.id}
                       className="bg-white rounded-2xl border border-[#E7E5E4] p-4 shadow-xs hover:border-[#D9532F]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FAF9F6] border border-[#E7E5E4] text-[#78716C]">
-                            {item.category}
-                          </span>
-                          <span className="text-xs font-bold text-[#1C1917]">
-                            {item.item}
-                          </span>
+                      <div className="flex items-start gap-3">
+                        {item.photoPreviewUrl && (
+                          <img
+                            src={item.photoPreviewUrl}
+                            alt={item.category}
+                            className="w-12 h-12 rounded-xl object-cover border border-[#E7E5E4] shrink-0"
+                          />
+                        )}
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FAF9F6] border border-[#E7E5E4] text-[#78716C]">
+                              {item.category}
+                            </span>
+                            <span className="text-xs font-bold text-[#1C1917]">
+                              {item.item}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-[#78716C] pl-1">
+                            "{item.note}"
+                          </p>
+                          {item.fileName && (
+                            <p className="text-[10px] text-emerald-700 font-medium pl-1">
+                              📸 {item.fileName} hashed at {item.hashedAt}
+                            </p>
+                          )}
                         </div>
-                        <p className="text-[11px] text-[#78716C] pl-1">
-                          "{item.note}"
-                        </p>
                       </div>
 
-                      <div className="flex items-center gap-2 shrink-0">
+                      <div className="flex flex-wrap items-center gap-2 shrink-0">
                         <button
                           type="button"
                           onClick={() => toggleTaskStatus(item.id)}
@@ -263,10 +398,30 @@ export const DepositShieldView: React.FC = () => {
                             : "🔧 Needs Repair"}
                         </button>
 
-                        <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#FAF9F6] border border-[#E7E5E4] text-[11px] text-[#78716C]" title={`SHA-256: ${item.shaHash}`}>
-                          <Camera className="w-3.5 h-3.5 text-blue-600" />
-                          <span>Hashed</span>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => triggerPhotoUpload(item.id)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[11px] font-bold text-blue-700 transition-colors cursor-pointer"
+                          title="Upload or capture a room photo to generate its real SHA-256 hash"
+                        >
+                          <Camera className="w-3.5 h-3.5" />
+                          <span>{item.photoPreviewUrl ? "Re-Hash Photo" : "Upload & Hash"}</span>
+                        </button>
+
+                        {item.shaHash && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText(item.shaHash!);
+                              showToast(`Copied SHA-256: ${item.shaHash!.slice(0, 14)}...`);
+                            }}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#FAF9F6] hover:bg-stone-100 border border-[#E7E5E4] text-[11px] font-mono text-[#78716C] transition-colors cursor-pointer"
+                            title={`Click to copy full SHA-256:\n${item.shaHash}`}
+                          >
+                            <Hash className="w-3 h-3 text-emerald-600" />
+                            <span>{item.shaHash.slice(0, 6)}...</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
