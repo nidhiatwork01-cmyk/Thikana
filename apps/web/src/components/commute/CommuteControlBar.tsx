@@ -19,11 +19,15 @@ import type { TravelMode } from "@thikana/shared-types";
 interface CommuteControlBarProps {
   totalResults: number;
   isLoading?: boolean;
+  quickActions?: React.ReactNode;
+  panelControls?: React.ReactNode;
 }
 
 export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   totalResults,
   isLoading = false,
+  quickActions,
+  panelControls,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,70 +60,80 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   ];
 
   return (
-    <div className="bg-white/95 backdrop-blur-md border border-[#E7E5E4] rounded-2xl p-3 shadow-sm space-y-2.5">
-      {/* Top Bar with Hub Info & Collapse/Expand Toggle */}
-      <div className="flex items-center justify-between gap-2 pr-6">
-        <div className="flex items-center gap-2 truncate">
-          <div className="p-1.5 rounded-lg bg-[#FDEEE9] text-[#D9532F] shrink-0">
-            <Navigation className="w-3.5 h-3.5" />
+    <div className="space-y-2.5">
+      {/* Top Row: Hub Info + Commute Toggle + Panel Controls */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-[#FDEEE9] text-[#D9532F] flex items-center justify-center shrink-0">
+            <Navigation className="w-4 h-4" />
           </div>
-          <div className="truncate">
-            <p className="text-xs font-bold text-[#1C1917] truncate">
-              {destination.name.split(",")[0]}
-            </p>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <p className="text-xs sm:text-sm font-bold text-[#1C1917] truncate">
+                {destination.name.split(",")[0]}
+              </p>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-stone-100 text-stone-700 shrink-0">
+                {totalResults} PGs
+              </span>
+            </div>
             <p className="text-[11px] text-[#78716C] flex items-center gap-1">
-              <span>{maxMinutes}m</span>
-              <span>• {travelMode.toUpperCase()}</span>
-              {isPeakHour && <span className="text-[#D9532F] font-semibold">(Peak)</span>}
-              <span>• {totalResults} PGs</span>
+              <span>{maxMinutes} min</span>
+              <span>· {travelMode === "bike" ? "Bike" : travelMode === "car" ? "Car" : "Metro"}</span>
+              {isPeakHour && <span className="text-[#D9532F] font-semibold">· Peak Traffic</span>}
             </p>
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors border shrink-0 ${
-            isExpanded
-              ? "bg-[#1C1917] text-white border-[#1C1917]"
-              : "bg-[#FAF9F6] text-[#D9532F] border-[#D9532F]/25 hover:bg-[#FDEEE9]"
-          }`}
-          title={isExpanded ? "Hide commute controls to see more PGs" : "Change workplace, time or travel mode"}
-        >
-          {isExpanded ? (
-            <>
-              <ChevronUp className="w-3.5 h-3.5" />
-              <span>Done</span>
-            </>
-          ) : (
-            <>
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>Commute</span>
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Always-accessible Name & Locality Quick Search */}
-      <div className="relative">
-        <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search PG or area (e.g. Live Well, Madhapur)..."
-          className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:border-[#D9532F] transition-colors"
-        />
-        {searchQuery && (
+        <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
-            onClick={() => setSearchQuery("")}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
-            title="Clear search"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-all border ${
+              isExpanded
+                ? "bg-[#1C1917] text-white border-[#1C1917]"
+                : "bg-[#FAF9F6] text-[#D9532F] border-[#E7E5E4] hover:border-[#D9532F]/40 hover:bg-[#FDEEE9]"
+            }`}
+            title={isExpanded ? "Hide commute settings" : "Change workplace, time or travel mode"}
           >
-            <X className="w-3.5 h-3.5" />
+            {isExpanded ? (
+              <>
+                <ChevronUp className="w-3.5 h-3.5" />
+                <span>Done</span>
+              </>
+            ) : (
+              <>
+                <SlidersHorizontal className="w-3.5 h-3.5" />
+                <span>Commute</span>
+              </>
+            )}
           </button>
-        )}
+          {panelControls}
+        </div>
+      </div>
+
+      {/* Second Row: Search Input + Filters + Saved inline */}
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1 min-w-0">
+          <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search PG or area..."
+            className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:bg-white focus:border-[#D9532F] transition-colors"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+              title="Clear search"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+        {quickActions}
       </div>
 
       {isExpanded && (

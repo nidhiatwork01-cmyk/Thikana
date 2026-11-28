@@ -198,44 +198,44 @@ export const DepositShieldView: React.FC = () => {
           </div>
 
           {/* Sub-Tabs */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#FAF9F6] border border-[#E7E5E4] shrink-0">
+          <div className="flex items-center gap-1 p-1 rounded-full bg-[#F3F1EC] border border-[#E7E5E4]/80 shrink-0">
             <button
               type="button"
               onClick={() => setActiveSubTab("audit")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "audit"
                   ? "bg-white text-[#1C1917] shadow-xs"
                   : "text-[#78716C] hover:text-[#1C1917]"
               }`}
             >
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Move-In Audit ({completedCount}/{checklist.length})</span>
+              <span>Audit ({completedCount}/{checklist.length})</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab("chain")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "chain"
                   ? "bg-white text-[#1C1917] shadow-xs"
                   : "text-[#78716C] hover:text-[#1C1917]"
               }`}
             >
               <Lock className="w-3.5 h-3.5 text-[#D9532F]" />
-              <span>Evidence Chain</span>
+              <span>Hashes</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveSubTab("legal")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${
                 activeSubTab === "legal"
                   ? "bg-white text-[#1C1917] shadow-xs"
                   : "text-[#78716C] hover:text-[#1C1917]"
               }`}
             >
               <FileText className="w-3.5 h-3.5 text-blue-600" />
-              <span>Dispute Pack</span>
+              <span>Legal Notice</span>
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { useCommuteStore, BottomSheetSnap } from "../../store/commuteStore";
 
 interface BottomSheetProps {
   children: React.ReactNode | ((isDesktopExpanded: boolean) => React.ReactNode);
-  headerContent?: React.ReactNode;
+  headerContent?: React.ReactNode | ((panelControls: React.ReactNode) => React.ReactNode);
   totalCount: number;
 }
 
@@ -48,35 +48,38 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         </button>
       ) : (
         <div
-          className={`hidden lg:flex flex-col absolute top-4 left-4 bottom-4 z-20 bg-[#FAF9F6]/98 backdrop-blur-md rounded-3xl shadow-xl border border-[#E7E5E4] overflow-hidden transition-all duration-200 ${
-            isDesktopExpanded ? "right-4" : "w-[480px] xl:w-[540px]"
+          className={`hidden lg:flex flex-col absolute top-4 left-4 bottom-4 z-20 bg-[#FAF9F6]/98 backdrop-blur-md rounded-3xl shadow-[0_12px_40px_rgba(28,25,23,0.12)] border border-[#E7E5E4] overflow-hidden transition-all duration-200 ${
+            isDesktopExpanded ? "right-4" : "w-[470px] xl:w-[530px]"
           }`}
         >
-          {/* Panel Header & Commute Controls */}
-          <div className="p-3 border-b border-[#E7E5E4] shrink-0 bg-white/90 relative">
-            <div className="absolute top-2.5 right-2.5 flex items-center gap-1 z-10">
-              <button
-                type="button"
-                onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
-                title={isDesktopExpanded ? "Split view with map" : "Expand listings to full screen"}
-                className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
-              >
-                {isDesktopExpanded ? (
-                  <Minimize2 className="w-3.5 h-3.5" />
-                ) : (
-                  <Maximize2 className="w-3.5 h-3.5" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsDesktopCollapsed(true)}
-                title="Minimize panel to see full map"
-                className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-            </div>
-            {headerContent}
+          {/* Unified Panel Header */}
+          <div className="px-4 py-3.5 border-b border-[#E7E5E4] shrink-0 bg-white">
+            {typeof headerContent === "function"
+              ? headerContent(
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
+                      title={isDesktopExpanded ? "Split view with map" : "Expand grid to full screen"}
+                      className="p-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+                    >
+                      {isDesktopExpanded ? (
+                        <Minimize2 className="w-3.5 h-3.5" />
+                      ) : (
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsDesktopCollapsed(true)}
+                      title="Hide panel to inspect full map"
+                      className="p-1.5 rounded-xl border border-[#E7E5E4] bg-[#FAF9F6] text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )
+              : headerContent}
           </div>
 
           {/* Scrollable Listings / Results */}
@@ -144,8 +147,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
           </div>
 
           {/* Controls Bar in Drawer */}
-          <div className="p-3 bg-white border-b border-[#E7E5E4] shrink-0 max-h-[35vh] overflow-y-auto">
-            {headerContent}
+          <div className="p-3 bg-white border-b border-[#E7E5E4] shrink-0 max-h-[38vh] overflow-y-auto">
+            {typeof headerContent === "function" ? headerContent(null) : headerContent}
           </div>
 
           {/* Listings Scroll Area */}
