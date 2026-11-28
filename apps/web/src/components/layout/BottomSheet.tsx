@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { ChevronUp, ChevronDown, ChevronLeft, List, Map as MapIcon } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronLeft, Maximize2, Minimize2, List, Map as MapIcon } from "lucide-react";
 import { useCommuteStore, BottomSheetSnap } from "../../store/commuteStore";
 
 interface BottomSheetProps {
@@ -17,12 +17,13 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
   const { bottomSheetSnap, setBottomSheetSnap } = useCommuteStore();
   const [isMobileListMode, setIsMobileListMode] = useState(false);
   const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
+  const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
 
   // Height mappings for mobile drawer
   const snapHeights: Record<BottomSheetSnap, string> = {
     peek: "160px",
-    half: "50vh",
-    full: "88vh",
+    half: "62vh",
+    full: "86vh",
   };
 
   const toggleSnap = () => {
@@ -46,23 +47,43 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
           <span>Show Listings ({totalCount})</span>
         </button>
       ) : (
-        <div className="hidden lg:flex flex-col absolute top-4 left-4 bottom-4 w-[420px] xl:w-[450px] z-20 bg-[#FAF9F6]/95 backdrop-blur-md rounded-3xl shadow-xl border border-[#E7E5E4] overflow-hidden">
+        <div
+          className={`hidden lg:flex flex-col absolute top-4 left-4 bottom-4 z-20 bg-[#FAF9F6]/98 backdrop-blur-md rounded-3xl shadow-xl border border-[#E7E5E4] overflow-hidden transition-all duration-200 ${
+            isDesktopExpanded ? "right-4" : "w-[480px] xl:w-[540px]"
+          }`}
+        >
           {/* Panel Header & Commute Controls */}
-          <div className="p-3.5 border-b border-[#E7E5E4] shrink-0 bg-white/80 relative">
-            <button
-              type="button"
-              onClick={() => setIsDesktopCollapsed(true)}
-              title="Minimize panel to expand map view"
-              className="absolute top-2.5 right-2.5 p-1 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors z-10"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
+          <div className="p-3 border-b border-[#E7E5E4] shrink-0 bg-white/90 relative">
+            <div className="absolute top-2.5 right-2.5 flex items-center gap-1 z-10">
+              <button
+                type="button"
+                onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
+                title={isDesktopExpanded ? "Split view with map" : "Expand listings to full screen"}
+                className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+              >
+                {isDesktopExpanded ? (
+                  <Minimize2 className="w-3.5 h-3.5" />
+                ) : (
+                  <Maximize2 className="w-3.5 h-3.5" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsDesktopCollapsed(true)}
+                title="Minimize panel to see full map"
+                className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-stone-100 transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            </div>
             {headerContent}
           </div>
 
           {/* Scrollable Listings / Results */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {children}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className={isDesktopExpanded ? "grid grid-cols-2 xl:grid-cols-3 gap-4" : "space-y-3"}>
+              {children}
+            </div>
           </div>
         </div>
       )}
@@ -72,7 +93,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
       {/* ------------------------------------------------------------- */}
       <div className="lg:hidden">
         {/* Mobile View Toggle FAB */}
-        <div className="fixed bottom-6 right-6 z-30">
+        <div className="fixed bottom-20 sm:bottom-6 right-4 z-30">
           <button
             type="button"
             onClick={() => setIsMobileListMode(!isMobileListMode)}
@@ -84,7 +105,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
               </>
             ) : (
               <>
-                <List className="w-4 h-4 text-[#D9532F]" /> List ({totalCount})
+                <List className="w-4 h-4 text-[#D9532F]" /> Full List ({totalCount})
               </>
             )}
           </button>
@@ -93,10 +114,10 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         {/* Draggable Drawer */}
         <motion.div
           animate={{
-            height: isMobileListMode ? "90vh" : snapHeights[bottomSheetSnap],
+            height: isMobileListMode ? "calc(100vh - 4rem)" : snapHeights[bottomSheetSnap],
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-0 inset-x-0 z-20 bg-[#FAF9F6] border-t border-[#E7E5E4] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden"
+          className="fixed bottom-14 sm:bottom-0 inset-x-0 z-20 bg-[#FAF9F6] border-t border-[#E7E5E4] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden"
         >
           {/* Drawer Handle & Header */}
           <div

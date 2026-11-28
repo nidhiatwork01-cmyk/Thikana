@@ -25,7 +25,7 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   totalResults,
   isLoading = false,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const {
     destination,
@@ -56,9 +56,9 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
   ];
 
   return (
-    <div className="bg-white/95 backdrop-blur-md border border-[#E7E5E4] rounded-2xl p-3.5 sm:p-4 shadow-sm space-y-3">
+    <div className="bg-white/95 backdrop-blur-md border border-[#E7E5E4] rounded-2xl p-3 shadow-sm space-y-2.5">
       {/* Top Bar with Hub Info & Collapse/Expand Toggle */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-2 pr-6">
         <div className="flex items-center gap-2 truncate">
           <div className="p-1.5 rounded-lg bg-[#FDEEE9] text-[#D9532F] shrink-0">
             <Navigation className="w-3.5 h-3.5" />
@@ -68,57 +68,62 @@ export const CommuteControlBar: React.FC<CommuteControlBarProps> = ({
               {destination.name.split(",")[0]}
             </p>
             <p className="text-[11px] text-[#78716C] flex items-center gap-1">
-              <span>{maxMinutes}m cutoff</span>
+              <span>{maxMinutes}m</span>
               <span>• {travelMode.toUpperCase()}</span>
               {isPeakHour && <span className="text-[#D9532F] font-semibold">(Peak)</span>}
+              <span>• {totalResults} PGs</span>
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs font-bold text-[#1C1917] bg-[#FAF9F6] px-2.5 py-1 rounded-full border border-[#E7E5E4]">
-            {totalResults} PGs
-          </span>
+        <button
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors border shrink-0 ${
+            isExpanded
+              ? "bg-[#1C1917] text-white border-[#1C1917]"
+              : "bg-[#FAF9F6] text-[#D9532F] border-[#D9532F]/25 hover:bg-[#FDEEE9]"
+          }`}
+          title={isExpanded ? "Hide commute controls to see more PGs" : "Change workplace, time or travel mode"}
+        >
+          {isExpanded ? (
+            <>
+              <ChevronUp className="w-3.5 h-3.5" />
+              <span>Done</span>
+            </>
+          ) : (
+            <>
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Commute</span>
+            </>
+          )}
+        </button>
+      </div>
 
+      {/* Always-accessible Name & Locality Quick Search */}
+      <div className="relative">
+        <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search PG or area (e.g. Live Well, Madhapur)..."
+          className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:border-[#D9532F] transition-colors"
+        />
+        {searchQuery && (
           <button
             type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1.5 rounded-lg text-[#78716C] hover:text-[#1C1917] hover:bg-[#FAF9F6] transition-colors border border-transparent hover:border-[#E7E5E4]"
-            title={isExpanded ? "Collapse controls to view more listings" : "Expand commute controls"}
+            onClick={() => setSearchQuery("")}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+            title="Clear search"
           >
-            {isExpanded ? (
-              <ChevronUp className="w-4 h-4 text-[#78716C]" />
-            ) : (
-              <SlidersHorizontal className="w-4 h-4 text-[#D9532F]" />
-            )}
+            <X className="w-3.5 h-3.5" />
           </button>
-        </div>
+        )}
       </div>
 
       {isExpanded && (
         <div className="space-y-3 pt-2 border-t border-[#F3F1EC] animate-in fade-in duration-200">
-          {/* 0. Name & Locality Quick Search */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search PG (e.g. Live Well, Star, KR Luxury)..."
-              className="w-full bg-[#FAF9F6] border border-[#E7E5E4] rounded-xl pl-8 pr-7 py-1.5 text-xs text-[#1C1917] placeholder:text-stone-400 focus:outline-none focus:border-[#D9532F] transition-colors shadow-2xs"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
-                title="Clear search"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
           {/* 1. Destination Hub Chips */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
