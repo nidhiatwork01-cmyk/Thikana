@@ -292,31 +292,22 @@ export default function App() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3.5">
-                    <div className="flex items-center justify-between text-[11px] text-[#78716C] px-1 font-medium">
-                      <span>
-                        {showOnlySaved ? "Saved PGs" : "Sorted by fastest commute"}
-                      </span>
-                      <span>{displayedPgs.length} properties</span>
-                    </div>
-
-                    <div
-                      className={
-                        isDesktopExpanded
-                          ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
-                          : "space-y-3.5"
-                      }
-                    >
-                      {displayedPgs.map((pg) => (
-                        <PGCard
-                          key={pg.id}
-                          pg={pg}
-                          isSelected={selectedPgId === pg.id}
-                          onSelect={() => setSelectedPgId(pg.id)}
-                          onOpenDetails={() => setInspectingPgId(pg.id)}
-                        />
-                      ))}
-                    </div>
+                  <div
+                    className={
+                      isDesktopExpanded
+                        ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+                        : "space-y-3.5"
+                    }
+                  >
+                    {displayedPgs.map((pg) => (
+                      <PGCard
+                        key={pg.id}
+                        pg={pg}
+                        isSelected={selectedPgId === pg.id}
+                        onSelect={() => setSelectedPgId(pg.id)}
+                        onOpenDetails={() => setInspectingPgId(pg.id)}
+                      />
+                    ))}
                   </div>
                 )
               }

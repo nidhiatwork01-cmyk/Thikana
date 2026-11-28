@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import {
   Heart,
-  MapPin,
-  CheckCircle2,
-  Utensils,
   ChevronLeft,
   ChevronRight,
   Scale,
-  Shield,
   MessageCircle,
 } from "lucide-react";
 import { useCommuteStore } from "../../store/commuteStore";
@@ -28,7 +24,7 @@ export const PGCard: React.FC<PGCardProps> = ({
   onSelect,
   onOpenDetails,
 }) => {
-  const { setHoveredPgId, travelMode, destination } = useCommuteStore();
+  const { setHoveredPgId, travelMode } = useCommuteStore();
   const { isShortlisted, toggleShortlist, isInCompare, toggleCompare } =
     useShortlistStore();
 
@@ -113,16 +109,19 @@ export const PGCard: React.FC<PGCardProps> = ({
         )}
 
         {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 items-center z-10">
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-black/75 text-white backdrop-blur-xs">
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10">
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide bg-black/65 text-white backdrop-blur-md">
             {pg.gender === "MEN" ? "Boys" : pg.gender === "WOMEN" ? "Girls" : "Co-Living"}
+            {pg.isVerified ? " · Verified" : ""}
           </span>
+        </div>
 
-          {pg.isVerified && (
-            <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-600/90 text-white backdrop-blur-xs flex items-center gap-1">
-              <Shield className="w-2.5 h-2.5 fill-current" /> Verified
-            </span>
-          )}
+        {/* Floating Commute Pill (Bottom-Left of Image) */}
+        <div className="absolute bottom-2.5 left-2.5 z-10">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-[#1C1917] shadow-sm backdrop-blur-md">
+            <span>{modeEmoji}</span>
+            <span>{pg.estimatedCommuteMinutes} min</span>
+          </span>
         </div>
 
         {/* Shortlist Heart Button (Optimistic Micro-interaction) */}
@@ -154,75 +153,43 @@ export const PGCard: React.FC<PGCardProps> = ({
       {/* ------------------------------------------------------------- */}
       {/* Card Content & Pricing                                        */}
       {/* ------------------------------------------------------------- */}
-      <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
-        <div>
-          {/* Commute Time Pill */}
-          <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FDEEE9] text-[#D9532F]">
-              <span>{modeEmoji}</span>
-              <span>{pg.estimatedCommuteMinutes} min</span>
-              <span className="font-normal text-[11px] text-[#78716C]">
-                to {destination.name.split(",")[0]}
-              </span>
-            </span>
-
-            <span className="text-[11px] text-[#78716C] font-medium">
-              {pg.distanceKm} km away
+      <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+        <div className="space-y-1">
+          {/* Title & Distance */}
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-sm sm:text-base font-bold text-[#1C1917] group-hover:text-[#D9532F] transition-colors truncate">
+              {pg.title}
+            </h3>
+            <span className="text-[11px] text-[#78716C] shrink-0 font-medium">
+              {pg.distanceKm} km
             </span>
           </div>
 
-          {/* Title */}
-          <h3 className="text-base font-bold text-[#1C1917] group-hover:text-[#D9532F] transition-colors truncate flex items-center gap-1">
-            <span>{pg.title}</span>
-            {pg.isVerified && (
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 inline" />
-            )}
-          </h3>
-
-          {/* Address */}
-          <p className="text-xs text-[#78716C] truncate mt-0.5 flex items-center gap-1">
-            <MapPin className="w-3 h-3 shrink-0 text-[#78716C]" />
-            <span className="truncate">{pg.address}</span>
+          {/* Clean Short Location */}
+          <p className="text-xs text-[#78716C] truncate">
+            {pg.address}
           </p>
 
-          {/* Sharing Types Chips */}
-          <div className="flex flex-wrap gap-1 mt-2.5">
-            {pg.sharingTypes.map((st) => (
-              <span
-                key={st}
-                className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#FAF9F6] border border-[#E7E5E4] text-[#1C1917]"
-              >
-                {st === "SINGLE"
-                  ? "Single Room"
-                  : st === "DOUBLE"
-                  ? "2 Sharing"
-                  : st === "TRIPLE"
-                  ? "3 Sharing"
-                  : "4+ Sharing"}
-              </span>
-            ))}
-            {pg.isFoodIncluded && (
-              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center gap-1">
-                <Utensils className="w-2.5 h-2.5" /> Food Included
-              </span>
-            )}
-          </div>
+          {/* Minimal 1-line Summary */}
+          <p className="text-[11px] font-medium text-stone-500 pt-0.5">
+            {pg.sharingTypes
+              .map((st) =>
+                st === "SINGLE" ? "1-Bed" : st === "DOUBLE" ? "2-Bed" : st === "TRIPLE" ? "3-Bed" : "4+"
+              )
+              .join(" · ")}
+            {pg.isFoodIncluded ? " · Meals Included" : ""}
+          </p>
         </div>
 
         {/* ----------------------------------------------------------- */}
         {/* Price & Action Footer                                       */}
         {/* ----------------------------------------------------------- */}
         <div className="pt-2.5 border-t border-[#F3F1EC] flex items-center justify-between">
-          <div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-lg font-black font-display text-[#1C1917]">
-                ₹{pg.minRent.toLocaleString()}
-              </span>
-              <span className="text-xs text-[#78716C]">/month</span>
-            </div>
-            <p className="text-[10px] text-[#78716C]">
-              Deposit: ₹{pg.depositAmount.toLocaleString()}
-            </p>
+          <div className="flex items-baseline gap-1">
+            <span className="text-lg font-black font-display text-[#1C1917]">
+              ₹{pg.minRent.toLocaleString()}
+            </span>
+            <span className="text-[11px] text-[#78716C]">/mo</span>
           </div>
 
           <div className="flex items-center gap-1.5">

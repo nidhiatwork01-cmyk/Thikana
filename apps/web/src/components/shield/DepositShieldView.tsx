@@ -191,8 +191,8 @@ export const DepositShieldView: React.FC = () => {
                   SHA-256 Protected
                 </span>
               </div>
-              <p className="text-xs text-[#78716C]">
-                Tamper-proof cryptographic move-in condition audits & legal dispute packs to guarantee 100% security deposit recovery in Hyderabad.
+              <p className="text-[11px] text-[#78716C]">
+                Move-in photo hashes & Telangana tenancy notice
               </p>
             </div>
           </div>

@@ -221,8 +221,8 @@ export const HuntCopilotView: React.FC = () => {
                 <h1 className="text-lg sm:text-xl font-extrabold text-[#1C1917] font-display">
                   PG Hunt Copilot
                 </h1>
-                <p className="text-xs text-[#78716C]">
-                  Collect PGs from anywhere, plan an optimized visit route (2-Opt TSP), and score on-site conditions.
+                <p className="text-[11px] text-[#78716C]">
+                  Shortlist, inspect & optimize your visit route
                 </p>
               </div>
             </div>

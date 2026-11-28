@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useCommuteStore } from "../../store/commuteStore";
@@ -14,7 +14,6 @@ interface CommuteMapProps {
 }
 
 export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
-  const [showTip, setShowTip] = useState(true);
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const destinationMarker = useRef<maplibregl.Marker | null>(null);
@@ -231,22 +230,6 @@ export const CommuteMap: React.FC<CommuteMapProps> = ({ isochrone, pgs }) => {
   return (
     <div className="relative w-full h-full min-h-[400px]">
       <div ref={mapContainer} className="w-full h-full absolute inset-0" />
-
-      {/* Floating Dismissible Instructions Pill */}
-      {showTip && (
-        <div className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md pl-3.5 pr-2.5 py-1.5 rounded-full shadow-md border border-[#E7E5E4] text-xs font-medium text-[#78716C] flex items-center gap-2 animate-in fade-in">
-          <span className="w-2 h-2 rounded-full bg-[#D9532F] animate-pulse"></span>
-          <span>Click anywhere on the map to set your office/destination</span>
-          <button
-            type="button"
-            onClick={() => setShowTip(false)}
-            className="w-5 h-5 rounded-full hover:bg-stone-100 text-stone-400 hover:text-stone-700 font-bold flex items-center justify-center text-xs ml-1 transition-colors"
-            title="Dismiss instruction"
-          >
-            ✕
-          </button>
-        </div>
-      )}
     </div>
   );
 };

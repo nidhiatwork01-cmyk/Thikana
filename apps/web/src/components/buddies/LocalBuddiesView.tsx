@@ -102,10 +102,10 @@ export const LocalBuddiesView: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-extrabold text-[#1C1917] font-display">
-                  Local Buddies Network
+                  Local Buddies
                 </h1>
-                <p className="text-xs text-[#78716C]">
-                  Connect with verified locals living in Hyderabad who know real PG conditions, water supply, and fair prices.
+                <p className="text-[11px] text-[#78716C]">
+                  Real Hyderabad residents · Zero brokers
                 </p>
               </div>
             </div>
