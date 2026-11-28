@@ -170,24 +170,25 @@ export const PGCard: React.FC<PGCardProps> = ({
             {pg.address}
           </p>
 
-          {/* Minimal 1-line Summary */}
-          <p className="text-[11px] font-medium text-stone-500 pt-0.5">
-            {pg.sharingTypes
-              .map((st) =>
-                st === "SINGLE" ? "1-Bed" : st === "DOUBLE" ? "2-Bed" : st === "TRIPLE" ? "3-Bed" : "4+"
-              )
-              .join(" · ")}
-            {pg.isFoodIncluded ? " · Meals Included" : ""}
+          {/* Review Bracket */}
+          <p className="text-[11px] font-semibold text-amber-700 pt-0.5 flex items-center gap-1">
+            <span>★ {pg.avgRating ? `${pg.avgRating} / 5` : "New"}</span>
+            <span className="text-stone-400 font-normal">
+              {pg.reviewCount ? `(${pg.reviewCount} review${pg.reviewCount === 1 ? "" : "s"})` : "· No reviews yet"}
+            </span>
           </p>
         </div>
 
         {/* ----------------------------------------------------------- */}
-        {/* Price & Action Footer                                       */}
+        {/* Price Bracket & Action Footer                               */}
         {/* ----------------------------------------------------------- */}
         <div className="pt-2.5 border-t border-[#F3F1EC] flex items-center justify-between">
           <div className="flex items-baseline gap-1">
-            <span className="text-lg font-black font-display text-[#1C1917]">
-              ₹{pg.minRent.toLocaleString()}
+            <span className="text-base sm:text-lg font-black font-display text-[#1C1917]">
+              ₹{(pg.minRent / 1000).toFixed(1).replace(".0", "")}k
+              {pg.maxRent && pg.maxRent > pg.minRent
+                ? ` – ₹${(pg.maxRent / 1000).toFixed(1).replace(".0", "")}k`
+                : ""}
             </span>
             <span className="text-[11px] text-[#78716C]">/mo</span>
           </div>

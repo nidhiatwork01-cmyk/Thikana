@@ -250,6 +250,9 @@ export class CommuteService {
         images: {
           orderBy: { displayOrder: "asc" },
         },
+        reviews: {
+          select: { rating: true },
+        },
       },
     });
 
@@ -271,6 +274,16 @@ export class CommuteService {
         );
 
         const coverImage = pg.images.find((img) => img.isCover)?.url || pg.images[0]?.url;
+        const roomRents = pg.rooms.map((r) => Number(r.rentPerMonth));
+        const minRent = Number(pg.minRent);
+        const maxRent = roomRents.length > 0 ? Math.max(minRent, ...roomRents) : minRent;
+        const reviewCount = pg.reviews.length;
+        const avgRating =
+          reviewCount > 0
+            ? Number(
+                (pg.reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
+              )
+            : undefined;
 
         return {
           id: pg.id,
@@ -278,8 +291,11 @@ export class CommuteService {
           slug: pg.slug,
           address: pg.address,
           location: { lat: pg.latitude, lng: pg.longitude },
-          minRent: Number(pg.minRent),
+          minRent,
+          maxRent,
           depositAmount: Number(pg.depositAmount),
+          avgRating,
+          reviewCount,
           gender: pg.gender,
           sharingTypes: Array.from(new Set(pg.rooms.map((r) => r.sharingType))),
           foodType: pg.foodType,

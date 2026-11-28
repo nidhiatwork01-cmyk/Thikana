@@ -47,7 +47,10 @@ export interface CommutePGListing {
   address: string;
   location: LatLng;
   minRent: number;
+  maxRent?: number;
   depositAmount: number;
+  avgRating?: number;
+  reviewCount?: number;
   gender: "MEN" | "WOMEN" | "CO_LIVING";
   sharingTypes: Array<"SINGLE" | "DOUBLE" | "TRIPLE" | "FOUR_PLUS">;
   foodType: "VEG" | "NON_VEG" | "BOTH" | "NONE";
