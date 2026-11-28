@@ -287,23 +287,37 @@ export const PGDetailModal: React.FC<PGDetailModalProps> = ({ pgId, onClose }) =
 
                   {/* 6. Community Reviews & r/hyderabad Lookup */}
                   <div className="space-y-3 pt-2 border-t border-[#F3F1EC]">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <h3 className="text-xs font-bold text-[#1C1917] uppercase tracking-wider flex items-center gap-1.5">
                         <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
                         Community Reviews ({(pg as any).reviews?.length || 0})
                       </h3>
 
-                      <a
-                        href={`https://www.reddit.com/r/hyderabad/search/?q=${encodeURIComponent(
-                          `${pg.title.split(" ").slice(0, 3).join(" ")} PG`
-                        )}&restrict_sr=1`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-[11px] font-bold flex items-center gap-1 transition-colors"
-                      >
-                        <span>Search r/hyderabad</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+                      <div className="flex items-center gap-1.5">
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                            `${pg.title} ${pg.address}`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-[11px] font-bold flex items-center gap-1 transition-colors"
+                        >
+                          <span>Google Page</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+
+                        <a
+                          href={`https://www.reddit.com/r/hyderabad/search/?q=${encodeURIComponent(
+                            `${pg.title.split(" ").slice(0, 3).join(" ")} PG`
+                          )}&restrict_sr=1`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-[11px] font-bold flex items-center gap-1 transition-colors"
+                        >
+                          <span>r/hyderabad</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
                     </div>
 
                     {/* Existing Reviews */}
