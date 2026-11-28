@@ -211,7 +211,7 @@ async function main() {
       tripleRent: 9500,
       imageUrls: [
         "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1540518614846-7ede433c4ef5?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80"
       ]
     },
     {
@@ -337,7 +337,7 @@ async function main() {
       doubleRent: 9000,
       tripleRent: 7000,
       imageUrls: [
-        "https://images.unsplash.com/photo-1540518614846-7ede433c4ef5?auto=format&fit=crop&w=800&q=80"
+        "https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?auto=format&fit=crop&w=800&q=80"
       ]
     },
     // Financial District & Nanakramguda
@@ -425,6 +425,24 @@ async function main() {
   const prefixes = ["Sri Krishna", "Sai Teja", "Royal Residency", "Comfort Nest", "Bliss Co-Living", "Urban Pod", "Swastik Executive", "Manikanta", "Suraksha Ladies", "Cyber View"];
   const genders = [GenderType.MEN, GenderType.WOMEN, GenderType.CO_LIVING];
 
+  const roomPhotoPool = [
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
+  ];
+
   for (let i = 1; i <= 34; i++) {
     const locSlug = localityList[i % localityList.length]!;
     const locObj = localitiesData.find((l) => l.slug === locSlug)!;
@@ -433,6 +451,8 @@ async function main() {
     const latDelta = (Math.random() - 0.5) * 0.02;
     const lngDelta = (Math.random() - 0.5) * 0.02;
     const baseRent = Math.floor(6500 + Math.random() * 6000);
+    const primaryImg = roomPhotoPool[i % roomPhotoPool.length]!;
+    const secondaryImg = roomPhotoPool[(i + 5) % roomPhotoPool.length]!;
 
     pgRawList.push({
       title: `${prefix} ${gender === GenderType.WOMEN ? "Women's PG" : gender === GenderType.MEN ? "Gents PG" : "Co-Living"} ${i}`,
@@ -455,9 +475,7 @@ async function main() {
       singleRent: Math.round(baseRent * 1.8),
       doubleRent: Math.round(baseRent * 1.3),
       tripleRent: baseRent,
-      imageUrls: [
-        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80"
-      ]
+      imageUrls: [primaryImg, secondaryImg]
     });
   }
 
